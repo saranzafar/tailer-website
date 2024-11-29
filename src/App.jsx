@@ -1,10 +1,15 @@
 import "preline/preline";
+import { Toaster } from 'react-hot-toast';
+import { Outlet } from "react-router-dom";
+import { Navbar } from "./components/index";
 
 function App() {
 
   return (
     <div>
-      app
+      <Navbar />
+      <Toaster />
+      <Outlet />
     </div>
   );
 }
