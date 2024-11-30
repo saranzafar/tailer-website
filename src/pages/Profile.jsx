@@ -16,27 +16,27 @@ const ProfileUpdateForm = () => {
         logo: null, // For business-tailor logo
     });
 
-    useEffect(() => {
-        // Fetch user data from backend (mock API endpoint)
-        const fetchProfileData = async () => {
-            try {
-                const { data } = await axios.get('https://api.example.com/user-profile'); // Mock API
-                setFormData({
-                    name: data.name || '',
-                    email: data.email || '',
-                    password: '', // Keep password blank for security
-                    address: data.address || '',
-                    logo: null, // Handle logo separately
-                });
-                setRole(data.role || 'customer');
-                setTailorType(data.tailorType || '');
-            } catch (error) {
-                toast.error('Failed to fetch profile data. Please try again.');
-            }
-        };
+    // useEffect(() => {
+    //     // Fetch user data from backend (mock API endpoint)
+    //     const fetchProfileData = async () => {
+    //         try {
+    //             const { data } = await axios.get('https://api.example.com/user-profile'); // Mock API
+    //             setFormData({
+    //                 name: data.name || '',
+    //                 email: data.email || '',
+    //                 password: '', // Keep password blank for security
+    //                 address: data.address || '',
+    //                 logo: null, // Handle logo separately
+    //             });
+    //             setRole(data.role || 'customer');
+    //             setTailorType(data.tailorType || '');
+    //         } catch (error) {
+    //             toast.error('Failed to fetch profile data. Please try again.');
+    //         }
+    //     };
 
-        fetchProfileData();
-    }, []);
+    //     fetchProfileData();
+    // }, []);
 
     const handleChange = (e) => {
         const { id, value, files } = e.target;
@@ -236,7 +236,7 @@ const ProfileUpdateForm = () => {
 
                         <button
                             type="submit"
-                            className="w-full py-3 px-4 text-base font-medium rounded-lg bg-primary text-white hover:bg-darkPrimary focus:outline-none transition duration-300"
+                            className="w-full py-3 px-4 text-base font-medium rounded-lg bg-primary text-white hover:bg-logoBrown focus:outline-none transition duration-300"
                         >
                             {isSubmitting ? (
                                 <div>

@@ -11,7 +11,7 @@ const HeroSection = () => {
                 <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
                     <div>
                         <h1 className="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight dark:text-white">
-                            Start your journey with <span className="text-blue-600">Preline</span>
+                            Start your journey with <span className="text-primary">Preline</span>
                         </h1>
                         <p className="mt-3 text-lg text-gray-800 dark:text-neutral-400">
                             Hand-picked professionals and expertly crafted components, designed for any kind of entrepreneur.
@@ -21,7 +21,7 @@ const HeroSection = () => {
                         <div className="mt-7 grid gap-3 w-full sm:inline-flex">
                             <Link
                                 to="#"
-                                className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                                className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-logoBrown focus:outline-none focus:bg-logoBrown disabled:opacity-50 disabled:pointer-events-none"
                             >
                                 Get started
                                 <ArrowRight className="shrink-0 size-4" />
