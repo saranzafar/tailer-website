@@ -3,8 +3,10 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { SignInForm, LoginForm, ForgotPassword, OTPVerificationForm } from "./components/index.js"
-import { PNF, Home, Profile } from "./pages/index.js"
+import { PNF, Home, Profile, ContactUs } from "./pages/index.js"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+import { ThemeProvider } from "@material-tailwind/react";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,10 @@ const router = createBrowserRouter([
       },
 
       {
+        path: '/contactus',
+        element: <ContactUs />,
+      },
+      {
         path: '/profile',
         element: <Profile />,
       },
@@ -47,6 +53,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </StrictMode>,
 )

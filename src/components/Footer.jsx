@@ -3,11 +3,11 @@ import { Facebook, Twitter, Github, Linkedin, Instagram } from "lucide-react";
 
 const Footer = () => {
     return (
-        <footer className="mt-auto bg-primary w-full dark:bg-neutral-950">
+        <footer className="mt-auto bg-primary w-full">
             <div className="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 lg:pt-20 mx-auto">
                 {/* Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                    <div className="col-span-full lg:col-span-2 ">
+                    <div className="col-span-full lg:col-span-2">
                         <Link
                             className="flex-none text-xl font-semibold text-white focus:outline-none focus:opacity-80"
                             to="#"
@@ -15,7 +15,9 @@ const Footer = () => {
                         >
                             <img src="./img/logo.jpeg" alt="stitch4u" className="w-24" />
                         </Link>
-                        <p className="text-white mt-4">Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, voluptatibus.</p>
+                        <p className="text-white mt-4">
+                            Stitch4U is a cutting-edge platform that empowers users to create personalized solutions with ease. We specialize in seamless integration, security, and user-centric design to bring your ideas to life.
+                        </p>
                         {/* Social Brands */}
                         <div className="">
                             <Link
@@ -58,24 +60,24 @@ const Footer = () => {
                         <div className="mt-3 grid space-y-3">
                             <p>
                                 <Link
-                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-                                    to="#"
+                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200"
+                                    to="/pricing"
                                 >
                                     Pricing
                                 </Link>
                             </p>
                             <p>
                                 <Link
-                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-                                    to="#"
+                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200"
+                                    to="/changelog"
                                 >
                                     Changelog
                                 </Link>
                             </p>
                             <p>
                                 <Link
-                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-                                    to="#"
+                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200"
+                                    to="/docs"
                                 >
                                     Docs
                                 </Link>
@@ -89,35 +91,32 @@ const Footer = () => {
                         <div className="mt-3 grid space-y-3">
                             <p>
                                 <Link
-                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-                                    to="#"
+                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200"
+                                    to="/about"
                                 >
                                     About us
                                 </Link>
                             </p>
                             <p>
                                 <Link
-                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-                                    to="#"
+                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200"
+                                    to="/blog"
                                 >
                                     Blog
                                 </Link>
                             </p>
                             <p>
                                 <Link
-                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-                                    to="#"
+                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200"
+                                    to="/careers"
                                 >
                                     Careers
                                 </Link>
-                                <span className="inline-block ms-1 text-xs bg-blue-700 text-white py-1 px-2 rounded-lg">
-                                    We're hiring
-                                </span>
                             </p>
                             <p>
                                 <Link
-                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-                                    to="#"
+                                    className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200"
+                                    to="/customers"
                                 >
                                     Customers
                                 </Link>
@@ -130,8 +129,8 @@ const Footer = () => {
 
                 <div className="mt-5 sm:mt-12 grid gap-y-2 sm:gap-y-0 sm:flex sm:justify-center sm:items-center">
                     <div className="flex justify-between items-center">
-                        <p className="text-sm text-gray-400 dark:text-neutral-400">
-                            © 2024 Preline Labs.
+                        <p className="text-sm text-gray-400">
+                            © 2024 Stitch4U. All rights reserved.
                         </p>
                     </div>
                     {/* End Col */}

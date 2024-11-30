@@ -42,7 +42,7 @@ const Navbar = () => {
                     aria-labelledby="hs-header-classic-collapse"
                 >
                     <div className="overflow-hidden transition duration-300 overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
-                        <div className="py-2 md:py-0 flex flex-col md:flex-row md:items-center md:justify-end gap-0.5 md:gap-1">
+                        <div className="py-2 md:py-0 flex flex-col md:flex-row md:items-center md:justify-end">
                             <Link
                                 to="/"
                                 className="p-2 flex items-center text-sm text-primary hover:text-logoBrown hover:underline font-medium focus:outline-none focus:text-logoBrown font-inter" aria-current="page">
@@ -59,6 +59,11 @@ const Navbar = () => {
                                 to="/forgot-password"
                                 className="p-2 flex items-center text-sm text-primary hover:text-logoBrown hover:underline font-medium focus:outline-none focus:text-logoBrown">
                                 forget-password
+                            </Link>
+                            <Link
+                                to="/contactus"
+                                className="p-2 flex items-center text-sm text-primary hover:text-logoBrown hover:underline font-medium focus:outline-none focus:text-logoBrown">
+                                contact us
                             </Link>
                             <Link
                                 to="/profile"
