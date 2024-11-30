@@ -22,7 +22,7 @@ export function ContactUs() {
                 <Typography className="mb-10 font-normal !text-lg lg:mb-20 mx-auto max-w-3xl !text-gray-500">
                     Have questions about finding the best tailor near you? Want to provide feedback about your experience or need help using our service? Our team is here to assist you with all your tailoring needs.
                 </Typography>
-                <div className="grid grid-cols-1 gap-x-12 gap-y-6 lg:grid-cols-2 items-start">
+                <div className="grid grid-cols-1 gap-x-6 gap-y-6 lg:grid-cols-2 items-start">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53448.20783131414!2d73.70062245755294!3d33.148156882764255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391feb8b4d030e19%3A0x4ec2b8053d7b1051!2sNew%20Mirpur%20City!5e0!3m2!1sen!2s!4v1732989612717!5m2!1sen!2s"
                         width="600"
@@ -35,7 +35,7 @@ export function ContactUs() {
                     ></iframe>
                     <form
                         action="#"
-                        className="flex flex-col gap-4 lg:max-w-sm"
+                        className="flex flex-col gap-4 lg:max-w-sm bg-gray-50 p-6 drop-shadow-lg rounded-lg"
                     >
                         <Typography
                             variant="small"
@@ -48,6 +48,7 @@ export function ContactUs() {
                                 <Typography
                                     variant="small"
                                     className="mb-2 text-left font-medium !text-gray-900"
+                                    placeholder="first name"
                                 >
                                     First Name
                                 </Typography>
