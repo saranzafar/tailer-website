@@ -41,10 +41,11 @@ const LogInForm = () => {
         <div className='flex justify-center items-center h-screen'>
             <div className="bg-white border border-gray-200 rounded-xl dark:bg-neutral-900 dark:border-neutral-700 max-w-lg p-10 font-sans shadow-lg ">
                 <div className="text-center mb-6">
+                    <img src="./img/logo.jpeg" alt="Stitch4U" className='h-24 rounded-full mx-auto' />
                     <h1 className="text-3xl font-extrabold text-gray-800 dark:text-white">
                         LogIn to your Account
                     </h1>
-                    <p className="text-base text-gray-600 dark:text-neutral-400 mt-4">
+                    <p className="text-base text-gray-600 dark:text-neutral-400 mt-2">
                         Don&apos;t have an account?{' '}
                         <Link
                             to="/signup"

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-const SignInForm = () => {
+const SignUpForm = () => {
     const [role, setRole] = useState('customer'); // 'customer' or 'tailor'
     const [tailorType, setTailorType] = useState(''); // 'individual' or 'business'
     const [showPassword, setShowPassword] = useState(false);
@@ -77,6 +77,7 @@ const SignInForm = () => {
             {/* Form */}
             <form onSubmit={handleSubmit}>
                 <div className="text-center mb-6">
+                <img src="./img/logo.jpeg" alt="Stitch4U" className='h-24 rounded-full mx-auto' />
                     <h1 className="text-3xl font-extrabold text-gray-800 dark:text-white">
                         Sign up
                     </h1>
@@ -240,4 +241,4 @@ const SignInForm = () => {
     );
 };
 
-export default SignInForm;
+export default SignUpForm;

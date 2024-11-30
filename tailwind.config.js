@@ -11,6 +11,7 @@ export default {
         "primary": '#27323d',
         'darkPrimary': '#0c1013',
         "background": '#E8F0EC',
+        "logoBrown": '#755835',
       },
       fontFamily: {
         sans: [

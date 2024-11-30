@@ -72,6 +72,7 @@ const OTPVerificationForm = ({ email }) => {
             {/* OTP Verification Form */}
             <form onSubmit={handleSubmit}>
                 <div className="text-center mb-6">
+                <img src="./img/logo.jpeg" alt="Stitch4U" className='h-24 rounded-full mx-auto' />
                     <h1 className="text-3xl font-extrabold text-gray-800 dark:text-white">
                         Verify OTP
                     </h1>

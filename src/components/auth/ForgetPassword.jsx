@@ -46,6 +46,7 @@ const ForgotPassword = () => {
             <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-900 dark:border-neutral-700 max-w-xl min-w-[25rem]">
                 <div className="p-4 sm:p-7">
                     <div className="text-center">
+                    <img src="./img/logo.jpeg" alt="Stitch4U" className='h-24 rounded-full mx-auto' />
                         <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Forgot password?</h1>
                         <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
                             Remember your password?

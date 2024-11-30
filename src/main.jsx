@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { SignInForm, LoginForm, ForgotPassword, OTPVerificationForm } from "./components/index.js"
-import { PNF } from "./pages/index.js"
+import { PNF, Home, Profile } from "./pages/index.js"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <App />,
+        element: <Home />,
       },
       {
         path: '/signup',
@@ -31,6 +31,12 @@ const router = createBrowserRouter([
         path: '/verification',
         element: <OTPVerificationForm />,
       },
+
+      {
+        path: '/profile',
+        element: <Profile />,
+      },
+
       {
         path: '/*',
         element: <PNF />,
