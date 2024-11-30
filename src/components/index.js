@@ -4,6 +4,7 @@ import ForgotPassword from "./auth/ForgetPassword";
 import OTPVerificationForm from "./auth/OTPVerificationForm";
 
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 
 export {
@@ -12,4 +13,5 @@ export {
     ForgotPassword,
     OTPVerificationForm,
     Navbar,
+    Footer,
 }

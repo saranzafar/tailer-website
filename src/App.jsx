@@ -1,7 +1,7 @@
 import "preline/preline";
 import { Toaster } from 'react-hot-toast';
 import { Outlet } from "react-router-dom";
-import { Navbar } from "./components/index";
+import { Footer, Navbar } from "./components/index";
 
 function App() {
 
@@ -10,6 +10,7 @@ function App() {
       <Navbar />
       <Toaster />
       <Outlet />
+      <Footer />
     </div>
   );
 }
