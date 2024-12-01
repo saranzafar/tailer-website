@@ -5,6 +5,7 @@ import OTPVerificationForm from "./auth/OTPVerificationForm";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import Divider from "./Divider";
 
 
 export {
@@ -14,4 +15,5 @@ export {
     OTPVerificationForm,
     Navbar,
     Footer,
+    Divider,
 }

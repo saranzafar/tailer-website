@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, CheckCircle, ChevronDown, ChevronUp, Star, StarHalf } from 'lucide-react';
-import { Button } from '@material-tailwind/react';
+import { ArrowRight, BellIcon, Check, CheckCheck, CheckCircle, CheckIcon, ChevronDown, ChevronUp, DollarSign, Heart, HomeIcon, Star, StarHalf } from 'lucide-react';
+import { Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButton, Timeline, TimelineBody, TimelineConnector, TimelineHeader, TimelineIcon, TimelineItem, Tooltip, Typography } from '@material-tailwind/react';
+import { Divider } from '../components';
 
 const HeroSection = () => {
     const [activeIndex, setActiveIndex] = useState(null);
@@ -58,22 +59,84 @@ const HeroSection = () => {
             avatar: "https://images.unsplash.com/photo-1579017331263-ef82f0bbc748?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=900&h=900&q=80",
         },
     ];
+    const cardData = [
+        {
+            id: 1,
+            image: "https://i.pinimg.com/originals/9e/63/57/9e6357714801b7904279f5f5e684e1cf.jpg",
+            title: "Classic Tailoring",
+            location: "Mirpur AJK",
+            type: "Tailor Shop",
+            rating: 5.0,
+            description: "Expert tailoring services offering custom suits, dresses, and alterations with a focus on quality and fit.",
+            fill: "red",
+        },
+        {
+            id: 2,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8EOnOlXumA0LtlSCF6UydCqKfn4q2xL8zFA&s",
+            title: "Elegant Couture",
+            location: "Lahore",
+            type: "Couture",
+            rating: 4.8,
+            description: "Providing top-notch custom-made outfits, from bridal gowns to evening dresses, tailored to perfection.",
+            fill: "red",
+        },
+        {
+            id: 3,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5zBUxiSqOuERgevOV0Rtd1f2BZ6jTNL5gOg&s",
+            title: "Traditional Tailor",
+            location: "Islamabad",
+            type: "Tailor Shop",
+            rating: 4.9,
+            description: "Specializing in traditional garments such as shalwar kameez, with impeccable attention to detail and design.",
+            fill: "transparent",
+        },
+        {
+            id: 4,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwMSqlk2Xprg2fkLfQg8cygI19zXIa9UBkuQ&s",
+            title: "Modern Stitch",
+            location: "Karachi",
+            type: "Fashion Tailor",
+            rating: 5.0,
+            description: "A fashion-forward tailor offering stylish and trendy outfits with modern cuts and excellent stitching.",
+            fill: "transparent",
+        },
+        {
+            id: 5,
+            image: "https://images.squarespace-cdn.com/content/v1/5f4d6f99e8568266d26bb124/1ed12279-33c9-4a45-a59a-efa7ef49b5db/Modernize-9741-2.jpg",
+            title: "Sharp Tailoring",
+            location: "Peshawar",
+            type: "Tailor Shop",
+            rating: 4.7,
+            description: "Tailoring services that specialize in men's suits, shirts, and alterations with a sharp, professional finish.",
+            fill: "transparent",
+        },
+        {
+            id: 6,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5M9GieWTu_xaAnoNi4RNMWr7TKkSgSBcV4Q&s",
+            title: "Chic Stitch",
+            location: "Multan",
+            type: "Fashion Tailor",
+            rating: 4.6,
+            description: "Chic and contemporary tailoring services, providing personalized fashion for both men and women.",
+            fill: "transparent",
+        },
+    ];
+
     const toggleAccordion = (index) => {
         setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
     };
     return (
-        <div>
+        <div className=''>
             {/* Hero */}
             <div className="max-w-[85rem] mx-auto px-4 py-10 sm:px-6 lg:px-8">
                 {/* Grid */}
                 <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
-                    <div>
-                        <h1 className="block text-3xl font-bold text-blue-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight">
-                            Start your style journey with <span className="text-primary">Stitch4U</span>
+                    <div className='text-center md:text-start'>
+                        <h1 className="block text-3xl font-bold text-primary  sm:text-4xl lg:text-6xl lg:leading-tight">
+                            Start your style journey with <span className="uppercase">Stitch4U</span>
                         </h1>
                         <p className="mt-3 text-lg text-gray-800">
-                            Expert tailoring and custom clothing services tailored just for you. Redefine your wardrobe with
-                            Stitch4U&apos;s precision and creativity.
+                            Expert tailoring and custom clothing services tailored just for you. Redefine your wardrobe with Stitch4U&apos;s precision and creativity.
                         </p>
 
                         {/* Buttons */}
@@ -89,98 +152,107 @@ const HeroSection = () => {
                                 to="/contactus"
                                 className="py-3 px-4 inline-flex transition duration-200 justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
                             >
-                                Contact Our Team
+                                Procing Plan
                             </Link>
                         </div>
                         {/* End Buttons */}
+                    </div>
+                    <div>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53448.20783131414!2d73.70062245755294!3d33.148156882764255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391feb8b4d030e19%3A0x4ec2b8053d7b1051!2sNew%20Mirpur%20City!5e0!3m2!1sen!2s!4v1732989612717!5m2!1sen!2s"
+                            width="100%"
+                            height="600"
+                            style={{ border: 0 }}
+                            allowFullScreen={true}
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            className="rounded shadow-lg"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
 
-                        {/* Review */}
-                        <div className="mt-6 lg:mt-10 grid grid-cols-2 gap-x-5">
-                            {/* Review */}
-                            <div className="py-5">
-                                <div className="flex gap-x-1">
-                                    {/* Icons */}
-                                    <Star fill="orange" strokeWidth={0} />
-                                    <Star fill="orange" strokeWidth={0} />
-                                    <Star fill="orange" strokeWidth={0} />
-                                    <Star fill="orange" strokeWidth={0} />
-                                    <StarHalf fill="orange" strokeWidth={0} />
+            <Divider />
+
+            <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8'>
+                <h2 className="font-bold text-3xl lg:text-4xl text-primary text-center my-10">
+                    Empower Your Creative Teams
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
+                    {cardData.map((item) => (
+                        <Card key={item.id} className="w-full max-w-[26rem] shadow-lg bg-gray-50">
+                            <CardHeader floated={false} color="blue-gray">
+                                <div className="relative group">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                                    />
+                                    <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+                                    <IconButton
+                                        size="sm"
+                                        color="red"
+                                        variant="text"
+                                        className="!absolute top-4 right-4 rounded-full"
+                                    >
+                                        <Heart fill={item.fill} />
+                                    </IconButton>
                                 </div>
-
-                                <p className="mt-3 text-sm text-gray-800">
-                                    <span className="font-bold">4.8</span> /5 - from 1.2k satisfied customers
-                                </p>
-                            </div>
-                        </div>
-                        {/* End Review */}
-                    </div>
-                    <img
-                        src="https://cdn.pixabay.com/photo/2020/06/14/03/08/tailor-5296384_960_720.jpg"
-                        alt="Tailor working on clothes"
-                        className="rounded-lg shadow-lg"
-                    />
+                            </CardHeader>
+                            <CardBody>
+                                <div className="mb-3 flex items-center justify-between">
+                                    <div>
+                                        <Chip size="sm" variant='ghost' value={item.type} className='inline-block my-2' />
+                                        <Typography variant="h5" color="blue-gray" className="font-medium">
+                                            {item.title}
+                                        </Typography>
+                                        <Typography variant="p" color="gray" className="font-medium ">
+                                            {item.location}
+                                        </Typography>
+                                    </div>
+                                    <Typography
+                                        color="blue-gray"
+                                        className="flex items-center gap-1.5 font-normal"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                            className="-mt-0.5 h-5 w-5 text-yellow-700"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {item.rating}
+                                    </Typography>
+                                </div>
+                                <Typography color="gray">
+                                    {item.description}
+                                </Typography>
+                            </CardBody>
+                            <CardFooter className="pt-3">
+                                <Button size="lg" fullWidth={true} className="bg-darkPrimary hover:bg-logoBrown">
+                                    Read More
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    ))}
                 </div>
             </div>
 
-            {/* stats  */}
-            <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto bg-gray-50 shadow-lg rounded-lg my-10">
-                {/* Grid */}
-                <div className="grid items-center lg:grid-cols-12 gap-6 lg:gap-12">
-                    <div className="lg:col-span-4">
-                        {/* Stats */}
-                        <div className="lg:pe-6 xl:pe-12">
-                            <p className="text-6xl font-bold leading-10 text-primary">
-                                92%
-                                <span className="ms-1 inline-flex items-center gap-x-1 bg-gray-200 font-medium text-gray-800 text-xs leading-4 rounded-full py-0.5 px-2">
-                                    <CheckCircle className="shrink-0 size-4 text-darkPrimary" />
-                                    +7% this month
-                                </span>
-                            </p>
-                            <p className="mt-2 sm:mt-3 text-gray-500">
-                                of customers rate their experience with Stitch4U as excellent.
-                            </p>
-                        </div>
-                        {/* End Stats */}
-                    </div>
-                    {/* End Col */}
+            <Divider />
 
-                    <div className="lg:col-span-8 relative lg:before:absolute lg:before:top-0 lg:before:-start-12 lg:before:w-px lg:before:h-full lg:before:bg-gray-200">
-                        <div className="grid gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-3 sm:gap-8">
-                            {/* Stats */}
-                            <div>
-                                <p className="text-3xl font-semibold text-primary">99.95%</p>
-                                <p className="mt-1 text-gray-500">order accuracy rate</p>
-                            </div>
-                            {/* End Stats */}
-
-                            {/* Stats */}
-                            <div>
-                                <p className="text-3xl font-semibold text-primary">5,000+</p>
-                                <p className="mt-1 text-gray-500">tailoring projects delivered</p>
-                            </div>
-                            {/* End Stats */}
-
-                            {/* Stats */}
-                            <div>
-                                <p className="text-3xl font-semibold text-primary">85%</p>
-                                <p className="mt-1 text-gray-500">returning customers yearly</p>
-                            </div>
-                            {/* End Stats */}
-                        </div>
-                    </div>
-                    {/* End Col */}
-                </div>
-                {/* End Grid */}
-            </div>
-
-            {/* features  */}
+            {/* How it works  */}
             <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                 {/* Grid */}
-                <div className="lg:grid lg:grid-cols-12 lg:gap-16 lg:items-center">
-                    <div className="lg:col-span-7">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-4 lg:items-center">
+                    <div className="lg:col-span-6">
                         {/* Image Grid */}
-                        <div className="grid grid-cols-12 gap-2 sm:gap-6 items-center lg:-translate-x-10">
-                            <div className="col-span-4">
+                        <div className="grid grid-cols-12 gap-4 items-center lg:-translate-x-10">
+                            <div className="col-span-3">
                                 <img
                                     className="rounded-xl"
                                     src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=920&q=80"
@@ -211,7 +283,7 @@ const HeroSection = () => {
                     </div>
                     {/* End Col */}
 
-                    <div className="mt-5 sm:mt-10 lg:mt-0 lg:col-span-5">
+                    <div className="mt-5 sm:mt-10 lg:mt-0 lg:col-span-6">
                         <div className="space-y-6 sm:space-y-8">
                             {/* Title */}
                             <div className="space-y-2 md:space-y-4">
@@ -226,48 +298,56 @@ const HeroSection = () => {
                             {/* End Title */}
 
                             {/* List */}
-                            <ul className="space-y-2 sm:space-y-4">
-                                <li className="flex gap-x-3">
-                                    <span className="mt-0.5 size-5 flex justify-center items-center rounded-full bg-gray-100 text-logoBrown">
-                                        <Check className="shrink-0 size-3.5 text-darkPrimary" />
-                                    </span>
-                                    <div className="grow">
-                                        <span className="text-sm sm:text-base text-primary">
-                                            <span className="font-bold">Boost productivity</span> by eliminating bottlenecks
-                                        </span>
-                                    </div>
-                                </li>
+                            <Timeline>
+                                <TimelineItem>
+                                    <TimelineConnector />
+                                    <TimelineHeader>
+                                        <TimelineIcon className="p-2">
+                                            <Check className="h-4 w-4" />
+                                        </TimelineIcon>
+                                        <Typography variant="h5" color="blue-gray">
+                                            Timeline Title Here.
+                                        </Typography>
+                                    </TimelineHeader>
+                                    <TimelineBody className="pb-8">
+                                        <Typography color="gary" className="font-normal text-gray-600">
+                                            The key to more success is to have a lot of pillows. Put it this way, it took me Lorem, ipsum dolor.
+                                        </Typography>
+                                    </TimelineBody>
+                                </TimelineItem>
+                                <TimelineItem>
+                                    <TimelineConnector />
+                                    <TimelineHeader>
+                                        <TimelineIcon className="p-2">
+                                            <CheckCheck className="h-4 w-4" />
+                                        </TimelineIcon>
+                                        <Typography variant="h5" color="blue-gray">
+                                            Timeline Title Here.
+                                        </Typography>
+                                    </TimelineHeader>
+                                    <TimelineBody className="pb-8">
+                                        <Typography color="gary" className="font-normal text-gray-600">
+                                            The key to more success is to have a lot of pillows. Put it this way, it took me Lorem ipsum dolor sit amet.
+                                        </Typography>
+                                    </TimelineBody>
+                                </TimelineItem>
+                                <TimelineItem>
+                                    <TimelineHeader>
+                                        <TimelineIcon className="p-2">
+                                            <CheckCheck className="h-4 w-4" />
+                                        </TimelineIcon>
+                                        <Typography variant="h5" color="blue-gray">
+                                            Timeline Title Here.
+                                        </Typography>
+                                    </TimelineHeader>
+                                    <TimelineBody>
+                                        <Typography color="gary" className="font-normal text-gray-600">
+                                            The key to more success is to have a lot of pillows. Put it this way, it took me Lorem ipsum dolor sit amet.
+                                        </Typography>
+                                    </TimelineBody>
+                                </TimelineItem>
+                            </Timeline>
 
-                                <li className="flex gap-x-3">
-                                    <span className="mt-0.5 size-5 flex justify-center items-center rounded-full bg-gray-100 text-logoBrown">
-                                        <Check className="shrink-0 size-3.5 text-darkPrimary" />
-                                    </span>
-                                    <div className="grow">
-                                        <span className="text-sm sm:text-base text-primary">
-                                            Save <span className="font-bold">time and resources</span> with streamlined tools
-                                        </span>
-                                    </div>
-                                </li>
-
-                                <li className="flex gap-x-3">
-                                    <span className="mt-0.5 size-5 flex justify-center items-center rounded-full bg-gray-100 text-logoBrown">
-                                        <Check className="shrink-0 size-3.5 text-darkPrimary" />
-                                    </span>
-                                    <div className="grow">
-                                        <span className="text-sm sm:text-base text-primary">
-                                            Achieve <span className="font-bold">seamless collaboration</span> across teams
-                                        </span>
-                                    </div>
-                                </li>
-
-                                <li className="flex gap-x-3">
-                                    <Link to="/aboutus">
-                                        <button className="px-4 py-2 text-white bg-primary rounded-md hover:bg-logoBrown">
-                                            Learn More About Us
-                                        </button>
-                                    </Link>
-                                </li>
-                            </ul>
                             {/* End List */}
                         </div>
                     </div>
@@ -275,6 +355,235 @@ const HeroSection = () => {
                 </div>
                 {/* End Grid */}
             </div>
+
+            <Divider />
+
+            {/* pricing plan  */}
+            <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8'>
+                <h2 className="font-bold text-3xl lg:text-4xl text-primary text-center my-10">
+                    Empower Your Creative Teams
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
+
+                    <Card variant="gradient" color='' className="w-full max-w-[20rem] p-8 bg-gray-50">
+                        <CardHeader
+                            floated={false}
+                            shadow={false}
+                            color="transparent"
+                            className="m-0 mb-8 rounded-none border-b border-white/10 pb-8 text-center"
+                        >
+                            <Typography
+                                variant="small"
+                                color="black"
+                                className="font-normal uppercase"
+                            >
+                                <Chip variant='ghost' value="Standerd" className='inline-block' />
+                            </Typography>
+                            <Typography
+                                variant="h1"
+                                color="black"
+                                className="mt-6 flex justify-center gap-1 text-7xl font-normal"
+                            >
+                                <span className="mt-2 text-4xl">$</span>29{" "}
+                                <span className="self-end text-4xl">/mo</span>
+                            </Typography>
+                        </CardHeader>
+                        <CardBody className="p-0">
+                            <ul className="flex flex-col gap-4">
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">5 team members</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">200+ components</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">40+ built-in pages</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">1 year free updates</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">
+                                        Life time technical support
+                                    </Typography>
+                                </li>
+                            </ul>
+                        </CardBody>
+                        <CardFooter className="mt-12 p-0">
+                            <Button
+                                size="lg"
+                                color="black"
+                                className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
+                                ripple={false}
+                                fullWidth={true}
+                            >
+                                Buy Now
+                            </Button>
+                        </CardFooter>
+                    </Card>
+
+                    <Card variant="gradient" color='gray' className="w-full max-w-[20rem] p-8 bg-gray-50">
+                        <CardHeader
+                            floated={false}
+                            shadow={false}
+                            color="transparent"
+                            className="m-0 mb-8 rounded-none border-b border-white/10 pb-8 text-center"
+                        >
+                            <Typography
+                                variant="small"
+                                color="white"
+                                className="font-normal uppercase"
+                            >
+                                <Chip variant='gradient' value="Popular" className='inline-block' />
+                            </Typography>
+                            <Typography
+                                variant="h1"
+                                color="white"
+                                className="mt-6 flex justify-center gap-1 text-7xl font-normal"
+                            >
+                                <span className="mt-2 text-4xl">$</span>29{" "}
+                                <span className="self-end text-4xl">/mo</span>
+                            </Typography>
+                        </CardHeader>
+                        <CardBody className="p-0">
+                            <ul className="flex flex-col gap-4">
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">5 team members</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">200+ components</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">40+ built-in pages</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">1 year free updates</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">
+                                        Life time technical support
+                                    </Typography>
+                                </li>
+                            </ul>
+                        </CardBody>
+                        <CardFooter className="mt-12 p-0">
+                            <Button
+                                size="lg"
+                                color="white"
+                                className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
+                                ripple={false}
+                                fullWidth={true}
+                            >
+                                Buy Now
+                            </Button>
+                        </CardFooter>
+                    </Card>
+
+                    <Card variant="gradient" color='' className="w-full max-w-[20rem] p-8 bg-gray-50">
+                        <CardHeader
+                            floated={false}
+                            shadow={false}
+                            color="transparent"
+                            className="m-0 mb-8 rounded-none border-b border-white/10 pb-8 text-center"
+                        >
+                            <Typography
+                                variant="small"
+                                color="black"
+                                className="font-normal uppercase"
+                            >
+                                <Chip variant='ghost' value="Premium" className='inline-block' />
+                            </Typography>
+                            <Typography
+                                variant="h1"
+                                color="black"
+                                className="mt-6 flex justify-center gap-1 text-7xl font-normal"
+                            >
+                                <span className="mt-2 text-4xl">$</span>29{" "}
+                                <span className="self-end text-4xl">/mo</span>
+                            </Typography>
+                        </CardHeader>
+                        <CardBody className="p-0">
+                            <ul className="flex flex-col gap-4">
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">5 team members</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">200+ components</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">40+ built-in pages</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">1 year free updates</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">
+                                        Life time technical support
+                                    </Typography>
+                                </li>
+                            </ul>
+                        </CardBody>
+                        <CardFooter className="mt-12 p-0">
+                            <Button
+                                size="lg"
+                                color="black"
+                                className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
+                                ripple={false}
+                                fullWidth={true}
+                            >
+                                Buy Now
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                </div>
+            </div>
+
+            <Divider />
 
             {/* faqs */}
             <div className='bg-gray-50 py-10 lg:py-14 rounded-tr-3xl rounded-br-3xl mb-10 drop-shadow-md mr-6'>
@@ -327,13 +636,15 @@ const HeroSection = () => {
                 </div>
             </div>
 
+            <Divider />
+
             {/* testimonials  */}
             <div className="">
-                <div className="relative max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+                <div className="relative max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto mb-[10rem]">
                     {/* Title */}
                     <div className="max-w-2xl w-3/4 lg:w-1/2 mb-6 sm:mb-10 md:mb-16 mx-auto">
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl text-primary text-center font-semibold">
-                            Loved by business and individuals across the globe
+                        <h2 className="font-bold text-3xl lg:text-4xl text-primary text-center my-10">
+                            Loved by business and individuals
                         </h2>
                     </div>
                     {/* End Title */}
