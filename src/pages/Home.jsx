@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BellIcon, Check, CheckCheck, CheckCircle, CheckIcon, ChevronDown, ChevronUp, DollarSign, Heart, HomeIcon, Star, StarHalf } from 'lucide-react';
+import { ArrowRight, BellIcon, Check, CheckCheck, CheckCircle, CheckIcon, ChevronDown, ChevronUp, DollarSign, Heart, HomeIcon, MapPin, MapPinCheckInside, Star, StarHalf, Users } from 'lucide-react';
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButton, Timeline, TimelineBody, TimelineConnector, TimelineHeader, TimelineIcon, TimelineItem, Tooltip, Typography } from '@material-tailwind/react';
 import { Divider } from '../components';
 
@@ -133,10 +133,10 @@ const HeroSection = () => {
                 <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
                     <div className='text-center md:text-start'>
                         <h1 className="block text-3xl font-bold text-primary  sm:text-4xl lg:text-6xl lg:leading-tight">
-                            Start your style journey with <span className="uppercase">Stitch4U</span>
+                            Tailoring Made Simple – Find Your Perfect Fit Nearby
                         </h1>
                         <p className="mt-3 text-lg text-gray-800">
-                            Expert tailoring and custom clothing services tailored just for you. Redefine your wardrobe with Stitch4U&apos;s precision and creativity.
+                            Welcome to Stitch4U, your trusted partner for personalized tailoring services right at your fingertips. Whether you're a customer searching for expert tailors, a professional tailor seeking new clients, or a business managing multiple tailors, we make it easy to connect and create. Start your journey with Stitch4U and discover tailoring like never before!
                         </p>
 
                         {/* Buttons */}
@@ -152,23 +152,26 @@ const HeroSection = () => {
                                 to="/contactus"
                                 className="py-3 px-4 inline-flex transition duration-200 justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
                             >
-                                Procing Plan
+                                Pricing Plans
                             </Link>
                         </div>
                         {/* End Buttons */}
                     </div>
                     <div>
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53448.20783131414!2d73.70062245755294!3d33.148156882764255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391feb8b4d030e19%3A0x4ec2b8053d7b1051!2sNew%20Mirpur%20City!5e0!3m2!1sen!2s!4v1732989612717!5m2!1sen!2s"
-                            width="100%"
-                            height="600"
-                            style={{ border: 0 }}
-                            allowFullScreen={true}
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            className="rounded shadow-lg"
-                        ></iframe>
+                        <div className='w-full md:w-[30rem]'>
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53448.20783131414!2d73.70062245755294!3d33.148156882764255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391feb8b4d030e19%3A0x4ec2b8053d7b1051!2sNew%20Mirpur%20City!5e0!3m2!1sen!2s!4v1732989612717!5m2!1sen!2s"
+                                width="100%"
+                                height="600"
+                                style={{ border: 0 }}
+                                allowFullScreen={true}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                className="rounded shadow-lg"
+                            ></iframe>
+                        </div>
                     </div>
+
                 </div>
             </div>
 
@@ -178,6 +181,9 @@ const HeroSection = () => {
                 <h2 className="font-bold text-3xl lg:text-4xl text-primary text-center my-10">
                     Empower Your Creative Teams
                 </h2>
+                <p className="mt-3 text-lg text-gray-800 max-w-[50rem] text-center mx-auto mb-10">
+                    Discover top-rated tailors and businesses in your area with our Featured Businesses section. Highlighting the best in the industry, these trusted professionals are ready to deliver exceptional tailoring services. Whether it’s for a custom outfit or alterations, explore the finest options near you and experience quality craftsmanship.
+                </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
                     {cardData.map((item) => (
                         <Card key={item.id} className="w-full max-w-[26rem] shadow-lg bg-gray-50">
@@ -254,8 +260,8 @@ const HeroSection = () => {
                         <div className="grid grid-cols-12 gap-4 items-center lg:-translate-x-10">
                             <div className="col-span-3">
                                 <img
-                                    className="rounded-xl"
-                                    src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=920&q=80"
+                                    className="rounded-xl hover:scale-105 box-border transition duration-300"
+                                    src="https://images.pexels.com/photos/38271/ipad-map-tablet-internet-38271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                     alt="Collaborative workspace"
                                 />
                             </div>
@@ -263,8 +269,8 @@ const HeroSection = () => {
 
                             <div className="col-span-3">
                                 <img
-                                    className="rounded-xl"
-                                    src="https://images.unsplash.com/photo-1605629921711-2f6b00c6bbf4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=920&q=80"
+                                    className="rounded-xl hover:scale-105 box-border transition duration-300"
+                                    src="https://images.pexels.com/photos/17445146/pexels-photo-17445146/free-photo-of-a-smartphone-with-displayed-directions-attached-next-to-the-steering-wheel-in-a-car.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                     alt="Creative collaboration"
                                 />
                             </div>
@@ -272,8 +278,8 @@ const HeroSection = () => {
 
                             <div className="col-span-5">
                                 <img
-                                    className="rounded-xl"
-                                    src="https://images.unsplash.com/photo-1600194992440-50b26e0a0309?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8MHx8&auto=format&fit=crop&w=920&q=80"
+                                    className="rounded-xl hover:scale-105 box-border transition duration-300"
+                                    src="https://images.pexels.com/photos/8112186/pexels-photo-8112186.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                     alt="Brainstorming session"
                                 />
                             </div>
@@ -291,8 +297,7 @@ const HeroSection = () => {
                                     Empower Your Creative Teams
                                 </h2>
                                 <p className="text-primary">
-                                    Utilize powerful tools that streamline workflows, foster collaboration,
-                                    and help you bring ideas to life effectively.
+                                    Getting started with Stitch4U is quick and effortless—just follow these three simple steps!
                                 </p>
                             </div>
                             {/* End Title */}
@@ -303,15 +308,15 @@ const HeroSection = () => {
                                     <TimelineConnector />
                                     <TimelineHeader>
                                         <TimelineIcon className="p-2">
-                                            <Check className="h-4 w-4" />
+                                            <MapPin className="h-4 w-4" />
                                         </TimelineIcon>
                                         <Typography variant="h5" color="blue-gray">
-                                            Timeline Title Here.
+                                            Locate
                                         </Typography>
                                     </TimelineHeader>
                                     <TimelineBody className="pb-8">
                                         <Typography color="gary" className="font-normal text-gray-600">
-                                            The key to more success is to have a lot of pillows. Put it this way, it took me Lorem, ipsum dolor.
+                                            Enable your location, and we'll instantly find the best tailors and businesses near you
                                         </Typography>
                                     </TimelineBody>
                                 </TimelineItem>
@@ -319,30 +324,30 @@ const HeroSection = () => {
                                     <TimelineConnector />
                                     <TimelineHeader>
                                         <TimelineIcon className="p-2">
-                                            <CheckCheck className="h-4 w-4" />
+                                            <MapPinCheckInside className="h-4 w-4" />
                                         </TimelineIcon>
                                         <Typography variant="h5" color="blue-gray">
-                                            Timeline Title Here.
+                                            Choose
                                         </Typography>
                                     </TimelineHeader>
                                     <TimelineBody className="pb-8">
                                         <Typography color="gary" className="font-normal text-gray-600">
-                                            The key to more success is to have a lot of pillows. Put it this way, it took me Lorem ipsum dolor sit amet.
+                                            Browse profiles, read reviews, and pick the perfect tailor or business for your needs.
                                         </Typography>
                                     </TimelineBody>
                                 </TimelineItem>
                                 <TimelineItem>
                                     <TimelineHeader>
                                         <TimelineIcon className="p-2">
-                                            <CheckCheck className="h-4 w-4" />
+                                            <Users className="h-4 w-4" />
                                         </TimelineIcon>
                                         <Typography variant="h5" color="blue-gray">
-                                            Timeline Title Here.
+                                            Connect
                                         </Typography>
                                     </TimelineHeader>
                                     <TimelineBody>
                                         <Typography color="gary" className="font-normal text-gray-600">
-                                            The key to more success is to have a lot of pillows. Put it this way, it took me Lorem ipsum dolor sit amet.
+                                            Connect – Contact directly to discuss your requirements and get started right away!
                                         </Typography>
                                     </TimelineBody>
                                 </TimelineItem>
@@ -361,10 +366,12 @@ const HeroSection = () => {
             {/* pricing plan  */}
             <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8'>
                 <h2 className="font-bold text-3xl lg:text-4xl text-primary text-center my-10">
-                    Empower Your Creative Teams
+                    Pricing Plan
                 </h2>
+                <p className="mt-3 text-lg text-gray-800 max-w-[50rem] text-center mx-auto mb-10">
+                    Choose the plan that fits your needs! Whether you&apos;re a customer, a tailor, or a business, our flexible pricing options are designed to provide the perfect balance of value and features. Start your journey with Stitch4U today!
+                </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
-
                     <Card variant="gradient" color='' className="w-full max-w-[20rem] p-8 bg-gray-50">
                         <CardHeader
                             floated={false}
@@ -377,14 +384,14 @@ const HeroSection = () => {
                                 color="black"
                                 className="font-normal uppercase"
                             >
-                                <Chip variant='ghost' value="Standerd" className='inline-block' />
+                                <Chip variant='ghost' value="1 Shop" className='inline-block' />
                             </Typography>
                             <Typography
                                 variant="h1"
                                 color="black"
                                 className="mt-6 flex justify-center gap-1 text-7xl font-normal"
                             >
-                                <span className="mt-2 text-4xl">$</span>29{" "}
+                                <span className="mt-2 text-4xl">$</span>15{" "}
                                 <span className="self-end text-4xl">/mo</span>
                             </Typography>
                         </CardHeader>
@@ -394,33 +401,31 @@ const HeroSection = () => {
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">5 team members</Typography>
+                                    <Typography className="font-normal">Manage a single shop</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">200+ components</Typography>
+                                    <Typography className="font-normal">Add up to 5 team members</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">40+ built-in pages</Typography>
+                                    <Typography className="font-normal">Access to 200+ features</Typography>
+                                </li>
+                                <li className="flex items-center gap-4">
+                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                                        <CheckIcon />
+                                    </span>
+                                    <Typography className="font-normal">Priority listing in search</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
                                     <Typography className="font-normal">1 year free updates</Typography>
-                                </li>
-                                <li className="flex items-center gap-4">
-                                    <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                        <CheckIcon />
-                                    </span>
-                                    <Typography className="font-normal">
-                                        Life time technical support
-                                    </Typography>
                                 </li>
                             </ul>
                         </CardBody>
@@ -449,14 +454,14 @@ const HeroSection = () => {
                                 color="white"
                                 className="font-normal uppercase"
                             >
-                                <Chip variant='gradient' value="Popular" className='inline-block' />
+                                <Chip variant='gradient' value="3 Shops" className='inline-block' />
                             </Typography>
                             <Typography
                                 variant="h1"
                                 color="white"
                                 className="mt-6 flex justify-center gap-1 text-7xl font-normal"
                             >
-                                <span className="mt-2 text-4xl">$</span>29{" "}
+                                <span className="mt-2 text-4xl">$</span>20{" "}
                                 <span className="self-end text-4xl">/mo</span>
                             </Typography>
                         </CardHeader>
@@ -466,33 +471,31 @@ const HeroSection = () => {
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">5 team members</Typography>
+                                    <Typography className="font-normal">Manage a 3 shops</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">200+ components</Typography>
+                                    <Typography className="font-normal">Add up to 7 team members</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">40+ built-in pages</Typography>
+                                    <Typography className="font-normal">Access to 300+ features</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">1 year free updates</Typography>
+                                    <Typography className="font-normal">Priority listing in search</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">
-                                        Life time technical support
-                                    </Typography>
+                                    <Typography className="font-normal">1.5 years free updates</Typography>
                                 </li>
                             </ul>
                         </CardBody>
@@ -521,14 +524,14 @@ const HeroSection = () => {
                                 color="black"
                                 className="font-normal uppercase"
                             >
-                                <Chip variant='ghost' value="Premium" className='inline-block' />
+                                <Chip variant='ghost' value="5 Shops" className='inline-block' />
                             </Typography>
                             <Typography
                                 variant="h1"
                                 color="black"
                                 className="mt-6 flex justify-center gap-1 text-7xl font-normal"
                             >
-                                <span className="mt-2 text-4xl">$</span>29{" "}
+                                <span className="mt-2 text-4xl">$</span>30{" "}
                                 <span className="self-end text-4xl">/mo</span>
                             </Typography>
                         </CardHeader>
@@ -538,32 +541,32 @@ const HeroSection = () => {
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">5 team members</Typography>
+                                    <Typography className="font-normal">Manage multiple shops</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">200+ components</Typography>
+                                    <Typography className="font-normal">Unlimited team members</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">40+ built-in pages</Typography>
+                                    <Typography className="font-normal">Access to all features</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
-                                    <Typography className="font-normal">1 year free updates</Typography>
+                                    <Typography className="font-normal">Top priority listing in search</Typography>
                                 </li>
                                 <li className="flex items-center gap-4">
                                     <span className="rounded-full border border-white/20 bg-white/20 p-1">
                                         <CheckIcon />
                                     </span>
                                     <Typography className="font-normal">
-                                        Life time technical support
+                                        Lifetime free updates
                                     </Typography>
                                 </li>
                             </ul>
@@ -599,7 +602,7 @@ const HeroSection = () => {
                                     Asked Questions
                                 </h2>
                                 <p className="mt-1 hidden md:block text-gray-600">
-                                    Answers to the most frequently asked questions.
+                                    Got questions? We’ve got answers! Explore our frequently asked questions to find quick solutions and helpful insights about using Stitch4U, managing your account, and maximizing your experience.
                                 </p>
                             </div>
                         </div>
@@ -640,12 +643,15 @@ const HeroSection = () => {
 
             {/* testimonials  */}
             <div className="">
-                <div className="relative max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto mb-[10rem]">
+                <div className="relative max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto">
                     {/* Title */}
                     <div className="max-w-2xl w-3/4 lg:w-1/2 mb-6 sm:mb-10 md:mb-16 mx-auto">
                         <h2 className="font-bold text-3xl lg:text-4xl text-primary text-center my-10">
-                            Loved by business and individuals
+                            What Our Users Say
                         </h2>
+                        <p className="mt-3 text-lg text-gray-800 max-w-[50rem] text-center mx-auto mb-10">
+                            Discover how Stitch4U has transformed the tailoring experience for customers and businesses alike. Hear directly from our users about their journeys and successes with our platform.
+                        </p>
                     </div>
                     {/* End Title */}
 
@@ -660,7 +666,7 @@ const HeroSection = () => {
                                         </p>
                                     </div>
 
-                                    <div className="p-4 bg-logoBrown rounded-b-xl md:px-7">
+                                    <div className="p-4 bg-primary rounded-b-xl md:px-7">
                                         <div className="flex items-center gap-x-3">
                                             <div className="shrink-0">
                                                 <img
@@ -687,6 +693,8 @@ const HeroSection = () => {
                     {/* End Grid */}
                 </div>
             </div>
+
+            <Divider />
 
         </div>
 
