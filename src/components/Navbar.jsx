@@ -50,25 +50,20 @@ const Navbar = () => {
                             </Link>
 
                             <Link
-                                to="/verification"
-                                className="p-2 flex items-center text-sm text-primary hover:text-logoBrown hover:underline font-medium focus:outline-none focus:text-logoBrown">
-                                Verification
+                                to="/landingpage"
+                                className="p-2 flex items-center text-sm text-primary hover:text-logoBrown hover:underline font-medium focus:outline-none focus:text-logoBrown font-inter" aria-current="page">
+                                Landing Page
                             </Link>
 
                             <Link
-                                to="/forgot-password"
-                                className="p-2 flex items-center text-sm text-primary hover:text-logoBrown hover:underline font-medium focus:outline-none focus:text-logoBrown">
-                                forget-password
-                            </Link>
-                            <Link
                                 to="/contactus"
                                 className="p-2 flex items-center text-sm text-primary hover:text-logoBrown hover:underline font-medium focus:outline-none focus:text-logoBrown">
-                                contact us
+                                Contact us
                             </Link>
                             <Link
                                 to="/profile"
                                 className="p-2 flex items-center text-sm text-primary hover:text-logoBrown hover:underline font-medium focus:outline-none focus:text-logoBrown">
-                                profile
+                                Profile
                             </Link>
 
                             {/* Log In Button */}

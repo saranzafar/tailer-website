@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Input, Button, Select, Option, Textarea } from '@material-tailwind/react';
 import { Eye, EyeOff, Image, Loader } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-const SignUpForm = () => {
+const SignUpForm = ({ plan = null }) => {
     const [role, setRole] = useState('customer'); // 'customer' or 'tailor'
     const [tailorType, setTailorType] = useState(''); // 'individual' or 'business'
+    const [pricingPlan, setPricingPlan] = useState(''); // 'basic', 'standard', or 'premium'
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
@@ -16,6 +18,15 @@ const SignUpForm = () => {
         address: '',
         logo: null, // For business-tailor logo
     });
+    const [validationErrors, setValidationErrors] = useState({});
+
+    // Set default values based on the plan prop
+    useEffect(() => {
+        if (plan) {
+            setRole('tailor');
+            setPricingPlan(plan);
+        }
+    }, [plan]);
 
     const handleChange = (e) => {
         const { id, value, files } = e.target;
@@ -23,18 +34,38 @@ const SignUpForm = () => {
             ...prev,
             [id]: files ? files[0] : value,
         }));
+        setValidationErrors((prev) => ({ ...prev, [id]: '' })); // Clear validation error on input
+    };
+
+    const validateFields = () => {
+        const errors = {};
+        if (!formData.name.trim()) errors.name = 'Name is required.';
+        if (!formData.email.trim()) errors.email = 'Email is required.';
+        if (!formData.password.trim()) errors.password = 'Password is required.';
+        if (!formData.address.trim()) errors.address = 'Address is required.';
+        if (role === 'tailor' && !tailorType) errors.tailorType = 'Tailor type is required.';
+        if (role === 'tailor' && !pricingPlan) errors.pricingPlan = 'Pricing plan is required.';
+        return errors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
-        // Show a loading toast
-        const toastId = toast.loading('Submitting...');
 
+        // Validate fields
+        const errors = validateFields();
+        if (Object.keys(errors).length > 0) {
+            setValidationErrors(errors);
+            toast.error('Please fill in all required fields.');
+            return;
+        }
+
+        setIsSubmitting(true);
+        const toastId = toast.loading('Submitting...');
         try {
             const payload = {
                 role,
                 tailorType: role === 'tailor' ? tailorType : undefined,
+                pricingPlan: role === 'tailor' ? pricingPlan : undefined,
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
@@ -42,7 +73,6 @@ const SignUpForm = () => {
                 logo: formData.logo,
             };
 
-            // Create a FormData object if a file needs to be sent
             const formDataObj = new FormData();
             Object.keys(payload).forEach((key) => {
                 if (payload[key] !== undefined) {
@@ -50,192 +80,182 @@ const SignUpForm = () => {
                 }
             });
 
-            const response = await axios.post('https://api.example.com/signin', formDataObj, {
+            await axios.post('https://api.example.com/signin', formDataObj, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
-            // Success toast
-            toast.success('Signed in successfully!', {
-                id: toastId,
-            });
+            toast.success('Signed in successfully!', { id: toastId });
         } catch (error) {
-            console.log("Error while signing in");
-
-            // Error toast
-            toast.error('Failed to sign in. Please try again.', {
-                id: toastId,
-            });
+            toast.error('Failed to sign in. Please try again.', { id: toastId });
         } finally {
             setIsSubmitting(false);
         }
     };
 
     return (
-        <div className="mt-7 bg-white border border-gray-200 rounded-xl dark:bg-neutral-900 dark:border-neutral-700 max-w-lg mx-auto p-10 font-sans shadow-xl">
-            {/* Form */}
-            <form onSubmit={handleSubmit}>
-                <div className="text-center mb-6">
-                <img src="./img/logo.jpeg" alt="Stitch4U" className='h-24 rounded-full mx-auto' />
-                    <h1 className="text-3xl font-extrabold text-gray-800 dark:text-white">
-                        Sign up
-                    </h1>
-                    <p className="text-base text-gray-600 dark:text-neutral-400 mt-2">
-                        Already have an account?{' '}
-                        <Link
-                            to="/login"
-                            className="text-blue-500 hover:text-blue-600 hover:underline font-semibold transition duration-200"
-                        >
-                            Login here
-                        </Link>
-                    </p>
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="role" className="block text-sm font-medium mb-2 dark:text-white">
-                        Role
-                    </label>
-                    <select
-                        id="role"
-                        value={role}
-                        onChange={(e) => {
-                            setRole(e.target.value);
-                            setTailorType('');
-                        }}
-                        className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-normal focus:ring-primary focus:border-primary dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 transition duration-200"
+        <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-md max-w-lg mx-auto p-8 my-10">
+            <div className="text-center mb-6">
+                <img src="/img/logo.jpeg" alt="Stitch4U" className="h-24 rounded-full mx-auto" />
+                <h1 className="text-3xl font-extrabold text-gray-800">Sign up</h1>
+                <p className="text-base text-gray-600 mt-2">
+                    Already have an account?{' '}
+                    <Link
+                        to="/login"
+                        className="text-blue-500 hover:text-blue-600 hover:underline font-semibold"
                     >
-                        <option value="customer">Customer</option>
-                        <option value="tailor">Tailor</option>
-                    </select>
+                        Login here
+                    </Link>
+                </p>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+                {/* Role Selection */}
+                <div className="mb-4">
+                    <Select
+                        label="Role"
+                        value={role}
+                        onChange={(value) => {
+                            setRole(value);
+                            setTailorType('');
+                            setPricingPlan(''); // Reset pricing plan when switching role
+                        }}
+                    >
+                        <Option value="customer">Customer</Option>
+                        <Option value="tailor">Tailor</Option>
+                    </Select>
                 </div>
 
                 {role === 'tailor' && (
-                    <div className="mb-4">
-                        <label
-                            htmlFor="tailor-type"
-                            className="block text-sm font-medium mb-2 dark:text-white"
-                        >
-                            Tailor Type
-                        </label>
-                        <select
-                            id="tailor-type"
-                            value={tailorType}
-                            onChange={(e) => setTailorType(e.target.value)}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-normal focus:ring-primary focus:border-primary dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 transition duration-200"
-                        >
-                            <option value="">Select</option>
-                            <option value="individual">Individual</option>
-                            <option value="business">Business</option>
-                        </select>
-                    </div>
+                    <>
+                        {/* Tailor Type Selection */}
+                        <div className="mb-4">
+                            <Select
+                                label="Tailor Type"
+                                value={tailorType}
+                                onChange={(value) => setTailorType(value)}
+                                error={validationErrors.tailorType}
+                            >
+                                <Option value="individual">Individual</Option>
+                                <Option value="business">Business</Option>
+                            </Select>
+                            {validationErrors.tailorType && (
+                                <span className="text-red-500 text-sm">{validationErrors.tailorType}</span>
+                            )}
+                        </div>
+
+                        {/* Pricing Plan Selection */}
+                        <div className="mb-4">
+                            <Select
+                                label="Choose Pricing Plan"
+                                value={pricingPlan}
+                                onChange={(value) => setPricingPlan(value)}
+                                error={validationErrors.pricingPlan}
+                            >
+                                <Option value="basic">Basic</Option>
+                                <Option value="standard">Standard</Option>
+                                <Option value="premium">Premium</Option>
+                            </Select>
+                            <Link
+                                to="/"
+                                className="text-blue-600 hover:text-blue-700 hover:underline text-xs text-end"
+                            >
+                                See Pricing Plans here
+                            </Link>
+                            {validationErrors.pricingPlan && (
+                                <span className="text-red-500 text-sm">{validationErrors.pricingPlan}</span>
+                            )}
+                        </div>
+                    </>
                 )}
 
                 {/* Common Fields */}
                 <div className="mb-4">
-                    <label
-                        htmlFor="name"
-                        className="block text-sm font-medium mb-2 dark:text-white"
-                    >
-                        Name
-                    </label>
-                    <input
-                        type="text"
+                    <Input
+                        label="Name"
                         id="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Enter your full name"
-                        className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-normal focus:ring-primary focus:border-primary dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 transition duration-200"
+                        error={validationErrors.name}
                     />
+                    {validationErrors.name && <span className="text-red-500 text-sm">{validationErrors.name}</span>}
                 </div>
 
                 <div className="mb-4">
-                    <label
-                        htmlFor="email"
-                        className="block text-sm font-medium mb-2 dark:text-white"
-                    >
-                        Email or Phone Number
-                    </label>
-                    <input
-                        type="text"
+                    <Input
+                        label="Email or Phone Number"
                         id="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="Enter your email or phone number"
-                        className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-normal focus:ring-primary focus:border-primary dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 transition duration-200"
+                        error={validationErrors.email}
                     />
+                    {validationErrors.email && <span className="text-red-500 text-sm">{validationErrors.email}</span>}
                 </div>
 
                 <div className="mb-4">
-                    <label
-                        htmlFor="password"
-                        className="block text-sm font-medium mb-2 dark:text-white"
-                    >
-                        Password
-                    </label>
-                    <div className="relative">
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            id="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder="Enter your password"
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-normal focus:ring-primary focus:border-primary dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 transition duration-200"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-primary transition duration-200"
-                        >
-                            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                        </button>
-                    </div>
+                    <Input
+                        label="Password"
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={formData.password}
+                        onChange={handleChange}
+                        error={validationErrors.password}
+                        icon={
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="text-gray-500"
+                            >
+                                {showPassword ? <EyeOff /> : <Eye />}
+                            </button>
+                        }
+                    />
+                    {validationErrors.password && (
+                        <span className="text-red-500 text-sm">{validationErrors.password}</span>
+                    )}
                 </div>
 
                 <div className="mb-4">
-                    <label
-                        htmlFor="address"
-                        className="block text-sm font-medium mb-2 dark:text-white"
-                    >
-                        Address
-                    </label>
-                    <input
-                        type="text"
+                    <Textarea
+                        label="Address"
                         id="address"
                         value={formData.address}
                         onChange={handleChange}
-                        placeholder="Enter your address"
-                        className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-normal focus:ring-primary focus:border-primary dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 transition duration-200"
+                        error={validationErrors.address}
                     />
+                    {validationErrors.address && (
+                        <span className="text-red-500 text-sm">{validationErrors.address}</span>
+                    )}
                 </div>
 
                 {role === 'tailor' && tailorType === 'business' && (
                     <div className="mb-4">
-                        <label
-                            htmlFor="logo"
-                            className="block text-sm font-medium mb-2 dark:text-white"
-                        >
-                            Logo
-                        </label>
-                        <div className="flex items-center gap-3">
-                            <input
-                                type="file"
-                                id="logo"
-                                accept="image/*"
-                                onChange={handleChange}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-normal focus:ring-primary focus:border-primary dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 transition duration-200"
-                            />
-                            <Image size={24} className="text-primary" />
-                        </div>
+                        <Input
+                            label="Business Logo"
+                            id="logo"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleChange}
+                            icon={<Image />}
+                        />
                     </div>
                 )}
 
-                <button
+                <Button
                     type="submit"
-                    className="w-full py-3 px-4 text-base font-medium rounded-lg bg-primary text-white hover:bg-darkPrimary focus:outline-none transition duration-300"
+                    fullWidth
+                    className="bg-primary hover:bg-logoBrown"
+                    disabled={isSubmitting}
                 >
-                    {isSubmitting ? <div>  <span className='animate-spin'><Loader /> Signing In </span></div> : "Sign In"}
-                </button>
+                    {isSubmitting ? (
+                        <span className="flex items-center gap-2">
+                            <Loader className="animate-spin" /> Creating Account
+                        </span>
+                    ) : (
+                        'Sign Up'
+                    )}
+                </Button>
             </form>
         </div>
     );

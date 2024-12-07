@@ -3,6 +3,14 @@ import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import axios from 'axios'; // Don't forget to import axios
+import {
+    Card,
+    CardBody,
+    Input,
+    Button,
+    Typography,
+    IconButton,
+} from '@material-tailwind/react';
 
 const LogInForm = () => {
     const [formData, setFormData] = useState({
@@ -38,87 +46,82 @@ const LogInForm = () => {
     };
 
     return (
-        <div className='flex justify-center items-center h-screen'>
-            <div className="bg-white border border-gray-200 rounded-xl dark:bg-neutral-900 dark:border-neutral-700 max-w-lg p-10 font-sans shadow-lg ">
-                <div className="text-center mb-6">
-                    <img src="./img/logo.jpeg" alt="Stitch4U" className='h-24 rounded-full mx-auto' />
-                    <h1 className="text-3xl font-extrabold text-gray-800 dark:text-white">
-                        LogIn to your Account
-                    </h1>
-                    <p className="text-base text-gray-600 dark:text-neutral-400 mt-2">
-                        Don&apos;t have an account?{' '}
-                        <Link
-                            to="/signup"
-                            className="text-blue-500 hover:text-blue-600 hover:underline font-semibold transition duration-200"
-                        >
-                            Create account here
-                        </Link>
-                    </p>
-                </div>
-
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium mb-2 dark:text-white"
-                        >
-                            Email or Phone Number
-                        </label>
-                        <input
-                            type="text"
-                            id="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder="Enter your email or phone number"
-                            required
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-normal focus:ring-primary focus:border-primary dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 transition duration-200"
+        <div className="flex justify-center items-center h-screen">
+            <Card className="w-full max-w-md shadow-lg">
+                <CardBody className="p-8">
+                    <div className="text-center mb-6">
+                        <img
+                            src="./img/logo.jpeg"
+                            alt="Stitch4U"
+                            className="h-24 rounded-full mx-auto mb-4"
                         />
+                        <Typography variant="h4" className="font-bold text-gray-800">
+                            LogIn to your Account
+                        </Typography>
+                        <Typography variant="small" className="text-gray-600 mt-2">
+                            Don&apos;t have an account?{' '}
+                            <Link
+                                to="/signup"
+                                className="text-blue-600 hover:underline font-medium"
+                            >
+                                Create account here
+                            </Link>
+                        </Typography>
                     </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium mb-2 dark:text-white"
-                        >
-                            Password
-                        </label>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {/* Email Input */}
+                        <div>
+                            <Input
+                                label="Email or Phone Number"
+                                type="text"
+                                id="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="Enter your email or phone number"
+                                required
+                                className="text-sm"
+                            />
+                        </div>
+
+                        {/* Password Input */}
                         <div className="relative">
-                            <input
+                            <Input
+                                label="Password"
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="Enter your password"
                                 required
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-normal focus:ring-primary focus:border-primary dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 transition duration-200"
+                                className="text-sm"
                             />
-                            <button
-                                type="button"
+                            <IconButton
+                                variant="text"
+                                className="absolute top-2 right-2"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-primary transition duration-200"
                             >
-                                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                            </button>
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </IconButton>
                         </div>
-                    </div>
 
-                    <div className="mb-4 flex justify-end">
-                        <Link
-                            to="/forgot-password"
-                            className="text-sm text-blue-500 hover:underline font-semibold transition duration-200"
-                        >
-                            Forgot Password?
-                        </Link>
-                    </div>
+                        {/* Forgot Password */}
+                        <div className="flex justify-end">
+                            <Link
+                                to="/forgot-password"
+                                className="text-sm text-blue-600 hover:underline font-medium"
+                            >
+                                Forgot Password?
+                            </Link>
+                        </div>
 
-                    <button
-                        type="submit"
-                        className="w-full py-3 px-4 text-base font-medium rounded-lg bg-primary text-white hover:bg-darkPrimary focus:outline-none transition duration-300"
-                    >
-                        logIn
-                    </button>
-                </form>
-            </div>
+                        {/* Submit Button */}
+                        <Button type="submit" fullWidth className="mt-4 bg-primary hover:bg-logoBrown">
+                            logIn
+                        </Button>
+                    </form>
+                </CardBody>
+            </Card>
         </div>
     );
 };

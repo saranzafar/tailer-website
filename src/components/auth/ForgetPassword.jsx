@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { Input, Button, Card, CardBody, Typography } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
 
 const ForgotPassword = () => {
@@ -28,7 +29,7 @@ const ForgotPassword = () => {
         try {
             // Make API call using Axios
             const response = await axios.post('https://your-api-endpoint.xyz/forgot-password', {
-                email: email
+                email: email,
             });
 
             // Show success message
@@ -43,61 +44,54 @@ const ForgotPassword = () => {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-900 dark:border-neutral-700 max-w-xl min-w-[25rem]">
-                <div className="p-4 sm:p-7">
+            <Card className="w-full max-w-md shadow-md">
+                <CardBody className="p-8">
                     <div className="text-center">
-                    <img src="./img/logo.jpeg" alt="Stitch4U" className='h-24 rounded-full mx-auto' />
-                        <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Forgot password?</h1>
-                        <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
-                            Remember your password?
+                        <img
+                            src="./img/logo.jpeg"
+                            alt="Stitch4U"
+                            className="h-24 rounded-full mx-auto mb-4"
+                        />
+                        <Typography variant="h4" className="font-bold text-gray-800">
+                            Forgot password?
+                        </Typography>
+                        <Typography variant="small" className="text-gray-600 mt-2">
+                            Remember your password?{' '}
                             <Link
-                                className="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500 ml-2"
                                 to="/login"
+                                className="text-blue-600 hover:underline font-medium"
                             >
                                 Login here
                             </Link>
-                        </p>
+                        </Typography>
                     </div>
 
-                    <div className="mt-5">
-                        {/* Form */}
-                        <form onSubmit={handleSubmit}>
-                            <div className="grid gap-y-4">
-                                {/* Form Group */}
-                                <div>
-                                    <label htmlFor="email" className="block text-sm mb-2 dark:text-white">Email or Phone number</label>
-                                    <div className="relative">
-                                        <input
-                                            type="email"
-                                            id="email"
-                                            name="email"
-                                            className="py-3 px-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                                            value={email}
-                                            onChange={handleEmailChange}
-                                            required
-                                            aria-describedby="email-error"
-                                            placeholder='Enter your email or phone number '
-                                        />
-                                    </div>
-                                    <p className="hidden text-xs text-red-600 mt-2" id="email-error">
-                                        Please include a valid email address so we can get back to you
-                                    </p>
-                                </div>
-                                {/* End Form Group */}
+                    <form onSubmit={handleSubmit} className="mt-6">
+                        {/* Email Input */}
+                        <div className="mb-4">
+                            <Input
+                                label="Email or Phone number"
+                                type="email"
+                                value={email}
+                                onChange={handleEmailChange}
+                                required
+                                placeholder="Enter your email or phone number"
+                                className="text-sm"
+                            />
+                        </div>
 
-                                <button
-                                    type="submit"
-                                    className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-darkPrimary focus:outline-none focus:bg-primary disabled:opacity-50 disabled:pointer-events-none"
-                                    disabled={isSubmitting}
-                                >
-                                    {isSubmitting ? 'Submitting...' : 'Reset password'}
-                                </button>
-                            </div>
-                        </form>
-                        {/* End Form */}
-                    </div>
-                </div>
-            </div>
+                        {/* Submit Button */}
+                        <Button
+                            type="submit"
+                            fullWidth
+                            disabled={isSubmitting}
+                            className="mt-4 bg-primary hover:bg-logoBrown"
+                        >
+                            {isSubmitting ? 'Submitting...' : 'Reset password'}
+                        </Button>
+                    </form>
+                </CardBody>
+            </Card>
         </div>
     );
 };
