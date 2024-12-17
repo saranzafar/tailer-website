@@ -16,6 +16,12 @@ export default withMT({
         'darkPrimary': '#0c1013',
         "background": '#E8F0EC',
         "logoBrown": '#755835',
+
+        "dark-blue-bg": '#111827',
+        "button": "#4f46e5",
+        "button-hover": "#4640b7",
+        "light-blue-bg": "#f9fafb",
+        "text-for-white-bg": "#555f6c",
       },
       fontFamily: {
         sans: [

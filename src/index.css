@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 body {
-    @apply bg-background text-primary;
+    /* @apply bg-background text-black; */
     /* Light background with dark text */
 }

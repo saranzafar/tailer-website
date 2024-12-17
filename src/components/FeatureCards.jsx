@@ -76,16 +76,16 @@ function FeatureCards() {
     ];
 
     return (
-        <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8'>
-            <h2 className="font-bold text-3xl lg:text-4xl text-primary text-center my-10">
-                Empower Your Creative Teams
+        <div className='max-w-[85rem] mx-auto'>
+            <h2 className="font-bold text-3xl lg:text-4xl text-dark-blue-bg text-center my-5">
+                Featured Businesses
             </h2>
-            <p className="mt-3 text-lg text-gray-800 max-w-[50rem] text-center mx-auto mb-10">
+            <p className="mt-3 text-lg text-text-for-white-bg max-w-[50rem] text-center mx-auto mb-10">
                 Discover top-rated tailors and businesses in your area with our Featured Businesses section. Highlighting the best in the industry, these trusted professionals are ready to deliver exceptional tailoring services. Whether it’s for a custom outfit or alterations, explore the finest options near you and experience quality craftsmanship.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 place-items-center">
                 {cardData.map((item) => (
-                    <Card key={item.id} className="w-full max-w-[26rem] shadow-lg bg-gray-50 hover:translate-y-[-5px] hover:drop-shadow-xl transition-transform duration-300">
+                    <Card key={item.id} className="w-full max-w-[26rem] shadow-lg bg-white hover:translate-y-[-5px] hover:drop-shadow-xl transition-transform duration-300">
                         <CardHeader floated={false} color="blue-gray">
                             <div className="relative group">
                                 <img
@@ -136,10 +136,10 @@ function FeatureCards() {
                             </div>
                         </CardBody>
                         <CardFooter className="pt-0 flex flex-col gap-2">
-                            <Button size="md" fullWidth={true} className="bg-primary hover:bg-logoBrown">
+                            <Button size="md" fullWidth={true} className="bg-button hover:bg-button-hover">
                                 View
                             </Button>
-                            <Button size="md" fullWidth={true} variant='outlined' >
+                            <Button size="md" fullWidth={true} variant='outlined' className='border-button text-button' >
                                 Visit Now
                             </Button>
                         </CardFooter>
