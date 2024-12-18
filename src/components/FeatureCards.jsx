@@ -85,7 +85,7 @@ function FeatureCards() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 place-items-center">
                 {cardData.map((item) => (
-                    <Card key={item.id} className="w-full max-w-[26rem] shadow-lg bg-white hover:translate-y-[-5px] hover:drop-shadow-xl transition-transform duration-300">
+                    <Card key={item.id} className="w-full max-w-[26rem] drop-shadow-xl bg-white hover:translate-y-[-5px] hover:drop-shadow-xl transition-transform duration-300">
                         <CardHeader floated={false} color="blue-gray">
                             <div className="relative group">
                                 <img

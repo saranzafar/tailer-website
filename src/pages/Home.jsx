@@ -64,10 +64,9 @@ const HeroSection = () => {
                 <FeatureCards />
             </div>
 
-            <Divider />
 
             {/* How it works  */}
-            <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+            <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto mt-[6rem]">
                 {/* Grid */}
                 <div className="lg:grid lg:grid-cols-12 lg:gap-4 lg:items-center place-items-center">
                     <div className="lg:col-span-6">
@@ -109,7 +108,7 @@ const HeroSection = () => {
                             {/* Title */}
                             <div className="space-y-2 md:space-y-4">
                                 <h2 className="font-bold text-3xl lg:text-4xl text-gray-800">
-                                    Empower Your Creative Teams
+                                    How it Works?
                                 </h2>
                                 <p className="text-primary">
                                     Getting started with Stitch4U is quick and effortless—just follow these three simple steps!
@@ -122,7 +121,7 @@ const HeroSection = () => {
                                 <TimelineItem>
                                     <TimelineConnector />
                                     <TimelineHeader>
-                                        <TimelineIcon className="p-2">
+                                        <TimelineIcon className="p-2" color='indigo'>
                                             <MapPin className="h-4 w-4" />
                                         </TimelineIcon>
                                         <Typography variant="h5" color="blue-gray">
@@ -138,7 +137,7 @@ const HeroSection = () => {
                                 <TimelineItem>
                                     <TimelineConnector />
                                     <TimelineHeader>
-                                        <TimelineIcon className="p-2">
+                                        <TimelineIcon className="p-2" color='indigo'>
                                             <MapPinCheckInside className="h-4 w-4" />
                                         </TimelineIcon>
                                         <Typography variant="h5" color="blue-gray">
@@ -153,7 +152,7 @@ const HeroSection = () => {
                                 </TimelineItem>
                                 <TimelineItem>
                                     <TimelineHeader>
-                                        <TimelineIcon className="p-2">
+                                        <TimelineIcon className="p-2" color='indigo'>
                                             <Users className="h-4 w-4" />
                                         </TimelineIcon>
                                         <Typography variant="h5" color="blue-gray">
@@ -177,13 +176,11 @@ const HeroSection = () => {
             </div>
 
 
-
-            <Divider />
-
             {/* testimonials  */}
-            <Testimonials />
+            <div className='bg-light-blue-bg py-14'>
+                <Testimonials />
+            </div>
 
-            <Divider />
         </div>
 
     );

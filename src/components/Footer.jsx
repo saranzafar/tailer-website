@@ -3,7 +3,7 @@ import { Facebook, Instagram, Phone, Ticket } from "lucide-react";
 
 const Footer = () => {
     return (
-        <footer className="bg-primary">
+        <footer className="bg-dark-blue-bg">
             <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                 <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 text-center md:justify-between text-white">
                     <div>
