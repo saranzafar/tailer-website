@@ -95,7 +95,7 @@ const OTPVerificationForm = ({ email }) => {
                         <Button
                             type="submit"
                             fullWidth
-                            className="text-white bg-primary hover:bg-logoBrown"
+                            className="text-white bg-button hover:bg-button-hover"
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? (
@@ -113,7 +113,7 @@ const OTPVerificationForm = ({ email }) => {
                                 variant="text"
                                 onClick={handleResendOTP}
                                 disabled={isResendDisabled}
-                                className={`text-blue-600 hover:underline font-medium ${isResendDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
+                                className={`text-button hover:underline font-medium ${isResendDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
                             >
                                 {isResendDisabled
                                     ? `Resend OTP in ${resendTimeout}s`
@@ -121,7 +121,7 @@ const OTPVerificationForm = ({ email }) => {
                             </Button>
                             <Link
                                 to="/login"
-                                className="text-sm font-medium text-blue-600 hover:underline"
+                                className="text-sm font-medium text-button hover:underline"
                             >
                                 Goto Login
                             </Link>

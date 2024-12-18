@@ -62,7 +62,7 @@ const LogInForm = () => {
                             Don&apos;t have an account?{' '}
                             <Link
                                 to="/signup"
-                                className="text-blue-600 hover:underline font-medium"
+                                className="text-button hover:underline font-medium"
                             >
                                 Create account here
                             </Link>
@@ -78,7 +78,6 @@ const LogInForm = () => {
                                 id="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                placeholder="Enter your email or phone number"
                                 required
                                 className="text-sm"
                             />
@@ -92,7 +91,6 @@ const LogInForm = () => {
                                 id="password"
                                 value={formData.password}
                                 onChange={handleChange}
-                                placeholder="Enter your password"
                                 required
                                 className="text-sm"
                             />
@@ -109,14 +107,14 @@ const LogInForm = () => {
                         <div className="flex justify-end">
                             <Link
                                 to="/forgot-password"
-                                className="text-sm text-blue-600 hover:underline font-medium"
+                                className="text-sm text-button hover:underline font-medium"
                             >
                                 Forgot Password?
                             </Link>
                         </div>
 
                         {/* Submit Button */}
-                        <Button type="submit" fullWidth className="mt-4 bg-primary hover:bg-logoBrown">
+                        <Button type="submit" fullWidth className="mt-4 bg-button hover:bg-button-hover">
                             logIn
                         </Button>
                     </form>

@@ -9,7 +9,7 @@ export function ContactUs() {
                 <Typography
                     variant="h5"
                     color="blue-gray"
-                    className="mb-4 !text-base lg:!text-2xl"
+                    className="mb-4 !text-base lg:!text-2xl text-button"
                 >
                     Customer Support
                 </Typography>

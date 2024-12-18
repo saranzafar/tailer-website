@@ -103,7 +103,7 @@ const SignUpForm = ({ plan = null }) => {
                     Already have an account?{' '}
                     <Link
                         to="/login"
-                        className="text-blue-500 hover:text-blue-600 hover:underline font-semibold"
+                        className="text-button hover:text-button-hover hover:underline font-semibold"
                     >
                         Login here
                     </Link>
@@ -158,8 +158,8 @@ const SignUpForm = ({ plan = null }) => {
                                 <Option value="premium">Premium</Option>
                             </Select>
                             <Link
-                                to="/"
-                                className="text-blue-600 hover:text-blue-700 hover:underline text-xs text-end"
+                                to="/pricing-plans"
+                                className="text-button hover:text-button-hover hover:underline text-xs text-end"
                             >
                                 See Pricing Plans here
                             </Link>
@@ -245,7 +245,7 @@ const SignUpForm = ({ plan = null }) => {
                 <Button
                     type="submit"
                     fullWidth
-                    className="bg-primary hover:bg-logoBrown"
+                    className="bg-button hover:bg-button-hover"
                     disabled={isSubmitting}
                 >
                     {isSubmitting ? (

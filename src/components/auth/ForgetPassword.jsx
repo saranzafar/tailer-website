@@ -59,7 +59,7 @@ const ForgotPassword = () => {
                             Remember your password?{' '}
                             <Link
                                 to="/login"
-                                className="text-blue-600 hover:underline font-medium"
+                                className="text-button hover:underline font-medium"
                             >
                                 Login here
                             </Link>
@@ -85,7 +85,7 @@ const ForgotPassword = () => {
                             type="submit"
                             fullWidth
                             disabled={isSubmitting}
-                            className="mt-4 bg-primary hover:bg-logoBrown"
+                            className="mt-4 bg-button hover:bg-button-hover"
                         >
                             {isSubmitting ? 'Submitting...' : 'Reset password'}
                         </Button>
