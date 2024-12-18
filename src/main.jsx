@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { SignInForm, LoginForm, ForgotPassword, OTPVerificationForm } from "./components/index.js"
-import { PNF, Home, Profile, ContactUs, LandingPage } from "./pages/index.js"
+import { PNF, Home, Profile, ContactUs, LandingPage, PricingPage } from "./pages/index.js"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { ThemeProvider } from "@material-tailwind/react";
@@ -52,6 +52,10 @@ const router = createBrowserRouter([
         element: <SignUpForm plan={"premium"} />,
       },
 
+      {
+        path: '/pricing-plans',
+        element: <PricingPage />,
+      },
       {
         path: '/contactus',
         element: <ContactUs />,

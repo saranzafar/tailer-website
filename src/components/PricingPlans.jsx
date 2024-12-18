@@ -24,7 +24,7 @@ function PricingPlans({ page = "landingPage" }) {
                             color="black"
                             className="font-normal uppercase"
                         >
-                            <Chip variant='ghost' value="1 Shop" className='inline-block' />
+                            <Chip variant='ghost' color='indigo' value="1 Shop" className='inline-block' />
                         </Typography>
                         <Typography
                             variant="h1"
@@ -39,31 +39,31 @@ function PricingPlans({ page = "landingPage" }) {
                         <ul className="flex flex-col gap-4">
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
                                 <Typography className="font-normal">Manage a single shop</Typography>
                             </li>
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
                                 <Typography className="font-normal">Add up to 5 team members</Typography>
                             </li>
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
                                 <Typography className="font-normal">Access to 200+ features</Typography>
                             </li>
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
                                 <Typography className="font-normal">Priority listing in search</Typography>
                             </li>
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
                                 <Typography className="font-normal">1 year free updates</Typography>
                             </li>
@@ -72,8 +72,8 @@ function PricingPlans({ page = "landingPage" }) {
                     <CardFooter className="mt-12 p-0">
                         <Link to={"/tailor/register/basic"}>
                             <Button
-                                size="lg"
-                                color="black"
+                                size="md"
+                                color="indigo"
                                 className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
                                 ripple={false}
                                 fullWidth={true}
@@ -84,7 +84,7 @@ function PricingPlans({ page = "landingPage" }) {
                     </CardFooter>
                 </Card>
 
-                <Card variant="gradient" color='gray' className="w-full max-w-[22rem] p-8 bg-gray-50 hover:translate-y-[-5px] hover:drop-shadow-xl transition-transform duration-300">
+                <Card variant="gradient" color='indigo' className="w-full max-w-[22rem] p-8 bg-gray-50 hover:translate-y-[-5px] hover:drop-shadow-xl transition-transform duration-300">
                     <CardHeader
                         floated={false}
                         shadow={false}
@@ -96,7 +96,7 @@ function PricingPlans({ page = "landingPage" }) {
                             color="white"
                             className="font-normal uppercase"
                         >
-                            <Chip variant='gradient' value="3 Shops" className='inline-block' />
+                            <Chip variant='gradient' color='indigo' value="3 Shops" className='inline-block text-white' />
                         </Typography>
                         <Typography
                             variant="h1"
@@ -168,7 +168,7 @@ function PricingPlans({ page = "landingPage" }) {
                             color="black"
                             className="font-normal uppercase"
                         >
-                            <Chip variant='ghost' value="5 Shops" className='inline-block' />
+                            <Chip variant='ghost' color='indigo' value="5 Shop" className='inline-block' />
                         </Typography>
                         <Typography
                             variant="h1"
@@ -183,43 +183,41 @@ function PricingPlans({ page = "landingPage" }) {
                         <ul className="flex flex-col gap-4">
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
-                                <Typography className="font-normal">Manage multiple shops</Typography>
+                                <Typography className="font-normal">Manage a single shop</Typography>
                             </li>
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
-                                <Typography className="font-normal">Unlimited team members</Typography>
+                                <Typography className="font-normal">Add up to 5 team members</Typography>
                             </li>
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
-                                <Typography className="font-normal">Access to all features</Typography>
+                                <Typography className="font-normal">Access to 200+ features</Typography>
                             </li>
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
-                                <Typography className="font-normal">Top priority listing in search</Typography>
+                                <Typography className="font-normal">Priority listing in search</Typography>
                             </li>
                             <li className="flex items-center gap-4">
                                 <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                                    <CheckIcon />
+                                    <CheckIcon className='text-button' />
                                 </span>
-                                <Typography className="font-normal">
-                                    Lifetime free updates
-                                </Typography>
+                                <Typography className="font-normal">1 year free updates</Typography>
                             </li>
                         </ul>
                     </CardBody>
                     <CardFooter className="mt-12 p-0">
-                        <Link to={"/tailor/register/premium"}>
+                        <Link to={"/tailor/register/basic"}>
                             <Button
-                                size="lg"
-                                color="black"
+                                size="md"
+                                color="indigo"
                                 className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
                                 ripple={false}
                                 fullWidth={true}

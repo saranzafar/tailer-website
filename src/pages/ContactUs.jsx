@@ -94,7 +94,7 @@ export function ContactUs() {
                                 className="text-sm"
                             />
                         </div>
-                        <Button className="w-full bg-primary text-white hover:bg-logoBrown">
+                        <Button className="w-full bg-button hover:bg-button-hover text-white">
                             Send Message
                         </Button>
                     </form>

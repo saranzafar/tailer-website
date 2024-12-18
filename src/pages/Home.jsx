@@ -32,7 +32,7 @@ const HeroSection = () => {
                             </Link>
                             <Link
                                 to="/contactus"
-                                className="py-3 px-4 inline-flex transition duration-200 justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-button  text-button shadow-sm hover:bg-button focus:outline-none focus:bg-button-hover hover:text-white disabled:opacity-50 disabled:pointer-events-none"
+                                className="py-3 px-4 inline-flex transition duration-200 justify-center items-center gap-x-2 text-sm font-medium rounded-lg  text-button shadow-sm focus:outline-none focus:bg-button-hover hover:text-button-hover disabled:opacity-50 disabled:pointer-events-none"
                             >
                                 Pricing Plans
                             </Link>
