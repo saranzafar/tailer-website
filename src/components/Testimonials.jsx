@@ -39,7 +39,7 @@ function Testimonials() {
                     and businesses alike.
                 </p>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
                 {testimonialsData.map((testimonial, index) => (
                     <Card
                         key={index}

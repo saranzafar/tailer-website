@@ -40,7 +40,7 @@ const HeroSection = () => {
                         {/* End Buttons */}
                     </div>
                     <div>
-                        <div className='w-full md:w-[30rem] absolute -top-14 right-8 '>
+                        <div className='w-full md:w-[30rem] md:absolute -top-14 right-8 '>
                             <iframe
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53448.20783131414!2d73.70062245755294!3d33.148156882764255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391feb8b4d030e19%3A0x4ec2b8053d7b1051!2sNew%20Mirpur%20City!5e0!3m2!1sen!2s!4v1732989612717!5m2!1sen!2s"
                                 width="100%"
