@@ -8,10 +8,12 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Divider from "./Divider";
 
+import HeroSection from "./HeroSection";
 import FeatureCards from "./FeatureCards";
 import PricingPlans from "./PricingPlans"
 import Faqs from "./Faqs";
 import Testimonials from "./Testimonials";
+import HowitWork from "./HowitWork";
 
 export {
     SignInForm,
@@ -28,4 +30,6 @@ export {
     PricingPlans,
     Faqs,
     Testimonials,
+    HeroSection,
+    HowitWork,
 }
