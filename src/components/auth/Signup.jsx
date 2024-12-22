@@ -1,106 +1,102 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Button, Select, Option, Textarea } from '@material-tailwind/react';
-import { Eye, EyeOff, Image, Loader } from 'lucide-react';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Input, Button, Select, Option } from "@material-tailwind/react";
+import { Eye, EyeOff, Loader } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import httpServer from "../../utils/httpService";
+import { UseVerification } from "../../utils/VerificationContext";
 
 const SignUpForm = ({ plan = null }) => {
-    const [role, setRole] = useState('customer'); // 'customer' or 'tailor'
-    const [tailorType, setTailorType] = useState(''); // 'individual' or 'business'
-    const [pricingPlan, setPricingPlan] = useState(''); // 'basic', 'standard', or 'premium'
+    const [role, setRole] = useState("customer"); // 'customer' or 'tailor'
+    const [pricingPlan, setPricingPlan] = useState(""); // 'basic', 'standard', or 'premium'
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [signupMethod, setSignupMethod] = useState("email"); // 'email' or 'phone'
+    const [email, setEmail] = useState(""); // Separate state for email
+    const [phoneNumber, setPhoneNumber] = useState(""); // Separate state for phone number
+    const [countryCode, setCountryCode] = useState("+92"); // Default country code
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        address: '',
-        logo: null, // For business-tailor logo
+        name: "",
+        password: "",
+        confirmPassword: "",
     });
-    const [validationErrors, setValidationErrors] = useState({});
+    const navigate = useNavigate();
+    const { setContextEmail } = UseVerification();
+    const [errors, setErrors] = useState({});
 
     // Set default values based on the plan prop
     useEffect(() => {
         if (plan) {
-            setRole('tailor');
+            setRole("tailor");
             setPricingPlan(plan);
         }
     }, [plan]);
 
     const handleChange = (e) => {
-        const { id, value, files } = e.target;
+        const { id, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [id]: files ? files[0] : value,
+            [id]: value,
         }));
-        setValidationErrors((prev) => ({ ...prev, [id]: '' })); // Clear validation error on input
-    };
-
-    const validateFields = () => {
-        const errors = {};
-        if (!formData.name.trim()) errors.name = 'Name is required.';
-        if (!formData.email.trim()) errors.email = 'Email is required.';
-        if (!formData.password.trim()) errors.password = 'Password is required.';
-        if (!formData.address.trim()) errors.address = 'Address is required.';
-        if (role === 'tailor' && !tailorType) errors.tailorType = 'Tailor type is required.';
-        if (role === 'tailor' && !pricingPlan) errors.pricingPlan = 'Pricing plan is required.';
-        return errors;
+        setErrors((prev) => ({ ...prev, [id]: "" })); // Clear error for the field
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validate fields
-        const errors = validateFields();
-        if (Object.keys(errors).length > 0) {
-            setValidationErrors(errors);
-            toast.error('Please fill in all required fields.');
+        // Perform additional validation for password matching
+        if (formData.password !== formData.confirmPassword) {
+            setErrors({ confirmPassword: "Passwords do not match." });
             return;
         }
 
         setIsSubmitting(true);
-        const toastId = toast.loading('Submitting...');
         try {
             const payload = {
                 role,
-                tailorType: role === 'tailor' ? tailorType : undefined,
-                pricingPlan: role === 'tailor' ? pricingPlan : undefined,
-                name: formData.name,
-                email: formData.email,
+                pricingPlan: role === "tailor" ? pricingPlan : undefined,
+                username: formData.name,
+                email: signupMethod === "email" ? email : undefined,
+                phone: signupMethod === "phone" ? `${countryCode}${phoneNumber}` : undefined,
                 password: formData.password,
-                address: formData.address,
-                logo: formData.logo,
+                password_confirm: formData.confirmPassword,
             };
 
-            const formDataObj = new FormData();
-            Object.keys(payload).forEach((key) => {
-                if (payload[key] !== undefined) {
-                    formDataObj.append(key, payload[key]);
-                }
-            });
+            await httpServer("post", "auth/register/", payload);
+            resetForm();
+            setContextEmail(email);
+            navigate("/verification");
 
-            await axios.post('https://api.example.com/signin', formDataObj, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            toast.success('Signed in successfully!', { id: toastId });
         } catch (error) {
-            toast.error('Failed to sign in. Please try again.', { id: toastId });
+            console.error("Error during signup:", error);
         } finally {
             setIsSubmitting(false);
         }
     };
 
+    const resetForm = () => {
+        setRole("customer");
+        setPricingPlan("");
+        setShowPassword(false);
+        setIsSubmitting(false);
+        setSignupMethod("email");
+        setEmail("");
+        setPhoneNumber("");
+        setCountryCode("+92");
+        setFormData({
+            name: "",
+            password: "",
+            confirmPassword: "",
+        });
+        setErrors({});
+    };
+
     return (
         <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-md max-w-lg mx-auto p-8 my-10">
             <div className="text-center mb-6">
-                <img src="/img/logo.jpeg" alt="Stitch4U" className="h-24 rounded-full mx-auto" />
+                <img src="/img/logo.jpeg" alt="Logo" className="h-24 rounded-full mx-auto" />
                 <h1 className="text-3xl font-extrabold text-gray-800">Sign up</h1>
                 <p className="text-base text-gray-600 mt-2">
-                    Already have an account?{' '}
+                    Already have an account?{" "}
                     <Link
                         to="/login"
                         className="text-button hover:text-button-hover hover:underline font-semibold"
@@ -118,56 +114,37 @@ const SignUpForm = ({ plan = null }) => {
                         value={role}
                         onChange={(value) => {
                             setRole(value);
-                            setTailorType('');
-                            setPricingPlan(''); // Reset pricing plan when switching role
+                            setPricingPlan(""); // Reset pricing plan when switching role
                         }}
+                        error={!!errors.role}
+                        helperText={errors.role || ""}
                     >
                         <Option value="customer">Customer</Option>
                         <Option value="tailor">Tailor</Option>
                     </Select>
                 </div>
 
-                {role === 'tailor' && (
-                    <>
-                        {/* Tailor Type Selection */}
-                        <div className="mb-4">
-                            <Select
-                                label="Tailor Type"
-                                value={tailorType}
-                                onChange={(value) => setTailorType(value)}
-                                error={validationErrors.tailorType}
-                            >
-                                <Option value="individual">Individual</Option>
-                                <Option value="business">Business</Option>
-                            </Select>
-                            {validationErrors.tailorType && (
-                                <span className="text-red-500 text-sm">{validationErrors.tailorType}</span>
-                            )}
-                        </div>
-
+                {role === "tailor" && (
+                    <div className="mb-4">
                         {/* Pricing Plan Selection */}
-                        <div className="mb-4">
-                            <Select
-                                label="Choose Pricing Plan"
-                                value={pricingPlan}
-                                onChange={(value) => setPricingPlan(value)}
-                                error={validationErrors.pricingPlan}
-                            >
-                                <Option value="basic">Basic</Option>
-                                <Option value="standard">Standard</Option>
-                                <Option value="premium">Premium</Option>
-                            </Select>
-                            <Link
-                                to="/pricing-plans"
-                                className="text-button hover:text-button-hover hover:underline text-xs text-end"
-                            >
-                                See Pricing Plans here
-                            </Link>
-                            {validationErrors.pricingPlan && (
-                                <span className="text-red-500 text-sm">{validationErrors.pricingPlan}</span>
-                            )}
-                        </div>
-                    </>
+                        <Select
+                            label="Choose Pricing Plan"
+                            value={pricingPlan}
+                            onChange={(value) => setPricingPlan(value)}
+                            error={!!errors.pricingPlan}
+                            helperText={errors.pricingPlan || ""}
+                        >
+                            <Option value="basic">Basic</Option>
+                            <Option value="standard">Standard</Option>
+                            <Option value="premium">Premium</Option>
+                        </Select>
+                        <Link
+                            to="/pricing-plans"
+                            className="text-button hover:text-button-hover hover:underline text-xs text-end"
+                        >
+                            See Pricing Plans here
+                        </Link>
+                    </div>
                 )}
 
                 {/* Common Fields */}
@@ -177,30 +154,80 @@ const SignUpForm = ({ plan = null }) => {
                         id="name"
                         value={formData.name}
                         onChange={handleChange}
-                        error={validationErrors.name}
+                        required
+                        error={!!errors.name}
+                        helperText={errors.name || ""}
                     />
-                    {validationErrors.name && <span className="text-red-500 text-sm">{validationErrors.name}</span>}
                 </div>
 
                 <div className="mb-4">
-                    <Input
-                        label="Email or Phone Number"
-                        id="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        error={validationErrors.email}
-                    />
-                    {validationErrors.email && <span className="text-red-500 text-sm">{validationErrors.email}</span>}
+                    <Select
+                        label="Signup Method"
+                        value={signupMethod}
+                        onChange={(value) => {
+                            setSignupMethod(value);
+                            setEmail(""); // Reset email when switching signup method
+                            setPhoneNumber(""); // Reset phone number when switching signup method
+                        }}
+                        required
+                        error={!!errors.signupMethod}
+                        helperText={errors.signupMethod || ""}
+                    >
+                        <Option value="email">Email</Option>
+                        <Option value="phone">Phone Number</Option>
+                    </Select>
                 </div>
+
+                {signupMethod === "phone" ? (
+                    <div className="flex gap-2 mb-4">
+                        <Select
+                            label="Country Code"
+                            value={countryCode}
+                            onChange={(value) => setCountryCode(value)}
+                            required
+                            error={!!errors.countryCode}
+                            helperText={errors.countryCode || ""}
+                        >
+                            <Option value="+92">🇵🇰 +92 (Pakistan)</Option>
+                            <Option value="+1">🇺🇸 +1 (United States)</Option>
+                            <Option value="+44">🇬🇧 +44 (United Kingdom)</Option>
+                            <Option value="+91">🇮🇳 +91 (India)</Option>
+                        </Select>
+                        <Input
+                            label="Phone Number"
+                            id="phoneNumber"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            required
+                            error={!!errors.phoneNumber}
+                            helperText={errors.phoneNumber || ""}
+                        />
+                    </div>
+                ) : (
+                    <div className="mb-4">
+                        <Input
+                            label="Email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            type="email"
+                            required
+                            error={!!errors.email}
+                            helperText={errors.email || ""}
+                        />
+                    </div>
+                )}
 
                 <div className="mb-4">
                     <Input
                         label="Password"
                         id="password"
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                         value={formData.password}
                         onChange={handleChange}
-                        error={validationErrors.password}
+                        required
+                        error={!!errors.password}
+                        helperText={errors.password || ""}
                         icon={
                             <button
                                 type="button"
@@ -211,36 +238,29 @@ const SignUpForm = ({ plan = null }) => {
                             </button>
                         }
                     />
-                    {validationErrors.password && (
-                        <span className="text-red-500 text-sm">{validationErrors.password}</span>
-                    )}
                 </div>
 
                 <div className="mb-4">
-                    <Textarea
-                        label="Address"
-                        id="address"
-                        value={formData.address}
+                    <Input
+                        label="Confirm Password"
+                        id="confirmPassword"
+                        type={showPassword ? "text" : "password"}
+                        value={formData.confirmPassword}
                         onChange={handleChange}
-                        error={validationErrors.address}
+                        required
+                        error={!!errors.confirmPassword}
+                        helperText={errors.confirmPassword || ""}
+                        icon={
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="text-gray-500"
+                            >
+                                {showPassword ? <EyeOff /> : <Eye />}
+                            </button>
+                        }
                     />
-                    {validationErrors.address && (
-                        <span className="text-red-500 text-sm">{validationErrors.address}</span>
-                    )}
                 </div>
-
-                {role === 'tailor' && tailorType === 'business' && (
-                    <div className="mb-4">
-                        <Input
-                            label="Business Logo"
-                            id="logo"
-                            type="file"
-                            accept="image/*"
-                            onChange={handleChange}
-                            icon={<Image />}
-                        />
-                    </div>
-                )}
 
                 <Button
                     type="submit"
@@ -253,7 +273,7 @@ const SignUpForm = ({ plan = null }) => {
                             <Loader className="animate-spin" /> Creating Account
                         </span>
                     ) : (
-                        'Sign Up'
+                        "Sign Up"
                     )}
                 </Button>
             </form>

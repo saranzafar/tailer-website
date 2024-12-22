@@ -1,21 +1,30 @@
-import { useState } from 'react';
-import { Loader } from 'lucide-react';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Loader } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Card,
     CardBody,
     Typography,
     Input,
     Button,
-} from '@material-tailwind/react';
+} from "@material-tailwind/react";
+import { UseVerification } from "../../utils/VerificationContext";
+import httpServer from "../../utils/httpService";
 
-const OTPVerificationForm = ({ email }) => {
-    const [otp, setOtp] = useState('');
+const OTPVerificationForm = () => {
+    const { contextEmail, setContextEmail } = UseVerification();
+    const [otp, setOtp] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [resendTimeout, setResendTimeout] = useState(0);
     const [isResendDisabled, setIsResendDisabled] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!contextEmail) {
+            navigate("/signup");
+        }
+    }, [contextEmail, navigate]);
 
     const handleChange = (e) => {
         setOtp(e.target.value);
@@ -24,14 +33,18 @@ const OTPVerificationForm = ({ email }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        const toastId = toast.loading('Verifying OTP...');
+        const toastId = toast.loading("Verifying OTP...");
 
         try {
-            // Replace with your API endpoint
-            const response = await axios.post('https://api.example.com/verify-otp', { email, otp });
-            toast.success('OTP verified successfully!', { id: toastId });
+            await httpServer("post", "auth/verify-token/", { email: contextEmail, token: otp });
+            toast.success("OTP verified successfully!", { id: toastId });
+            navigate("/login");
+            
         } catch (error) {
-            toast.error('Failed to verify OTP. Please try again.', { id: toastId });
+            toast.error(
+                error.response?.data?.message || "Failed to verify OTP. Please try again.",
+                { id: toastId }
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -54,10 +67,12 @@ const OTPVerificationForm = ({ email }) => {
         }, 1000);
 
         try {
-            const response = await axios.post('https://api.example.com/resend-otp', { email });
-            toast.success('OTP sent again to your email!');
+            await httpServer("post", "/auth/resend-otp/", { contextEmail });
+            toast.success("OTP sent again to your email!");
         } catch (error) {
-            toast.error('Failed to resend OTP. Please try again.');
+            toast.error(
+                error.response?.data?.message || "Failed to resend OTP. Please try again."
+            );
         }
     };
 
@@ -75,7 +90,8 @@ const OTPVerificationForm = ({ email }) => {
                             Verify OTP
                         </Typography>
                         <Typography variant="small" className="text-gray-600 mt-2">
-                            Please enter the OTP sent to your email: <span className="font-semibold">{email}</span>
+                            Please enter the OTP sent to your email:{" "}
+                            <span className="font-semibold">{contextEmail}</span>
                         </Typography>
                     </div>
 
@@ -104,7 +120,7 @@ const OTPVerificationForm = ({ email }) => {
                                     Verifying...
                                 </div>
                             ) : (
-                                'Verify OTP'
+                                "Verify OTP"
                             )}
                         </Button>
 
@@ -113,17 +129,20 @@ const OTPVerificationForm = ({ email }) => {
                                 variant="text"
                                 onClick={handleResendOTP}
                                 disabled={isResendDisabled}
-                                className={`text-button hover:underline font-medium ${isResendDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
+                                className={`text-button hover:underline font-medium ${isResendDisabled
+                                    ? "cursor-not-allowed opacity-50"
+                                    : ""
+                                    }`}
                             >
                                 {isResendDisabled
                                     ? `Resend OTP in ${resendTimeout}s`
-                                    : 'Resend OTP'}
+                                    : "Resend OTP"}
                             </Button>
                             <Link
                                 to="/login"
                                 className="text-sm font-medium text-button hover:underline"
                             >
-                                Goto Login
+                                Go to Login
                             </Link>
                         </div>
                     </form>

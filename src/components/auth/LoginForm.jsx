@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
-import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
-import axios from 'axios'; // Don't forget to import axios
+import { useEffect, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Card,
     CardBody,
@@ -10,12 +9,15 @@ import {
     Button,
     Typography,
     IconButton,
-} from '@material-tailwind/react';
+} from "@material-tailwind/react";
+import httpServer from "../../utils/httpService";
 
 const LogInForm = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
-        email: '',
-        password: '',
+        username: "",
+        password: "",
     });
     const [showPassword, setShowPassword] = useState(false);
 
@@ -30,18 +32,23 @@ const LogInForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Show loading toast
-        const toastId = toast.loading('Signing in...');
+        const toastId = toast.loading("Signing in...");
 
         try {
-            // Replace with your API endpoint
-            const response = await axios.post('https://api.example.com/signin', formData);
+            const payload = {
+                username: formData.username,
+                password: formData.password,
+            };
 
-            // Success toast
-            toast.success('Signed in successfully!', { id: toastId });
+            // Call your login API
+            await httpServer("post", "auth/login-token/", payload);
+
+            toast.success("Signed in successfully!", { id: toastId });
+
+            navigate("/");
         } catch (error) {
-            // Error toast
-            toast.error('Failed to sign in. Please try again.', { id: toastId });
+            const errorMessage = error.response?.data?.message || "Failed to sign in. Please try again.";
+            toast.error(errorMessage, { id: toastId });
         }
     };
 
@@ -56,10 +63,10 @@ const LogInForm = () => {
                             className="h-24 rounded-full mx-auto mb-4"
                         />
                         <Typography variant="h4" className="font-bold text-gray-800">
-                            LogIn to your Account
+                            Log In to Your Account
                         </Typography>
                         <Typography variant="small" className="text-gray-600 mt-2">
-                            Don&apos;t have an account?{' '}
+                            Don&apos;t have an account?{" "}
                             <Link
                                 to="/signup"
                                 className="text-button hover:underline font-medium"
@@ -70,13 +77,13 @@ const LogInForm = () => {
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        {/* Email Input */}
+                        {/* Username Input */}
                         <div>
                             <Input
-                                label="Email or Phone Number"
+                                label="Username"
                                 type="text"
-                                id="email"
-                                value={formData.email}
+                                id="username"
+                                value={formData.username}
                                 onChange={handleChange}
                                 required
                                 className="text-sm"
@@ -87,21 +94,22 @@ const LogInForm = () => {
                         <div className="relative">
                             <Input
                                 label="Password"
-                                type={showPassword ? 'text' : 'password'}
+                                type={showPassword ? "text" : "password"}
                                 id="password"
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
                                 className="text-sm"
                             />
-                            <IconButton
-                                variant="text"
-                                className="absolute top-2 right-2"
+                            <button
+                                type="button"
+                                className="absolute inset-y-0 right-2 flex items-center text-gray-500"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                            </IconButton>
+                            </button>
                         </div>
+
 
                         {/* Forgot Password */}
                         <div className="flex justify-end">
@@ -115,7 +123,7 @@ const LogInForm = () => {
 
                         {/* Submit Button */}
                         <Button type="submit" fullWidth className="mt-4 bg-button hover:bg-button-hover">
-                            logIn
+                            Log In
                         </Button>
                     </form>
                 </CardBody>
