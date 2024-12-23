@@ -1,23 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function PNF() {
     return (
         <div>
-            <div className="max-w-[50rem] flex flex-col mx-auto size-full">
-                {/* ========== HEADER ========== */}
-                <header className="mb-auto flex justify-center z-50 w-full py-4">
-                    <nav className="px-4 sm:px-6 lg:px-8">
-                        <a
-                            className="flex-none text-xl font-semibold sm:text-3xl dark:text-white"
-                            href="#"
-                            aria-label="Brand"
-                        >
-                            Brand
-                        </a>
-                    </nav>
-                </header>
-                {/* ========== END HEADER ========== */}
-
+            <div className="max-w-[50rem] flex flex-col mx-auto size-full h-[80vh]">
                 {/* ========== MAIN CONTENT ========== */}
                 <main id="content">
                     <div className="text-center py-10 px-4 sm:px-6 lg:px-8">
@@ -28,12 +15,12 @@ function PNF() {
                             Oops, something went wrong.
                         </p>
                         <p className="text-gray-600 dark:text-neutral-400">
-                            Sorry, we couldn't find your page.
+                            Sorry, we couldn&apos;t find your page.
                         </p>
                         <div className="mt-5 flex flex-col justify-center items-center gap-2 sm:flex-row sm:gap-3">
-                            <a
-                                className="w-full sm:w-auto py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                                href="../examples.html"
+                            <Link
+                                className="w-full sm:w-auto py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-button text-white hover:bg-button-hover focus:outline-none focus:bg-button disabled:opacity-50 disabled:pointer-events-none"
+                                to="/"
                             >
                                 <svg
                                     className="shrink-0 size-4"
@@ -49,8 +36,8 @@ function PNF() {
                                 >
                                     <path d="m15 18-6-6 6-6" />
                                 </svg>
-                                Back to examples
-                            </a>
+                                Back to Home
+                            </Link>
                         </div>
                     </div>
                 </main>
