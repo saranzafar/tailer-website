@@ -1,82 +1,104 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { SignInForm, LoginForm, ForgotPassword, OTPVerificationForm } from "./components/index.js"
-import { PNF, Home, Profile, ContactUs, LandingPage, PricingPage } from "./pages/index.js"
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import {
+  SignUpForm,
+  LoginForm,
+  ForgotPassword,
+  OTPVerificationForm,
+} from "./components/index.js";
+import {
+  PNF,
+  Home,
+  Profile,
+  ContactUs,
+  LandingPage,
+  PricingPage,
+} from "./pages/index.js";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { ThemeProvider } from "@material-tailwind/react";
-import SignUpForm from './components/auth/Signup.jsx'
+import AuthLayout from "./utils/AuthLayout"; 
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />,
+    path: "/",
+    element: (
+      <AuthLayout> {/* Wrap entire app with AuthLayout */}
+        <App />
+      </AuthLayout>
+    ),
     children: [
+      // Public Routes
       {
-        path: '/',
+        path: "/",
         element: <Home />,
       },
       {
-        path: '/landingpage',
+        path: "/landingpage",
         element: <LandingPage />,
       },
       {
-        path: '/signup',
-        element: <SignInForm />,
+        path: "/signup",
+        element: <SignUpForm />,
       },
       {
-        path: '/login',
+        path: "/login",
         element: <LoginForm />,
       },
       {
-        path: '/forgot-password',
+        path: "/forgot-password",
         element: <ForgotPassword />,
       },
       {
-        path: '/verification',
+        path: "/verification",
         element: <OTPVerificationForm />,
       },
 
+      // Tailor Registration Routes (Public)
       {
-        path: '/tailor/register/basic',
+        path: "/tailor/register/basic",
         element: <SignUpForm plan={"basic"} />,
       },
       {
-        path: '/tailor/register/standard',
+        path: "/tailor/register/standard",
         element: <SignUpForm plan={"standard"} />,
       },
       {
-        path: '/tailor/register/premium',
+        path: "/tailor/register/premium",
         element: <SignUpForm plan={"premium"} />,
       },
 
+      // Secure Routes
       {
-        path: '/pricing-plans',
-        element: <PricingPage />,
-      },
-      {
-        path: '/contactus',
-        element: <ContactUs />,
-      },
-      {
-        path: '/profile',
+        path: "/profile",
         element: <Profile />,
       },
 
+      // Public Pages
       {
-        path: '/*',
+        path: "/pricing-plans",
+        element: <PricingPage />,
+      },
+      {
+        path: "/contactus",
+        element: <ContactUs />,
+      },
+
+      // Catch-All Route
+      {
+        path: "/*",
         element: <PNF />,
       },
     ],
   },
 ]);
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeProvider>
       <RouterProvider router={router} />
     </ThemeProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);

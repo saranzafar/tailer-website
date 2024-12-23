@@ -1,6 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import { setAuthCookies } from "./saveDataToCookies";
+import { setAuthCookies } from "./cookies";
 
 // Base URL for API requests
 const baseURL = "http://127.0.0.1:8000/api/";

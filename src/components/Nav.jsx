@@ -1,14 +1,17 @@
 import { Menu } from "lucide-react";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { UseVerification } from "../utils/VerificationContext";
 
 const Nav = () => {
     const [open, setOpen] = useState(false);
+    const { isLoggedIn, logout } = UseVerification();
 
     return (
         <header className="flex w-full items-center bg-white mx-auto justify-center sticky top-0 z-50 drop-shadow-lg">
             <div className="container">
                 <div className="relative flex items-center justify-between">
+                    {/* Logo */}
                     <div className="w-60 max-w-full px-4">
                         <NavLink to="/" className="block w-full py-5">
                             <img
@@ -23,16 +26,21 @@ const Nav = () => {
                             />
                         </NavLink>
                     </div>
+
+                    {/* Navbar Toggle and Links */}
                     <div className="flex w-full items-center justify-between px-4">
                         <div>
+                            {/* Hamburger Menu */}
                             <button
                                 onClick={() => setOpen(!open)}
                                 id="navbarToggler"
-                                className={` ${open && "navbarTogglerActive"
+                                className={`${open && "navbarTogglerActive"
                                     } absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-button focus:ring-2 lg:hidden`}
                             >
                                 <Menu className={open ? "text-button" : ""} />
                             </button>
+
+                            {/* Navbar Links */}
                             <nav
                                 id="navbarCollapse"
                                 className={`absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white px-6 py-5 shadow lg:static lg:block lg:w-full lg:max-w-full lg:shadow-none lg:dark:bg-transparent ${!open && "hidden"
@@ -43,22 +51,38 @@ const Nav = () => {
                                     <ListItem NavLink="/landingpage">Landing Page</ListItem>
                                     <ListItem NavLink="/contactus">Contact us</ListItem>
                                     <ListItem NavLink="/profile">Profile</ListItem>
+                                    <ListItem NavLink="/pricing-plans">Pricing Plans</ListItem>
                                 </ul>
                             </nav>
                         </div>
+
+                        {/* Buttons: Log In / Log Out */}
                         <div className="hidden justify-end pr-16 sm:flex lg:pr-0">
-                            <NavLink
-                                to="/signup"
-                                className="px-7 py-3 text text-button rounded-lg hover:text-button-hover font-semibold"
-                            >
-                                Signup
-                            </NavLink>
-                            <NavLink
-                                to="/login"
-                                className="px-7 py-3 text text-white rounded-lg shadow-md bg-button hover:bg-button-hover font-semibold "
-                            >
-                                Log In
-                            </NavLink>
+                            {isLoggedIn ? (
+                                <>
+                                    <button
+                                        onClick={logout}
+                                        className="px-7 py-3 text text-white rounded-lg shadow-md bg-button hover:bg-button-hover font-semibold"
+                                    >
+                                        Log Out
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <NavLink
+                                        to="/signup"
+                                        className="px-7 py-3 text text-button rounded-lg hover:text-button-hover font-semibold"
+                                    >
+                                        Sign Up
+                                    </NavLink>
+                                    <NavLink
+                                        to="/login"
+                                        className="px-7 py-3 text text-white rounded-lg shadow-md bg-button hover:bg-button-hover font-semibold"
+                                    >
+                                        Log In
+                                    </NavLink>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -69,6 +93,7 @@ const Nav = () => {
 
 export default Nav;
 
+// Reusable List Item Component
 const ListItem = ({ children, NavLink: to }) => {
     return (
         <li>

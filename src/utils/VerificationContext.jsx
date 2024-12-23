@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { use } from "react";
+import { deleteAuthCookies, getAuthCookies } from "./cookies";
 
 // Create the context
 const VerificationContext = createContext();
@@ -12,12 +13,16 @@ export const UseVerification = () => {
 // Provider component
 export const VerificationProvider = ({ children }) => {
     const [contextEmail, setContextEmail] = useState(null);
-    useEffect(() => {
-        console.log("This is the email", contextEmail);
-    }, [contextEmail]);
+    const [isLoggedIn, setIsLoggedIn] = useState(!!getAuthCookies().access);
+
+    const login = () => setIsLoggedIn(true);
+    const logout = () => {
+        deleteAuthCookies();
+        setIsLoggedIn(false);
+    };
 
     return (
-        <VerificationContext.Provider value={{ contextEmail, setContextEmail }}>
+        <VerificationContext.Provider value={{ contextEmail, setContextEmail, isLoggedIn, login, logout }}>
             {children}
         </VerificationContext.Provider>
     );

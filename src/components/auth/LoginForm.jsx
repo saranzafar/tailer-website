@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,15 +11,16 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 import httpServer from "../../utils/httpService";
+import { UseVerification } from "../../utils/VerificationContext";
 
 const LogInForm = () => {
     const navigate = useNavigate();
-
     const [formData, setFormData] = useState({
         username: "",
         password: "",
     });
     const [showPassword, setShowPassword] = useState(false);
+    const { login } = UseVerification();
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -39,13 +40,11 @@ const LogInForm = () => {
                 username: formData.username,
                 password: formData.password,
             };
-
-            // Call your login API
             await httpServer("post", "auth/login-token/", payload);
-
             toast.success("Signed in successfully!", { id: toastId });
-
+            login();
             navigate("/");
+
         } catch (error) {
             const errorMessage = error.response?.data?.message || "Failed to sign in. Please try again.";
             toast.error(errorMessage, { id: toastId });
