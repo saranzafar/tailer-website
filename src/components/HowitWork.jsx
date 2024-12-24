@@ -4,7 +4,7 @@ import AuthCard from './auth/AuthCard'
 
 function HowitWork() {
     return (
-        <div className="max-w-[85rem] px-4 py-20 sm:px-6 lg:px-8 lg:py-14 mx-auto my-[6rem]">
+        <div className="max-w-[85rem] px-4 py-10 md:py-20 sm:px-6 lg:px-8 lg:py-14 mx-auto md:my-[1rem]">
             {/* Grid */}
             <div className="lg:grid lg:grid-cols-12 lg:gap-4 lg:items-center place-items-center">
                 <div className="lg:col-span-6">

@@ -17,8 +17,11 @@ const Home = () => {
     return (
         <div className=''>
             {/* Hero */}
-            <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-light-blue-bg md:shadow-lg">
-                <MorphingText texts={texts} className='inline-block' />
+            <div className="relative flex h-[200px] w-full flex-col items-center justify-center overflow-hidden  bg-light-blue-bg">
+                <BlurIn
+                    word="Welcome to Stitch4U"
+                    className="text-4xl font-bold text-black dark:text-white"
+                />
                 <DotPattern
                     width={20}
                     height={20}
@@ -28,10 +31,7 @@ const Home = () => {
                     className="[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
                 />
             </div>
-            {/* <BlurIn
-                word="Blur In"
-                className="text-4xl font-bold text-black dark:text-white"
-            /> */}
+
 
             {/* How it works  */}
             <HowitWork />
