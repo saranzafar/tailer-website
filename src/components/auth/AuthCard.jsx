@@ -1,14 +1,15 @@
 import { Button } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import customer from "/svg/customer.svg"
 
 function AuthCard({ userType = "User", description = "description" }) {
 
     return (
-        <div className="mt-7 border border-gray-200 rounded-xl shadow dark:bg-neutral-900 dark:border-neutral-700 max-w-md mx-auto">
+        <div className="mt-7 border border-gray-200 rounded-xl shadow dark:bg-neutral-900 dark:border-neutral-700 max-w-md mx-auto bg-white">
             <div className="p-4 sm:p-7">
                 <div className="text-center">
-                    <img src={userType == "Tailor" ? "/img/tailorIcon.png" : "/img/customerIcon.png"} alt="stitch4u" className='w-16 mx-auto' />
+                    <img src={userType == "Tailor" ? "/img/tailor.png" : "/img/customer.png"} alt="stitch4u" className='w-28 mx-auto' />
                     <h1 className="block text-3xl font-bold text-gray-900 dark:text-white">
                         {userType == "Tailor" ? "Tailor" : "Customer"}
                     </h1>

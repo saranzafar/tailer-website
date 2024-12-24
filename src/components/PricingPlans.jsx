@@ -70,7 +70,7 @@ function PricingPlans({ page = "landingPage" }) {
                         </ul>
                     </CardBody>
                     <CardFooter className="mt-12 p-0">
-                        <Link to={"/tailor/register/basic"}>
+                        <Link to={"#"}>
                             <Button
                                 size="md"
                                 color="indigo"
@@ -142,7 +142,7 @@ function PricingPlans({ page = "landingPage" }) {
                         </ul>
                     </CardBody>
                     <CardFooter className="mt-12 p-0">
-                        <Link to={"/tailor/register/standard"}>
+                        <Link to={"#"}>
                             <Button
                                 size="lg"
                                 color="white"
@@ -214,7 +214,7 @@ function PricingPlans({ page = "landingPage" }) {
                         </ul>
                     </CardBody>
                     <CardFooter className="mt-12 p-0">
-                        <Link to={"/tailor/register/basic"}>
+                        <Link to={"#"}>
                             <Button
                                 size="md"
                                 color="indigo"

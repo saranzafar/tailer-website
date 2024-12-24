@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MapPin, MapPinCheckInside, Users } from 'lucide-react';
 import { Timeline, TimelineBody, TimelineConnector, TimelineHeader, TimelineIcon, TimelineItem, Typography } from '@material-tailwind/react';
-import { Divider, FeatureCards, HeroSection, HowitWork, Testimonials } from '../components';
+import { AboutSection, Divider, FeatureCards, HeroSection, HowitWork, Testimonials } from '../components';
 import { Button } from '../components/ui/button';
 import BlurIn from '../components/ui/blur-in';
 import MorphingText from '../components/ui/morphing-text';
@@ -15,7 +15,7 @@ const Home = () => {
     ];
 
     return (
-        <div className=''>
+        <div className='bg-light-blue-bg'>
             {/* Hero */}
             <div className="relative flex h-[200px] w-full flex-col items-center justify-center overflow-hidden  bg-light-blue-bg">
                 <BlurIn
@@ -32,7 +32,6 @@ const Home = () => {
                 />
             </div>
 
-
             {/* How it works  */}
             <HowitWork />
 
@@ -41,10 +40,7 @@ const Home = () => {
                 <FeatureCards />
             </div>
 
-
-
-
-
+            <AboutSection />
             {/* testimonials  */}
             <div className='bg-light-blue-bg py-14'>
                 <Testimonials />

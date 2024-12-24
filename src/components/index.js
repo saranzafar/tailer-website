@@ -14,6 +14,7 @@ import PricingPlans from "./PricingPlans"
 import Faqs from "./Faqs";
 import Testimonials from "./Testimonials";
 import HowitWork from "./HowitWork";
+import AboutSection from "./AboutSection";
 
 export {
     SignUpForm,
@@ -32,4 +33,5 @@ export {
     Testimonials,
     HeroSection,
     HowitWork,
+    AboutSection,
 }

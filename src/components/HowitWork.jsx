@@ -11,12 +11,12 @@ function HowitWork() {
                     {/* Image Grid */}
                     <div className="grid grid-cols-12 gap-4 items-center lg:-translate-x-10">
                         <div className="col-span-12 md:col-span-6">
-                            <AuthCard userType='Tailor' description='Getting started with Stitch4U is quick and effortless—just follow these three simple steps!' />
+                            <AuthCard userType='Tailor' description='Join Stitch4U as a tailor and simplify your work with our easy-to-use platform—start your journey today!' />
                         </div>
                         {/* End Col */}
 
                         <div className="col-span-12 md:col-span-6">
-                            <AuthCard description='etting started with Stitch4U is quick and effortless—just follow these three simple steps!' />
+                            <AuthCard description='Explore Stitch4U as a customer and experience hassle-free tailoring services in just a few clicks!' />
                         </div>
                         {/* End Col */}
                     </div>
