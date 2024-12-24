@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardHeader, CardBody, Typography, Avatar } from "@material-tailwind/react";
 import { Star } from "lucide-react";
 

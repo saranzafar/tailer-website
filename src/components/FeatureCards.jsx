@@ -1,5 +1,5 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButton, Typography } from '@material-tailwind/react'
-import { Eye, Heart, Map, MapPin, Milestone } from 'lucide-react'
+import { Heart } from 'lucide-react'
 
 function FeatureCards() {
     const cardData = [

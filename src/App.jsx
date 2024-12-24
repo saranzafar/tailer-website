@@ -1,4 +1,3 @@
-import "preline/preline";
 import { Toaster } from 'react-hot-toast';
 import { Outlet } from "react-router-dom";
 import { VerificationProvider } from "./utils/VerificationContext";

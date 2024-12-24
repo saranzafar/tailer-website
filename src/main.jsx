@@ -13,7 +13,6 @@ import {
   Home,
   Profile,
   ContactUs,
-  LandingPage,
   PricingPage,
 } from "./pages/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";

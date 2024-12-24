@@ -8,7 +8,6 @@ import {
     Input,
     Button,
     Typography,
-    IconButton,
 } from "@material-tailwind/react";
 import httpServer from "../../utils/httpService";
 import { UseVerification } from "../../utils/VerificationContext";

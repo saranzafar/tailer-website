@@ -1,7 +1,5 @@
 import { Button } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
-import customer from "/svg/customer.svg"
 
 function AuthCard({ userType = "User", description = "description" }) {
 

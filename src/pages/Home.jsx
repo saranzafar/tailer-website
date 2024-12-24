@@ -1,18 +1,8 @@
-import { Link } from 'react-router-dom';
-import { MapPin, MapPinCheckInside, Users } from 'lucide-react';
-import { Timeline, TimelineBody, TimelineConnector, TimelineHeader, TimelineIcon, TimelineItem, Typography } from '@material-tailwind/react';
-import { AboutSection, Divider, FeatureCards, HeroSection, HowitWork, Testimonials } from '../components';
-import { Button } from '../components/ui/button';
+import { AboutSection, FeatureCards, HowitWork, Testimonials } from '../components';
 import BlurIn from '../components/ui/blur-in';
-import MorphingText from '../components/ui/morphing-text';
 import { DotPattern } from '../components/ui/dot-pattern';
 
 const Home = () => {
-    const texts = [
-        "Welcome",
-        "To",
-        "Stitch4U"
-    ];
 
     return (
         <div className='bg-light-blue-bg'>

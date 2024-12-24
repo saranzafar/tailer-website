@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
-import { Divider } from "../components"
 
 export function ContactUs() {
     return (
@@ -99,7 +98,6 @@ export function ContactUs() {
                         </Button>
                     </form>
                 </div>
-                <Divider />
             </div>
         </section>
     );

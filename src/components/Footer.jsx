@@ -1,26 +1,11 @@
-import { IconButton, Typography } from "@material-tailwind/react";
-import { Facebook, Instagram, Phone, Ticket } from "lucide-react";
+import { Typography } from "@material-tailwind/react";
 
 const Footer = () => {
     return (
         <footer className="bg-dark-blue-bg">
             <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                 <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 text-center md:justify-between text-white">
-                    <div>
-                        <img src="./img/logo.jpeg" alt="stitch4u" className="w-20" />
-                        {/* <div className="flex gap-4">
-                            <IconButton variant="outlined" size="sm" color="white" className="rounded-full">
-                                <Instagram />
-                            </IconButton>
-                            <IconButton variant="outlined" size="sm" color="white" className="rounded-full">
-                                <Phone />
-                            </IconButton>
-                            <IconButton variant="outlined" size="sm" color="white" className="rounded-full">
-                                <Facebook />
-                            </IconButton>
-                        </div> */}
-
-                    </div>
+                    <img src="./img/logo.jpeg" alt="stitch4u" className="w-20" />
 
                     <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
                         <li>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Loader } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -39,7 +39,7 @@ const OTPVerificationForm = () => {
             await httpServer("post", "auth/verify-token/", { email: contextEmail, token: otp });
             toast.success("OTP verified successfully!", { id: toastId });
             navigate("/login");
-            
+
         } catch (error) {
             toast.error(
                 error.response?.data?.message || "Failed to verify OTP. Please try again.",

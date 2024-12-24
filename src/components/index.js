@@ -6,12 +6,10 @@ import AuthCard from "./auth/AuthCard";
 
 import Nav from "./Nav";
 import Footer from "./Footer";
-import Divider from "./Divider";
 
 import HeroSection from "./HeroSection";
 import FeatureCards from "./FeatureCards";
 import PricingPlans from "./PricingPlans"
-import Faqs from "./Faqs";
 import Testimonials from "./Testimonials";
 import HowitWork from "./HowitWork";
 import AboutSection from "./AboutSection";
@@ -25,11 +23,9 @@ export {
 
     Nav,
     Footer,
-    Divider,
 
     FeatureCards,
     PricingPlans,
-    Faqs,
     Testimonials,
     HeroSection,
     HowitWork,
