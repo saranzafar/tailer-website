@@ -12,13 +12,12 @@ import {
     DialogFooter,
 } from "@material-tailwind/react";
 import { Plus } from "lucide-react";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 
 export function AddShopSection() {
     const [open, setOpen] = useState(false); // Modal state
     const [formData, setFormData] = useState({
         name: "",
-        location: { lat: 37.7749, lng: -122.4194 }, // Default coordinates (San Francisco)
+        location: null, // Placeholder for Google Maps integration
         address: "",
     });
 
@@ -34,37 +33,9 @@ export function AddShopSection() {
         }));
     };
 
-    // Custom Component to Handle Map Click
-    const LocationPicker = () => {
-        useMapEvents({
-            click: (e) => {
-                setFormData((prev) => ({
-                    ...prev,
-                    location: {
-                        lat: e.latlng.lat,
-                        lng: e.latlng.lng,
-                    },
-                }));
-            },
-        });
-        return null;
-    };
-
     // Submit the form data
     const handleSubmit = () => {
-        // Validate form data
-        if (!formData.name || !formData.address) {
-            alert("Please fill in all required fields.");
-            return;
-        }
-
         console.log("Shop Data Submitted:", formData);
-
-        // Simulate API submission (replace this with API call)
-        setTimeout(() => {
-            alert("Shop data saved successfully!");
-        }, 500);
-
         toggleModal(); // Close the modal after submission
     };
 
@@ -125,23 +96,11 @@ export function AddShopSection() {
                         <Typography className="font-medium text-gray-800 mb-2">
                             Location
                         </Typography>
-                        <div className="h-64 w-full bg-gray-200 rounded overflow-hidden relative">
-                            <MapContainer
-                                center={formData.location}
-                                zoom={12}
-                                style={{
-                                    height: "100%",
-                                    width: "100%",
-                                    borderRadius: "10px",
-                                }}
-                            >
-                                <TileLayer
-                                    url="https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles courtesy of HOT'
-                                />
-                                <Marker position={formData.location}></Marker>
-                                <LocationPicker />
-                            </MapContainer>
+                        <div className="h-64 w-full bg-gray-200 rounded">
+                            {/* Placeholder for Google Maps */}
+                            <Typography className="text-center text-gray-500 pt-24">
+                                Google Maps integration goes here
+                            </Typography>
                         </div>
                     </div>
 

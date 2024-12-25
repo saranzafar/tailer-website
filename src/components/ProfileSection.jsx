@@ -7,32 +7,60 @@ import {
     Typography,
     Button,
     Input,
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
     Select,
     Option,
+    Tooltip,
 } from "@material-tailwind/react";
+import { Edit3, Lock, Mail, Save, X } from "lucide-react";
 
-export function ProfileUpdateCard() {
+export function ProfileCard() {
     const [profileData, setProfileData] = useState({
         username: "john_doe",
         email: "johndoe@example.com",
         role: "Customer",
-        oldPassword: "",
-        newPassword: "",
     });
 
-    const [isUpdated, setIsUpdated] = useState(false); // Tracks if any change has occurred
+    const [formData, setFormData] = useState({ ...profileData }); // For modal updates
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false); // Profile modal state
+    const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false); // Password modal state
+    const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false); // Email modal state
+
+    // Toggle modals
+    const toggleProfileModal = () => setIsProfileModalOpen(!isProfileModalOpen);
+    const togglePasswordModal = () =>
+        setIsChangePasswordModalOpen(!isChangePasswordModalOpen);
+    const toggleEmailModal = () =>
+        setIsChangeEmailModalOpen(!isChangeEmailModalOpen);
 
     const handleInputChange = (field, value) => {
-        setProfileData((prev) => ({
+        setFormData((prev) => ({
             ...prev,
             [field]: value,
         }));
-        setIsUpdated(true);
     };
 
     const handleUpdate = () => {
-        console.log("Updated Data:", profileData);
-        setIsUpdated(false);
+        setProfileData({ ...formData }); // Save updated data
+        toggleProfileModal(); // Close modal
+    };
+
+    const handleChangePassword = (oldPassword, newPassword) => {
+        console.log("Old Password:", oldPassword);
+        console.log("New Password:", newPassword);
+        togglePasswordModal();
+        alert("Password changed successfully!");
+    };
+
+    const handleChangeEmail = (newEmail) => {
+        console.log("New Email:", newEmail);
+        toggleEmailModal();
+        alert(
+            "Verification email sent to the new email address. Please verify to complete the update."
+        );
     };
 
     return (
@@ -48,114 +76,199 @@ export function ProfileUpdateCard() {
                         color="white"
                         className="text-[24px] font-bold text-center"
                     >
-                        Update Your Profile
+                        Your Profile
                     </Typography>
                 </CardHeader>
 
                 {/* Body */}
                 <CardBody className="px-6 py-4 space-y-4">
-                    {/* Username Field */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 space-y-2 sm:space-y-0">
-                        <Typography className="font-medium text-gray-800 w-full sm:w-1/3">
+                    {/* Username */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
+                        <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
                             Username
                         </Typography>
-                        <div className="w-full sm:w-2/3">
-                            <Input
-                                type="text"
-                                value={profileData.username}
-                                onChange={(e) =>
-                                    handleInputChange("username", e.target.value)
-                                }
-                                className="w-full"
-                            />
-                        </div>
+                        <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
+                            {profileData.username}
+                        </Typography>
                     </div>
 
-                    {/* Email Field */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 space-y-2 sm:space-y-0">
-                        <Typography className="font-medium text-gray-800 w-full sm:w-1/3">
+                    {/* Email */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
+                        <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
                             Email
                         </Typography>
-                        <div className="w-full sm:w-2/3">
-                            <Input
-                                type="email"
-                                value={profileData.email}
-                                onChange={(e) =>
-                                    handleInputChange("email", e.target.value)
-                                }
-                                className="w-full"
-                            />
-                        </div>
+                        <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
+                            {profileData.email}
+                        </Typography>
                     </div>
 
-                    {/* Role Field */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 space-y-2 sm:space-y-0">
-                        <Typography className="font-medium text-gray-800 w-full sm:w-1/3">
+                    {/* Role */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
+                        <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
                             Role
                         </Typography>
-                        <div className="w-full sm:w-2/3">
-                            <Select
-                                value={profileData.role}
-                                onChange={(e) => handleInputChange("role", e)}
-                                className="w-full"
-                            >
-                                <Option value="Customer">Customer</Option>
-                                <Option value="Tailor">Tailor</Option>
-                            </Select>
-                        </div>
-                    </div>
-
-                    {/* Old Password Field */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 space-y-2 sm:space-y-0">
-                        <Typography className="font-medium text-gray-800 w-full sm:w-1/3">
-                            Old Password
+                        <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
+                            {profileData.role}
                         </Typography>
-                        <div className="w-full sm:w-2/3">
-                            <Input
-                                type="password"
-                                value={profileData.oldPassword}
-                                onChange={(e) =>
-                                    handleInputChange("oldPassword", e.target.value)
-                                }
-                                className="w-full"
-                            />
-                        </div>
-                    </div>
-
-                    {/* New Password Field */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 space-y-2 sm:space-y-0">
-                        <Typography className="font-medium text-gray-800 w-full sm:w-1/3">
-                            New Password
-                        </Typography>
-                        <div className="w-full sm:w-2/3">
-                            <Input
-                                type="password"
-                                value={profileData.newPassword}
-                                onChange={(e) =>
-                                    handleInputChange("newPassword", e.target.value)
-                                }
-                                className="w-full"
-                            />
-                        </div>
                     </div>
                 </CardBody>
 
                 {/* Footer */}
-                <CardFooter className="pt-4 px-6 flex justify-end">
+                <CardFooter className="pt-4 px-6 flex justify-center">
                     <Button
-                        onClick={handleUpdate}
-                        disabled={!isUpdated}
-                        className={`${isUpdated
-                            ? "bg-button hover:bg-button-hover"
-                            : "bg-gray-400 cursor-not-allowed"
-                            } text-white font-semibold w-full`}
+                        onClick={toggleProfileModal}
+                        className="bg-button hover:bg-button-hover text-white font-semibold w-full sm:w-auto"
                     >
-                        Update
+                        Update Profile
                     </Button>
                 </CardFooter>
             </Card>
+
+            {/* Modal for Profile Update */}
+            <Dialog open={isProfileModalOpen} handler={toggleProfileModal}>
+                <DialogHeader>Update Your Profile</DialogHeader>
+                <DialogBody className="space-y-4">
+                    {/* Username */}
+                    <div>
+                        <Typography className="font-medium text-gray-800">
+                            Username
+                        </Typography>
+                        <Input
+                            type="text"
+                            value={formData.username}
+                            onChange={(e) =>
+                                handleInputChange("username", e.target.value)
+                            }
+                        />
+                    </div>
+
+                    {/* Role */}
+                    <div>
+                        <Typography className="font-medium text-gray-800">
+                            Role
+                        </Typography>
+                        <Select
+                            value={formData.role}
+                            onChange={(e) => handleInputChange("role", e)}
+                        >
+                            <Option value="Customer">Customer</Option>
+                            <Option value="Tailor">Tailor</Option>
+                        </Select>
+                    </div>
+                </DialogBody>
+
+                <DialogFooter className="space-x-4">
+                    {/* Change Email Button */}
+                    <Button
+                        variant="text"
+                        className="text-button hover:text-button-hover flex items-center gap-2"
+                        onClick={toggleEmailModal}
+                    >
+                        <Mail size={20} />
+                        Change Email
+                    </Button>
+
+                    {/* Change Password Button */}
+                    <Button
+                        variant="text"
+                        className="text-button hover:text-button-hover flex items-center gap-2"
+                        onClick={togglePasswordModal}
+                    >
+                        <Lock size={20} />
+                        Change Password
+                    </Button>
+
+                    {/* Update Button */}
+                    <Button
+                        onClick={handleUpdate}
+                        className="flex items-center gap-2 bg-button hover:bg-button-hover"
+                    >
+                        <Save size={20} />
+                        Update
+                    </Button>
+                </DialogFooter>
+            </Dialog>
+
+            {/* Modal for Changing Password */}
+            <Dialog
+                open={isChangePasswordModalOpen}
+                handler={togglePasswordModal}
+            >
+                <DialogHeader>Change Password</DialogHeader>
+                <DialogBody className="space-y-4">
+                    <Input
+                        type="password"
+                        label="Old Password"
+                        onChange={(e) =>
+                            handleInputChange("oldPassword", e.target.value)
+                        }
+                    />
+                    <Input
+                        type="password"
+                        label="New Password"
+                        onChange={(e) =>
+                            handleInputChange("newPassword", e.target.value)
+                        }
+                    />
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        variant="text"
+                        color="red"
+                        onClick={togglePasswordModal}
+                        className="mr-2 flex items-center gap-1"
+                    >
+                        <X size={20} />
+                        Cancel
+                    </Button>
+                    <Button
+                        className="bg-button hover:bg-button-hover flex items-center gap-2"
+                        onClick={() =>
+                            handleChangePassword(
+                                formData.oldPassword,
+                                formData.newPassword
+                            )
+                        }
+                    >
+                        <Save size={20} />
+                        Save
+                    </Button>
+                </DialogFooter>
+            </Dialog>
+
+            {/* Modal for Changing Email */}
+            <Dialog open={isChangeEmailModalOpen} handler={toggleEmailModal}>
+                <DialogHeader>Change Email</DialogHeader>
+                <DialogBody className="space-y-4">
+                    <Input
+                        type="email"
+                        label="New Email"
+                        onChange={(e) =>
+                            handleInputChange("newEmail", e.target.value)
+                        }
+                    />
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        variant="text"
+                        color="red"
+                        onClick={toggleEmailModal}
+                        className="mr-2 flex items-center gap-2"
+                    >
+                        <X size={20} />
+                        Cancel
+                    </Button>
+                    <Button
+                        className="flex items-center gap-2 bg-button hover:bg-button-hover"
+                        onClick={() => handleChangeEmail(formData.newEmail)}
+                    >
+                        <Save size={20} />
+                        Save
+                    </Button>
+                </DialogFooter>
+            </Dialog>
         </section>
     );
 }
 
-export default ProfileUpdateCard;
+export default ProfileCard;
