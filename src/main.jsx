@@ -20,6 +20,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@material-tailwind/react";
 import AuthLayout from "./utils/AuthLayout"; 
 
+
 const router = createBrowserRouter([
   {
     path: "/",

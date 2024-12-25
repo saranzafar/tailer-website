@@ -13,6 +13,8 @@ import PricingPlans from "./PricingPlans"
 import Testimonials from "./Testimonials";
 import HowitWork from "./HowitWork";
 import AboutSection from "./AboutSection";
+import ProfileSection from "./ProfileSection";
+import AddShopSection from "./AddShopSection";
 
 export {
     SignUpForm,
@@ -30,4 +32,6 @@ export {
     HeroSection,
     HowitWork,
     AboutSection,
+    ProfileSection,
+    AddShopSection,
 }
