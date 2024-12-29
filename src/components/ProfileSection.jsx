@@ -64,65 +64,73 @@ export function ProfileCard() {
     };
 
     return (
-        <section className="flex justify-center items-center p-4">
+        <section className="flex justify-center items-center p-6 w-full">
             <Card className="w-full max-w-[36rem] bg-white shadow-lg rounded-lg">
-                {/* Header */}
-                <CardHeader
-                    floated={false}
-                    shadow={false}
-                    className="rounded bg-button py-4 px-6"
-                >
-                    <Typography
-                        color="white"
-                        className="text-[24px] font-bold text-center"
-                    >
-                        Your Profile
-                    </Typography>
-                </CardHeader>
-
                 {/* Body */}
-                <CardBody className="px-6 py-4 space-y-4">
-                    {/* Username */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
-                        <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
-                            Username
-                        </Typography>
-                        <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
-                            {profileData.username}
-                        </Typography>
+                <CardBody className="flex flex-col sm:flex-row px-6 py-4 space-y-4 sm:space-y-0 sm:space-x-6 flex-wrap justify-center items-center gap-2">
+                    {/* Profile Image on the Left */}
+                    <div className="flex-shrink-0">
+                        <div className="rounded-full overflow-hidden flex justify-center items-center h-36 w-36">
+                            <img
+                                src="/img/profile-pic.png" // Replace with your image URL
+                                alt="Profile"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
                     </div>
 
-                    {/* Email */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
-                        <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
-                            Email
-                        </Typography>
-                        <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
-                            {profileData.email}
-                        </Typography>
-                    </div>
+                    {/* Content on the Right */}
+                    <div className="flex-grow space-y-4 ">
+                        {/* Username */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
+                            <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
+                                Username
+                            </Typography>
+                            <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
+                                {profileData.username}
+                            </Typography>
+                        </div>
 
-                    {/* Role */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
-                        <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
-                            Role
-                        </Typography>
-                        <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
-                            {profileData.role}
-                        </Typography>
+                        {/* Email */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
+                            <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
+                                Email
+                            </Typography>
+                            <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
+                                {profileData.email}
+                            </Typography>
+                        </div>
+
+                        {/* Role */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
+                            <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
+                                Role
+                            </Typography>
+                            <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
+                                {profileData.role}
+                            </Typography>
+                        </div>
                     </div>
                 </CardBody>
 
-                {/* Footer */}
-                <CardFooter className="pt-4 px-6 flex justify-center">
+                {/* Footer with Buttons */}
+                <CardFooter className="pt-4 px-6 flex flex-col sm:flex-row justify-center sm:justify-end gap-1">
+                    <Button
+                        onClick={togglePasswordModal}
+                        className="w-full sm:w-auto text-button flex items-center justify-center gap-2 text-center"
+                        variant="text"
+                    >
+                        Update Password
+                    </Button>
                     <Button
                         onClick={toggleProfileModal}
-                        className="bg-button hover:bg-button-hover text-white font-semibold w-full sm:w-auto"
+                        className="w-full sm:w-auto bg-button hover:bg-button-hover"
                     >
                         Update Profile
                     </Button>
                 </CardFooter>
             </Card>
+
 
             {/* Modal for Profile Update */}
             <Dialog open={isProfileModalOpen} handler={toggleProfileModal}>
@@ -166,16 +174,6 @@ export function ProfileCard() {
                     >
                         <Mail size={20} />
                         Change Email
-                    </Button>
-
-                    {/* Change Password Button */}
-                    <Button
-                        variant="text"
-                        className="text-button hover:text-button-hover flex items-center gap-2"
-                        onClick={togglePasswordModal}
-                    >
-                        <Lock size={20} />
-                        Change Password
                     </Button>
 
                     {/* Update Button */}

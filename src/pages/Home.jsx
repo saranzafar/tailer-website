@@ -12,7 +12,7 @@ const Home = () => {
 
             {/* feature locations  */}
             <div className=' bg-light-blue-bg pt-6 pb-12'>
-                <FeatureCards />
+                <FeatureCards col='4' title={"Featured Businesses"} />
             </div>
 
             <AboutSection />

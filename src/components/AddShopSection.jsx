@@ -40,10 +40,27 @@ export function AddShopSection() {
     };
 
     return (
-        <section className="flex flex-col md:flex-row items-center justify-center bg-white p-8 space-y-6 md:space-y-0 md:space-x-12 min-h-[40vh] shadow-lg rounded-lg">
-            {/* Left Card with Larger Plus Button */}
-            <Card className="w-full max-w-[20rem] rounded-xl bg-white flex items-center justify-center transition-transform hover:scale-105">
-                <CardBody className="flex items-center justify-center">
+        <section className="flex flex-col-reverse md:flex-row justify-center items-center sm:text-center gap-2 bg-white px-6 py-11 shadow-md rounded-lg">
+            {/* Left Section - Content */}
+            <div className="flex flex-col space-y-3 md:w-1/2 text-center md:text-start">
+                <Typography
+                    variant="h4"
+                    color="blue-gray"
+                    className="font-bold text-2xl md:text-3xl"
+                >
+                    Add Your Shop
+                </Typography>
+                <Typography
+                    color="gray"
+                    className="text-base md:text-lg leading-relaxed font-normal"
+                >
+                    Seamlessly add your shop to our platform and connect with more customers. Showcase your services, manage orders, and take your business to the next level effortlessly.
+                </Typography>
+            </div>
+
+            {/* Right Section - Add Button */}
+            <div className="flex justify-center items-center w-full md:w-1/2">
+                <Card className="w-36 h-36 md:w-48 md:h-48 flex items-center justify-center bg-white shadow-lg border border-button rounded-full hover:shadow-md transition-transform hover:scale-105">
                     <Tooltip
                         content="Add a new shop"
                         placement="top"
@@ -51,31 +68,13 @@ export function AddShopSection() {
                     >
                         <Button
                             size="lg"
-                            className="bg-button hover:bg-button-hover rounded-full p-8"
+                            className="bg-button hover:bg-button-hover rounded-full p-8 text-white"
                             onClick={toggleModal}
                         >
-                            <Plus size={42} color="white" />
+                            <Plus size={36} />
                         </Button>
                     </Tooltip>
-                </CardBody>
-            </Card>
-
-            {/* Right Section with Heading and Text */}
-            <div className="flex flex-col space-y-4 text-center md:text-left">
-                <Typography
-                    variant="h4"
-                    color="blue-gray"
-                    className="font-bold text-3xl"
-                >
-                    Add Shop
-                </Typography>
-                <Typography
-                    color="gray"
-                    className="text-lg leading-relaxed"
-                >
-                    Easily add your shop to our platform and start reaching more customers.
-                    Showcase your services, manage your orders, and take your business to the next level effortlessly.
-                </Typography>
+                </Card>
             </div>
 
             {/* Modal/Pop-Up */}
@@ -123,8 +122,7 @@ export function AddShopSection() {
                         Cancel
                     </Button>
                     <Button
-                        variant="gradient"
-                        color="blue"
+                        className="bg-button hover:bg-button-hover"
                         onClick={handleSubmit}
                     >
                         Save

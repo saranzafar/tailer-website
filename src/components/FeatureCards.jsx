@@ -1,7 +1,7 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButton, Typography } from '@material-tailwind/react'
 import { Heart } from 'lucide-react'
 
-function FeatureCards({ col = '4' }) {
+function FeatureCards({ col = '4', title }) {
     const cardData = [
         {
             id: 1,
@@ -78,12 +78,15 @@ function FeatureCards({ col = '4' }) {
     return (
         <div className='max-w-[85rem] mx-auto'>
             <h2 className="font-bold text-3xl lg:text-4xl text-dark-blue-bg text-center my-5">
-                Featured Businesses
+                {title}
             </h2>
             <p className="mt-3 text-lg text-text-for-white-bg max-w-[50rem] text-center mx-auto mb-10">
                 Discover top-rated tailors and businesses in your area with our Featured Businesses section. Highlighting the best in the industry, these trusted professionals are ready to deliver exceptional tailoring services. Whether it’s for a custom outfit or alterations, explore the finest options near you and experience quality craftsmanship.
             </p>
-            <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-${col} gap-6 place-items-center`}>
+            <div
+                className={`grid grid-cols-1 sm:grid-cols-2 ${col == 3 ? "md:grid-cols-3" : col == 4 ? "md:grid-cols-4" : "md:grid-cols-2"
+                    } gap-6 place-items-center`}
+            >
                 {cardData.map((item) => (
                     <Card key={item.id} className="w-full max-w-[26rem] drop-shadow-xl bg-white hover:translate-y-[-5px] hover:drop-shadow-xl transition-transform duration-300">
                         <CardHeader floated={false} color="blue-gray">
