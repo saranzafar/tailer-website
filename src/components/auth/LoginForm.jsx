@@ -15,10 +15,11 @@ import { UseVerification } from "../../utils/VerificationContext";
 const LogInForm = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        username: "",
+        username: "", // Can be email or phone number
         password: "",
     });
     const [showPassword, setShowPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false); // State to track button disabled state
     const { login } = UseVerification();
 
     const handleChange = (e) => {
@@ -33,20 +34,38 @@ const LogInForm = () => {
         e.preventDefault();
 
         const toastId = toast.loading("Signing in...");
+        setIsSubmitting(true);
 
         try {
             const payload = {
-                username: formData.username,
+                username: formData.username, // Username (email or phone number)
                 password: formData.password,
             };
+
+            // Validate that username is provided
+            if (!formData.username) {
+                toast.error("Please enter your email or phone number.", { id: toastId });
+                setIsSubmitting(false);
+                return;
+            }
+
+            // Validate password is provided
+            if (!formData.password) {
+                toast.error("Please enter your password.", { id: toastId });
+                setIsSubmitting(false);
+                return;
+            }
+
             await httpServer("post", "auth/login-token/", payload);
             toast.success("Signed in successfully!", { id: toastId });
             login();
             navigate("/");
-
         } catch (error) {
-            const errorMessage = error.response?.data?.message || "Failed to sign in. Please try again.";
+            const errorMessage =
+                error.response?.data?.message || "Failed to sign in. Please try again.";
             toast.error(errorMessage, { id: toastId });
+        } finally {
+            setIsSubmitting(false); // Re-enable the button
         }
     };
 
@@ -78,7 +97,7 @@ const LogInForm = () => {
                         {/* Username Input */}
                         <div>
                             <Input
-                                label="Username"
+                                label="Email or Phone Number"
                                 type="text"
                                 id="username"
                                 value={formData.username}
@@ -108,7 +127,6 @@ const LogInForm = () => {
                             </button>
                         </div>
 
-
                         {/* Forgot Password */}
                         <div className="flex justify-end">
                             <Link
@@ -120,8 +138,14 @@ const LogInForm = () => {
                         </div>
 
                         {/* Submit Button */}
-                        <Button type="submit" fullWidth className="mt-4 bg-button hover:bg-button-hover">
-                            Log In
+                        <Button
+                            type="submit"
+                            fullWidth
+                            disabled={isSubmitting} // Disable the button while submitting
+                            className={`mt-4 ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-button hover:bg-button-hover"
+                                }`}
+                        >
+                            {isSubmitting ? "Signing in..." : "Log In"}
                         </Button>
                     </form>
                 </CardBody>

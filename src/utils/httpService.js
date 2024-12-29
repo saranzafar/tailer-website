@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { setAuthCookies } from "./cookies";
 
 // Base URL for API requests
-const baseURL = "http://127.0.0.1:8000/api/";
+const baseURL = "http://193.160.119.12/api/";
 
 // Reusable Toast Notification Function
 const showToast = (type, message) => {
@@ -42,10 +42,12 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
         // Check if the server returned an error response with a data object
         if (error.response?.data && typeof error.response.data === "object") {
             const errorData = error.response.data;
+            console.log("Error data: ", errorData);
 
             if (errorData.detail) {
                 errorMessages.push(errorData.detail);
             }
+            if (errorData.error) errorMessages.push(errorData.error);
             // Loop through the object to extract error messages
             for (const [key, value] of Object.entries(errorData)) {
                 if (Array.isArray(value) && value.length > 0) {

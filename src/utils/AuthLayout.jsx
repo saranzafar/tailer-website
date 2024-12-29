@@ -23,15 +23,15 @@ const AuthLayout = ({ children }) => {
         const { access } = getAuthCookies();
         const currentPath = location.pathname;
 
-        // if (access && authPaths.includes(currentPath)) {
-        //     // If user is logged in and tries to access an auth page, redirect to home
-        //     navigate("/");
-        // } else if (!access && securePaths.includes(currentPath)) {
-        //     // If user is not logged in and tries to access a secure page, redirect to login
-        //     navigate("/login");
-        // }
-        //else if (access && securePaths.includes(currentPath)) {
-        // Additional logic for secure paths: Check role or permissions
+        if (access && authPaths.includes(currentPath)) {
+            // If user is logged in and tries to access an auth page, redirect to home
+            navigate("/");
+        } else if (!access && securePaths.includes(currentPath)) {
+            // If user is not logged in and tries to access a secure page, redirect to login
+            navigate("/login");
+        }
+        // else if (access && securePaths.includes(currentPath)) {
+        //     // Additional logic for secure paths: Check role or permissions
         //     if (role === "customer" && currentPath === "/admin") {
         //         // Example: Redirect customers trying to access admin pages
         //         navigate("/not-authorized");

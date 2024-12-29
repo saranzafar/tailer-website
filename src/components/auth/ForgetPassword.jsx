@@ -1,42 +1,71 @@
 import { useState } from 'react';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
 import { Input, Button, Card, CardBody, Typography } from '@material-tailwind/react';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import httpServer from '../../utils/httpService'; // Replace with your HTTP utility
+import { UseVerification } from '../../utils/VerificationContext';
 
 const ForgotPassword = () => {
-    // State for form fields
-    const [email, setEmail] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false); // To manage the loading state
+    const [contact, setContact] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate()
+    const isEmail = (input) => /\S+@\S+\.\S+/.test(input);
+    const isPhoneNumber = (input) => /^\+?[0-9]{10,15}$/.test(input);
+    const { setContextEmail } = UseVerification();
 
-    // Handler for email input
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
+    // Handler for input change
+    const handleContactChange = (event) => {
+        setContact(event.target.value);
+    };
+
+    // Reset form function
+    const resetForm = () => {
+        setContact('');
     };
 
     // Form submit handler
-    const handleSubmit = async (event) => {
-        event.preventDefault(); // Prevent default form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        // Check if email is provided
-        if (!email) {
-            toast.error('Please enter a valid email address.');
+        // Validate the input
+        if (!contact) {
+            toast.error('Please enter email or phone number.');
+            return;
+        }
+
+        if (!isEmail(contact) && !isPhoneNumber(contact)) {
+            toast.error('Please enter a valid email or phone number.');
             return;
         }
 
         setIsSubmitting(true);
 
         try {
-            // Make API call using Axios
-            const response = await axios.post('https://your-api-endpoint.xyz/forgot-password', {
-                email: email,
-            });
+            const payload = {
+                email: isEmail(contact) ? contact : undefined,
+                phone: isPhoneNumber(contact) ? contact : undefined,
+            };
+
+            // Use your HTTP utility to send the request
+            await httpServer('post', 'auth/resend-token/', payload);
+            console.log("is email: ", isEmail);
+
+            setContextEmail(contact)
 
             // Show success message
-            toast.success('Password reset instructions have been sent to your email.');
+            toast.success(
+                isEmail(contact)
+                    ? 'Password reset instructions have been sent to your email.'
+                    : 'Password reset instructions have been sent to your phone.'
+            );
+
+            resetForm(); // Reset the form
+            navigate("/verification")
         } catch (error) {
-            // Handle errors
-            toast.error('An error occurred, please try again.');
+            console.error('Error during forgot password request:', error);
+            toast.error(
+                error.response?.data?.message || 'An error occurred. Please try again.'
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -67,13 +96,13 @@ const ForgotPassword = () => {
                     </div>
 
                     <form onSubmit={handleSubmit} className="mt-6">
-                        {/* Email Input */}
+                        {/* Email/Phone Input */}
                         <div className="mb-4">
                             <Input
                                 label="Email or Phone number"
-                                type="email"
-                                value={email}
-                                onChange={handleEmailChange}
+                                type="text"
+                                value={contact}
+                                onChange={handleContactChange}
                                 required
                                 placeholder="Enter your email or phone number"
                                 className="text-sm"
