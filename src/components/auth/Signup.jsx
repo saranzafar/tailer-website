@@ -4,6 +4,7 @@ import { Eye, EyeOff, Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import httpServer from "../../utils/httpService";
 import toast from "react-hot-toast";
+import { UseVerification } from "../../utils/VerificationContext";
 
 const SignUpForm = () => {
     const [role, setRole] = useState("customer");
@@ -12,11 +13,13 @@ const SignUpForm = () => {
     const [signupMethod, setSignupMethod] = useState("email");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [countryCode, setCountryCode] = useState("+92"); // Default country code
     const [formData, setFormData] = useState({
         name: "",
         password: "",
         confirmPassword: "",
     });
+    const { setContextEmail, setContextPhoneNumber } = UseVerification();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -42,7 +45,8 @@ const SignUpForm = () => {
             const payload = {
                 role,
                 username: formData.name,
-                phone_number: signupMethod === "phone" ? phoneNumber : undefined,
+                phone_number:
+                    signupMethod === "phone" ? `${countryCode}${phoneNumber}` : undefined,
                 email: signupMethod === "email" ? email : undefined,
                 password: formData.password,
                 password_confirm: formData.confirmPassword,
@@ -52,15 +56,16 @@ const SignUpForm = () => {
             await httpServer("post", "auth/register/", payload);
 
             // On success, navigate to the verification page
-            // if (signupMethod === "email") {
-            //     toast.success("Verification email sent to your email address.");
-            // } else {
-            //     toast.success("Verification SMS sent to your phone number.");
-            // }
+            if (signupMethod === "email") {
+                toast.success("Verification email sent to your email address.");
+                setContextEmail(payload.email);
+            } else {
+                toast.success("Verification SMS sent to your phone number.");
+                setContextPhoneNumber(payload.phone_number);
+            }
 
-            navigate("/login");
+            navigate("/verification");
         } catch (error) {
-            // Errors are already handled in httpServer
             console.error("Error during signup:", error);
         } finally {
             setIsSubmitting(false);
@@ -128,7 +133,17 @@ const SignUpForm = () => {
                 </div>
 
                 {signupMethod === "phone" ? (
-                    <div className="mb-4">
+                    <div className="flex gap-2 mb-4">
+                        <Select
+                            label="Country Code"
+                            value={countryCode}
+                            onChange={(value) => setCountryCode(value)}
+                        >
+                            <Option value="+92">🇵🇰 +92 (Pakistan)</Option>
+                            <Option value="+1">🇺🇸 +1 (United States)</Option>
+                            <Option value="+44">🇬🇧 +44 (United Kingdom)</Option>
+                            <Option value="+91">🇮🇳 +91 (India)</Option>
+                        </Select>
                         <Input
                             label="Phone Number"
                             id="phoneNumber"

@@ -35,7 +35,6 @@ export function AddShopSection() {
 
     // Submit the form data
     const handleSubmit = () => {
-        console.log("Shop Data Submitted:", formData);
         toggleModal(); // Close the modal after submission
     };
 

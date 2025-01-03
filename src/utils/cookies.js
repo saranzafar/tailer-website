@@ -30,12 +30,11 @@ export const updateAuthCookie = (key, value, days = 7) => {
 
 // Delete all authentication cookies
 export const deleteAuthCookies = () => {
-    deleteCookie("access");
-    deleteCookie("refresh");
-    deleteCookie("role");
-    deleteCookie("username");
-    deleteCookie("email");
-    deleteCookie("phone");
+    const cookies = document.cookie.split("; ");
+    cookies.forEach(cookie => {
+        const cookieName = cookie.split("=")[0];
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    });
 };
 
 // Utility functions for basic cookie operations

@@ -13,7 +13,8 @@ import { UseVerification } from "../../utils/VerificationContext";
 import httpServer from "../../utils/httpService";
 
 const OTPVerificationForm = () => {
-    const { contextEmail } = UseVerification();
+    const { contextEmail, contextPhoneNumber } = UseVerification();
+
     const [otp, setOtp] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [resendTimeout, setResendTimeout] = useState(0);
@@ -21,10 +22,11 @@ const OTPVerificationForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!contextEmail) {
+        if (!contextEmail && !contextPhoneNumber) {
+            toast.error("Signup again to verify you account.");
             navigate("/signup");
         }
-    }, [contextEmail, navigate]);
+    }, [contextEmail, navigate, contextPhoneNumber]);
 
     const handleChange = (e) => {
         setOtp(e.target.value);
@@ -32,9 +34,9 @@ const OTPVerificationForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        otp.trim()
         // Validate OTP before submission
-        if (otp.length !== 6 || isNaN(otp)) {
+        if (otp.length != 6) {
             toast.error("Please enter a valid 6-digit OTP.");
             return;
         }
@@ -49,8 +51,6 @@ const OTPVerificationForm = () => {
                     ? { email: contextEmail }
                     : { phone_number: contextEmail }),
             };
-            console.log("plyload: ", payload);
-
 
             await httpServer("post", "auth/verify-token/", payload);
             toast.success("OTP verified successfully!", { id: toastId });
@@ -70,7 +70,7 @@ const OTPVerificationForm = () => {
         setIsResendDisabled(true);
 
         // Countdown timer for resend
-        let count = 1;
+        let count = 30;
         const interval = setInterval(() => {
             if (count === 0) {
                 clearInterval(interval);
@@ -86,11 +86,11 @@ const OTPVerificationForm = () => {
             const payload = {
                 ...(contextEmail?.includes("@")
                     ? { email: contextEmail }
-                    : { phone_number: contextEmail }),
+                    : { phone_number: contextPhoneNumber }),
             };
 
             await httpServer("post", "auth/resend-token/", payload);
-            toast.success("OTP sent again to your email or phone!");
+            toast.success(`OTP sent to ${payload.email || payload.phone_number}`);
         } catch (error) {
             toast.error(
                 error.response?.data?.message || "Failed to resend OTP. Please try again."
@@ -114,7 +114,7 @@ const OTPVerificationForm = () => {
                         <Typography variant="small" className="text-gray-600 mt-2">
                             Please enter the OTP sent to your{" "}
                             {contextEmail?.includes("@") ? "email" : "phone"}:{" "}
-                            <span className="font-semibold">{contextEmail}</span>
+                            <span className="font-semibold">{contextEmail || contextPhoneNumber}</span>
                         </Typography>
                     </div>
 
