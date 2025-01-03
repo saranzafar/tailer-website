@@ -13,17 +13,20 @@ import {
     Select,
     Option,
 } from "@material-tailwind/react";
-import { Mail, Save, X, Loader, EyeOff, Eye } from "lucide-react";
+import { Mail, Save, X, Loader, EyeOff, Eye, PhoneCall } from "lucide-react";
 import toast from "react-hot-toast";
 import httpServer from "../utils/httpService";
 import { UseVerification } from "../utils/VerificationContext";
 import { useNavigate } from "react-router-dom";
 
 export function ProfileCard() {
+    const { userData } = UseVerification();
+
     const [profileData, setProfileData] = useState({
-        username: "john_doe",
-        email: "johndoe@example.com",
-        role: "Customer",
+        username: userData.username || "Not Available",
+        email: userData.email || "Not Available",
+        phone: userData.phone || "Not Available",
+        role: userData.role || "Not Available",
     });
     const [formData, setFormData] = useState({ ...profileData }); // For modal updates
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false); // Profile modal state
@@ -101,7 +104,7 @@ export function ProfileCard() {
 
     return (
         <section className="flex justify-center items-center p-6 w-full">
-            <Card className="w-full max-w-[36rem] bg-white shadow-lg rounded-lg">
+            <Card className="w-full max-w-[36rem] bg-white shadow-md rounded-lg">
                 {/* Body */}
                 <CardBody className="flex flex-col sm:flex-row px-6 py-4 space-y-4 sm:space-y-0 sm:space-x-6 flex-wrap justify-center items-center gap-2">
                     {/* Profile Image on the Left */}
@@ -116,7 +119,7 @@ export function ProfileCard() {
                     </div>
 
                     {/* Content on the Right */}
-                    <div className="flex-grow space-y-4 ">
+                    <div className="flex-grow space-y-2 ">
                         {/* Username */}
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
                             <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
@@ -134,6 +137,16 @@ export function ProfileCard() {
                             </Typography>
                             <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
                                 {profileData.email}
+                            </Typography>
+                        </div>
+
+                        {/* Email */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
+                            <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
+                                Phone
+                            </Typography>
+                            <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
+                                {profileData.phone}
                             </Typography>
                         </div>
 
@@ -160,7 +173,7 @@ export function ProfileCard() {
                         {loading.password ? (
                             <Loader className="animate-spin" size={16} />
                         ) : (
-                            "Update Password"
+                            "Change Password"
                         )}
                     </Button>
                     <Button
@@ -219,6 +232,14 @@ export function ProfileCard() {
                     >
                         <Mail size={20} />
                         Change Email
+                    </Button>
+                    <Button
+                        variant="text"
+                        className="text-button hover:text-button-hover flex items-center gap-2"
+                        onClick={toggleEmailModal}
+                    >
+                        <PhoneCall size={20} />
+                        Change Number
                     </Button>
                     <Button
                         onClick={handleUpdateProfile}

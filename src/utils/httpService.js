@@ -35,9 +35,11 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
 
         // Make the API request
         const response = await axios(config);
+        console.log("Response: ", response);
+
         // Show success notification if enabled
         if (showNotification) {
-            showToast("success", response.data.message || "Request completed successfully!");
+            showToast("success", response?.data?.message || response?.data?.detail || "Request completed successfully!");
         }
 
         // Handle token refresh if new tokens are provided in response
