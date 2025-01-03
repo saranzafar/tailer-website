@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
     Card,
-    CardHeader,
     CardBody,
     CardFooter,
     Typography,
@@ -13,9 +12,12 @@ import {
     DialogFooter,
     Select,
     Option,
-    Tooltip,
 } from "@material-tailwind/react";
-import { Edit3, Lock, Mail, Save, X } from "lucide-react";
+import { Mail, Save, X, Loader, EyeOff, Eye } from "lucide-react";
+import toast from "react-hot-toast";
+import httpServer from "../utils/httpService";
+import { UseVerification } from "../utils/VerificationContext";
+import { useNavigate } from "react-router-dom";
 
 export function ProfileCard() {
     const [profileData, setProfileData] = useState({
@@ -23,11 +25,17 @@ export function ProfileCard() {
         email: "johndoe@example.com",
         role: "Customer",
     });
-
     const [formData, setFormData] = useState({ ...profileData }); // For modal updates
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false); // Profile modal state
     const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false); // Password modal state
     const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false); // Email modal state
+    const [loading, setLoading] = useState({
+        profile: false,
+        password: false,
+        email: false,
+    });
+    const { logout } = UseVerification();
+    const navigate = useNavigate();
 
     // Toggle modals
     const toggleProfileModal = () => setIsProfileModalOpen(!isProfileModalOpen);
@@ -43,24 +51,52 @@ export function ProfileCard() {
         }));
     };
 
-    const handleUpdate = () => {
-        setProfileData({ ...formData }); // Save updated data
-        toggleProfileModal(); // Close modal
+    const handleUpdateProfile = async () => {
+        setLoading((prev) => ({ ...prev, profile: true }));
+        try {
+            await httpServer("put", "auth/update-profile/", formData);
+            toast.success("Profile updated successfully!");
+            setProfileData({ ...formData }); // Save updated data
+            toggleProfileModal();
+        } catch (error) {
+            console.error("Error updating profile:", error);
+        } finally {
+            setLoading((prev) => ({ ...prev, profile: false }));
+        }
     };
 
-    const handleChangePassword = (oldPassword, newPassword) => {
-        console.log("Old Password:", oldPassword);
-        console.log("New Password:", newPassword);
-        togglePasswordModal();
-        alert("Password changed successfully!");
+    const handleChangePassword = async (old_password, new_password) => {
+        setLoading((prev) => ({ ...prev, password: true }));
+        try {
+            const payload = { old_password, new_password };
+            await httpServer("post", "auth/change-password/", payload);
+            toast.success("Password changed successfully!");
+            togglePasswordModal();
+        } catch (error) {
+            console.error("Error changing password:", error);
+            toast.error("Failed to change password.");
+        } finally {
+            setLoading((prev) => ({ ...prev, password: false }));
+            logout()
+            navigate("/login")
+        }
     };
 
-    const handleChangeEmail = (newEmail) => {
-        console.log("New Email:", newEmail);
-        toggleEmailModal();
-        alert(
-            "Verification email sent to the new email address. Please verify to complete the update."
-        );
+    const handleChangeEmail = async (newEmail) => {
+        setLoading((prev) => ({ ...prev, email: true }));
+        try {
+            const payload = { email: newEmail };
+            await httpServer("post", "auth/change-email/", payload);
+            toast.success(
+                "Verification email sent to the new email address. Please verify to complete the update."
+            );
+            toggleEmailModal();
+        } catch (error) {
+            console.error("Error changing email:", error);
+            toast.error("Failed to update email.");
+        } finally {
+            setLoading((prev) => ({ ...prev, email: false }));
+        }
     };
 
     return (
@@ -119,18 +155,28 @@ export function ProfileCard() {
                         onClick={togglePasswordModal}
                         className="w-full sm:w-auto text-button flex items-center justify-center gap-2 text-center"
                         variant="text"
+                        disabled={loading.password}
                     >
-                        Update Password
+                        {loading.password ? (
+                            <Loader className="animate-spin" size={16} />
+                        ) : (
+                            "Update Password"
+                        )}
                     </Button>
                     <Button
                         onClick={toggleProfileModal}
-                        className="w-full sm:w-auto bg-button hover:bg-button-hover"
+                        className={`w-full sm:w-auto ${loading.profile ? "bg-gray-400" : "bg-button hover:bg-button-hover"
+                            }`}
+                        disabled={loading.profile}
                     >
-                        Update Profile
+                        {loading.profile ? (
+                            <Loader className="animate-spin" size={16} />
+                        ) : (
+                            "Update Profile"
+                        )}
                     </Button>
                 </CardFooter>
             </Card>
-
 
             {/* Modal for Profile Update */}
             <Dialog open={isProfileModalOpen} handler={toggleProfileModal}>
@@ -166,7 +212,6 @@ export function ProfileCard() {
                 </DialogBody>
 
                 <DialogFooter className="space-x-4">
-                    {/* Change Email Button */}
                     <Button
                         variant="text"
                         className="text-button hover:text-button-hover flex items-center gap-2"
@@ -175,39 +220,78 @@ export function ProfileCard() {
                         <Mail size={20} />
                         Change Email
                     </Button>
-
-                    {/* Update Button */}
                     <Button
-                        onClick={handleUpdate}
-                        className="flex items-center gap-2 bg-button hover:bg-button-hover"
+                        onClick={handleUpdateProfile}
+                        className={`flex items-center gap-2 ${loading.profile ? "bg-gray-400" : "bg-button hover:bg-button-hover"
+                            }`}
+                        disabled={loading.profile}
                     >
-                        <Save size={20} />
+                        {loading.profile ? (
+                            <Loader className="animate-spin" size={16} />
+                        ) : (
+                            <Save size={20} />
+                        )}
                         Update
                     </Button>
                 </DialogFooter>
             </Dialog>
 
             {/* Modal for Changing Password */}
-            <Dialog
-                open={isChangePasswordModalOpen}
-                handler={togglePasswordModal}
-            >
+            <Dialog open={isChangePasswordModalOpen} handler={togglePasswordModal}>
                 <DialogHeader>Change Password</DialogHeader>
                 <DialogBody className="space-y-4">
-                    <Input
-                        type="password"
-                        label="Old Password"
-                        onChange={(e) =>
-                            handleInputChange("oldPassword", e.target.value)
-                        }
-                    />
-                    <Input
-                        type="password"
-                        label="New Password"
-                        onChange={(e) =>
-                            handleInputChange("newPassword", e.target.value)
-                        }
-                    />
+                    <div className="relative">
+                        <Input
+                            type={formData.showOldPassword ? "text" : "password"}
+                            label="Old Password"
+                            value={formData.oldPassword}
+                            onChange={(e) =>
+                                handleInputChange("oldPassword", e.target.value)
+                            }
+                        />
+                        <button
+                            type="button"
+                            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+                            onClick={() =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    showOldPassword: !prev.showOldPassword,
+                                }))
+                            }
+                        >
+                            {formData.showOldPassword ? (
+                                <EyeOff size={20} />
+                            ) : (
+                                <Eye size={20} />
+                            )}
+                        </button>
+                    </div>
+                    <div className="relative">
+                        <Input
+                            type={formData.showNewPassword ? "text" : "password"}
+                            label="New Password"
+                            value={formData.newPassword}
+                            onChange={(e) =>
+                                handleInputChange("newPassword", e.target.value)
+                            }
+                        />
+                        <button
+                            type="button"
+                            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+                            onClick={() =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    showNewPassword: !prev.showNewPassword,
+                                }))
+                            }
+                        >
+                            {formData.showNewPassword ? (
+                                <EyeOff size={20} />
+                            ) : (
+                                <Eye size={20} />
+                            )}
+                        </button>
+                    </div>
                 </DialogBody>
                 <DialogFooter>
                     <Button
@@ -227,8 +311,13 @@ export function ProfileCard() {
                                 formData.newPassword
                             )
                         }
+                        disabled={loading.password}
                     >
-                        <Save size={20} />
+                        {loading.password ? (
+                            <Loader className="animate-spin" size={16} />
+                        ) : (
+                            <Save size={20} />
+                        )}
                         Save
                     </Button>
                 </DialogFooter>
@@ -259,8 +348,13 @@ export function ProfileCard() {
                     <Button
                         className="flex items-center gap-2 bg-button hover:bg-button-hover"
                         onClick={() => handleChangeEmail(formData.newEmail)}
+                        disabled={loading.email}
                     >
-                        <Save size={20} />
+                        {loading.email ? (
+                            <Loader className="animate-spin" size={16} />
+                        ) : (
+                            <Save size={20} />
+                        )}
                         Save
                     </Button>
                 </DialogFooter>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import { setAuthCookies } from "./cookies";
+import { setAuthCookies, getAuthCookies } from "./cookies";
 
 // Base URL for API requests
 const baseURL = "http://193.160.119.12/api/";
@@ -17,21 +17,33 @@ const showToast = (type, message) => {
 // HTTP Utility Function
 const httpServer = async (method = "get", api, data = {}, showNotification = true) => {
     try {
-        // Make the API request
-        const response = await axios({
+        // Fetch access token from cookies (or wherever you're storing it)
+        const authCookies = getAuthCookies(); // Expected to return an object { access: "ACCESS_TOKEN", refresh: "REFRESH_TOKEN" }
+        const accessToken = authCookies?.access || null;
+
+        const config = {
             method,
             url: baseURL + api,
+            headers: accessToken
+                ? {
+                    Authorization: `Bearer ${accessToken}`, // Add Authorization header if access token is available
+                }
+                : {},
             data: method === "get" || method === "delete" ? null : data, // Include data for POST/PUT
             params: method === "get" || method === "delete" ? data : null, // Include params for GET/DELETE
-        });
-        console.log("Response:", response);
+        };
 
+        // Make the API request
+        const response = await axios(config);
         // Show success notification if enabled
         if (showNotification) {
             showToast("success", response.data.message || "Request completed successfully!");
         }
 
-        if (response.data?.access) setAuthCookies(response.data, 7)
+        // Handle token refresh if new tokens are provided in response
+        if (response.data?.access) {
+            setAuthCookies(response.data, 7); // Update cookies with new tokens
+        }
 
         return response.data;
     } catch (error) {
@@ -73,7 +85,6 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
         // Rethrow the error for further handling if necessary
         throw error;
     }
-
 };
 
 export default httpServer;

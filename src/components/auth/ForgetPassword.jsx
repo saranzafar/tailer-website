@@ -1,40 +1,38 @@
-import { useState } from 'react';
-import { Input, Button, Card, CardBody, Typography } from '@material-tailwind/react';
-import { toast } from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
-import httpServer from '../../utils/httpService'; // Replace with your HTTP utility
-import { UseVerification } from '../../utils/VerificationContext';
+import { useState } from "react";
+import { Input, Button, Card, CardBody, Typography, Select, Option } from "@material-tailwind/react";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import httpServer from "../../utils/httpService";
+import { UseVerification } from "../../utils/VerificationContext";
 
 const ForgotPassword = () => {
-    const [contact, setContact] = useState('');
+    const [method, setMethod] = useState("email"); // Default method
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [countryCode, setCountryCode] = useState("+92"); // Default country code
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const navigate = useNavigate()
-    const isEmail = (input) => /\S+@\S+\.\S+/.test(input);
-    const isPhoneNumber = (input) => /^\+?[0-9]{10,15}$/.test(input);
+    const navigate = useNavigate();
     const { setContextEmail } = UseVerification();
 
-    // Handler for input change
-    const handleContactChange = (event) => {
-        setContact(event.target.value);
-    };
+    const isEmail = (input) => /\S+@\S+\.\S+/.test(input);
 
     // Reset form function
     const resetForm = () => {
-        setContact('');
+        setEmail("");
+        setPhoneNumber("");
     };
 
     // Form submit handler
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validate the input
-        if (!contact) {
-            toast.error('Please enter email or phone number.');
+        // Validate the input based on the selected method
+        if (method === "email" && !isEmail(email)) {
+            toast.error("Please enter a valid email address.");
             return;
         }
-
-        if (!isEmail(contact) && !isPhoneNumber(contact)) {
-            toast.error('Please enter a valid email or phone number.');
+        if (method === "phone" && phoneNumber.trim().length < 7) {
+            toast.error("Please enter a valid phone number.");
             return;
         }
 
@@ -42,29 +40,27 @@ const ForgotPassword = () => {
 
         try {
             const payload = {
-                email: isEmail(contact) ? contact : undefined,
-                phone: isPhoneNumber(contact) ? contact : undefined,
+                email: method === "email" ? email : undefined,
+                phone: method === "phone" ? `${countryCode}${phoneNumber}` : undefined,
             };
 
             // Use your HTTP utility to send the request
-            await httpServer('post', 'auth/resend-token/', payload);
-            console.log("is email: ", isEmail);
+            await httpServer("post", "auth/resend-token/", payload);
 
-            setContextEmail(contact)
-
-            // Show success message
-            toast.success(
-                isEmail(contact)
-                    ? 'Password reset instructions have been sent to your email.'
-                    : 'Password reset instructions have been sent to your phone.'
-            );
+            if (method === "email") {
+                setContextEmail(email); // Store the email in context
+                toast.success("Password reset instructions have been sent to your email.");
+            } else {
+                setContextEmail(`${countryCode}${phoneNumber}`); // Store the phone number in context
+                toast.success("Password reset instructions have been sent to your phone.");
+            }
 
             resetForm(); // Reset the form
-            navigate("/verification")
+            navigate("/verification");
         } catch (error) {
-            console.error('Error during forgot password request:', error);
+            console.error("Error during forgot password request:", error);
             toast.error(
-                error.response?.data?.message || 'An error occurred. Please try again.'
+                error.response?.data?.message || "An error occurred. Please try again."
             );
         } finally {
             setIsSubmitting(false);
@@ -85,7 +81,7 @@ const ForgotPassword = () => {
                             Forgot password?
                         </Typography>
                         <Typography variant="small" className="text-gray-600 mt-2">
-                            Remember your password?{' '}
+                            Remember your password?{" "}
                             <Link
                                 to="/login"
                                 className="text-button hover:underline font-medium"
@@ -95,28 +91,77 @@ const ForgotPassword = () => {
                         </Typography>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="mt-6">
-                        {/* Email/Phone Input */}
-                        <div className="mb-4">
+                    <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                        {/* Method Selection */}
+                        <Select
+                            label="Select Reset Method"
+                            value={method}
+                            onChange={(value) => {
+                                setMethod(value);
+                                resetForm(); // Reset fields when switching method
+                            }}
+                            required
+                        >
+                            <Option value="email">Email</Option>
+                            <Option value="phone">Phone Number</Option>
+                        </Select>
+
+                        {/* Conditional Inputs Based on Selected Method */}
+                        {method === "email" ? (
                             <Input
-                                label="Email or Phone number"
-                                type="text"
-                                value={contact}
-                                onChange={handleContactChange}
+                                label="Email Address"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
-                                placeholder="Enter your email or phone number"
+                                placeholder="Enter your email"
                                 className="text-sm"
                             />
-                        </div>
+                        ) : (
+                            <div className="flex gap-2">
+                                <Select
+                                    label="Country Code"
+                                    value={countryCode}
+                                    onChange={(value) => setCountryCode(value)}
+                                    required
+                                >
+                                    <Option value="+92">🇵🇰 +92 (Pakistan)</Option>
+                                    <Option value="+1">🇺🇸 +1 (United States)</Option>
+                                    <Option value="+44">🇬🇧 +44 (United Kingdom)</Option>
+                                    <Option value="+91">🇮🇳 +91 (India)</Option>
+                                    <Option value="+81">🇯🇵 +81 (Japan)</Option>
+                                    <Option value="+33">🇫🇷 +33 (France)</Option>
+                                    <Option value="+49">🇩🇪 +49 (Germany)</Option>
+                                    <Option value="+86">🇨🇳 +86 (China)</Option>
+                                    <Option value="+61">🇦🇺 +61 (Australia)</Option>
+                                    <Option value="+55">🇧🇷 +55 (Brazil)</Option>
+                                    <Option value="+7">🇷🇺 +7 (Russia)</Option>
+                                    <Option value="+39">🇮🇹 +39 (Italy)</Option>
+                                    <Option value="+34">🇪🇸 +34 (Spain)</Option>
+                                    <Option value="+82">🇰🇷 +82 (South Korea)</Option>
+                                    <Option value="+31">🇳🇱 +31 (Netherlands)</Option>
+                                </Select>
+                                <Input
+                                    label="Phone Number"
+                                    type="text"
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    required
+                                    placeholder="Enter your phone number"
+                                    className="text-sm w-full"
+                                />
+                            </div>
+                        )}
 
                         {/* Submit Button */}
                         <Button
                             type="submit"
                             fullWidth
                             disabled={isSubmitting}
-                            className="mt-4 bg-button hover:bg-button-hover"
+                            className={`mt-4 ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-button hover:bg-button-hover"
+                                }`}
                         >
-                            {isSubmitting ? 'Submitting...' : 'Reset password'}
+                            {isSubmitting ? "Submitting..." : "Reset Password"}
                         </Button>
                     </form>
                 </CardBody>
