@@ -12,7 +12,6 @@ const AuthLayout = ({ children }) => {
         "/login",
         "/register",
         "/forgot-password",
-        "/verification",
         "/signup",
         "/tailor/register/basic",
         "/tailor/register/standard",

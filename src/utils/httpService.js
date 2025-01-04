@@ -32,6 +32,8 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
             data: method === "get" || method === "delete" ? null : data, // Include data for POST/PUT
             params: method === "get" || method === "delete" ? data : null, // Include params for GET/DELETE
         };
+        console.log("config: ", config);
+
 
         // Make the API request
         const response = await axios(config);

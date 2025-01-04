@@ -18,14 +18,18 @@ import toast from "react-hot-toast";
 import httpServer from "../utils/httpService";
 import { UseVerification } from "../utils/VerificationContext";
 import { useNavigate } from "react-router-dom";
+import { setAuthCookies } from "../utils/cookies";
 
 export function ProfileCard() {
     const { userData } = UseVerification();
 
     const [profileData, setProfileData] = useState({
         username: userData.username || "Not Available",
+        first_name: userData.first_name || "Not Available",
+        last_name: userData.last_name || "Not Available",
         email: userData.email || "Not Available",
         phone: userData.phone || "Not Available",
+        address: userData.address || "Not Available",
         role: userData.role || "Not Available",
     });
     const [formData, setFormData] = useState({ ...profileData }); // For modal updates
@@ -56,10 +60,11 @@ export function ProfileCard() {
 
     const handleUpdateProfile = async () => {
         setLoading((prev) => ({ ...prev, profile: true }));
+        const { username, first_name, last_name, address } = formData
         try {
-            await httpServer("put", "auth/update-profile/", formData);
+            await httpServer("put", "auth/profile/update/", { username, first_name, last_name, address });
             toast.success("Profile updated successfully!");
-            setProfileData({ ...formData }); // Save updated data
+            setProfileData({ ...formData });
             toggleProfileModal();
         } catch (error) {
             console.error("Error updating profile:", error);
@@ -88,12 +93,10 @@ export function ProfileCard() {
     const handleChangeEmail = async (newEmail) => {
         setLoading((prev) => ({ ...prev, email: true }));
         try {
-            const payload = { email: newEmail };
-            await httpServer("post", "auth/change-email/", payload);
-            toast.success(
-                "Verification email sent to the new email address. Please verify to complete the update."
-            );
+            await httpServer("post", "auth/profile/email-change/", { new_email: newEmail });
+            setAuthCookies({ verificationChecker: "email" })
             toggleEmailModal();
+            navigate("/verification")
         } catch (error) {
             console.error("Error changing email:", error);
             toast.error("Failed to update email.");
@@ -140,10 +143,20 @@ export function ProfileCard() {
                             </Typography>
                         </div>
 
-                        {/* Email */}
+                        {/* Phone */}
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
                             <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
                                 Phone
+                            </Typography>
+                            <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
+                                {profileData.phone}
+                            </Typography>
+                        </div>
+
+                        {/* Address */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4">
+                            <Typography className="font-semibold text-gray-800 w-full sm:w-1/3">
+                                Address
                             </Typography>
                             <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
                                 {profileData.phone}
@@ -209,18 +222,43 @@ export function ProfileCard() {
                         />
                     </div>
 
-                    {/* Role */}
                     <div>
                         <Typography className="font-medium text-gray-800">
-                            Role
+                            First Name
                         </Typography>
-                        <Select
-                            value={formData.role}
-                            onChange={(e) => handleInputChange("role", e)}
-                        >
-                            <Option value="Customer">Customer</Option>
-                            <Option value="Tailor">Tailor</Option>
-                        </Select>
+                        <Input
+                            type="text"
+                            value={formData.first_name}
+                            onChange={(e) =>
+                                handleInputChange("first_name", e.target.value)
+                            }
+                        />
+                    </div>
+
+                    <div>
+                        <Typography className="font-medium text-gray-800">
+                            Last Name
+                        </Typography>
+                        <Input
+                            type="text"
+                            value={formData.last_name}
+                            onChange={(e) =>
+                                handleInputChange("last_name", e.target.value)
+                            }
+                        />
+                    </div>
+
+                    <div>
+                        <Typography className="font-medium text-gray-800">
+                            Address
+                        </Typography>
+                        <Input
+                            type="text"
+                            value={formData.address}
+                            onChange={(e) =>
+                                handleInputChange("address", e.target.value)
+                            }
+                        />
                     </div>
                 </DialogBody>
 

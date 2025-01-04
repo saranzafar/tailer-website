@@ -11,22 +11,22 @@ import {
 } from "@material-tailwind/react";
 import { UseVerification } from "../../utils/VerificationContext";
 import httpServer from "../../utils/httpService";
+import { setAuthCookies } from "../../utils/cookies";
 
 const OTPVerificationForm = () => {
-    const { contextEmail, contextPhoneNumber } = UseVerification();
-
+    const { contextEmail, contextPhoneNumber, userData, logout } = UseVerification();
     const [otp, setOtp] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [resendTimeout, setResendTimeout] = useState(0);
     const [isResendDisabled, setIsResendDisabled] = useState(false);
     const navigate = useNavigate();
-
+    console.log("UserData:", userData);
     useEffect(() => {
-        if (!contextEmail && !contextPhoneNumber) {
+        if (!contextEmail && !contextPhoneNumber && userData.verificationChecker == "login") {
             toast.error("Signup again to verify you account.");
             navigate("/signup");
         }
-    }, [contextEmail, navigate, contextPhoneNumber]);
+    }, [contextEmail, navigate, contextPhoneNumber, userData.verificationChecker]);
 
     const handleChange = (e) => {
         setOtp(e.target.value);
@@ -45,16 +45,23 @@ const OTPVerificationForm = () => {
         const toastId = toast.loading("Verifying OTP...");
 
         try {
-            const payload = {
-                token: otp,
-                ...(contextEmail?.includes("@")
-                    ? { email: contextEmail }
-                    : { phone_number: contextEmail }),
-            };
-
-            await httpServer("post", "auth/verify-token/", payload);
-            toast.success("OTP verified successfully!", { id: toastId });
-            navigate("/login");
+            if (userData.verificationChecker == "login") {
+                const payload = {
+                    token: otp,
+                    ...(contextEmail?.includes("@")
+                        ? { email: contextEmail }
+                        : { phone_number: contextEmail }),
+                };
+                await httpServer("post", "auth/verify-token/", payload);
+                toast.success("OTP verified successfully!", { id: toastId });
+                navigate("/login");
+            } else if (userData.verificationChecker == "email") {
+                await httpServer("post", "auth/profile/email-change/verify/", { token: otp });
+                toast.success("OTP verified successfully!", { id: toastId });
+                setAuthCookies({ verificationChecker: "login" })
+                logout()
+                navigate("/login")
+            }
 
         } catch (error) {
             toast.error(

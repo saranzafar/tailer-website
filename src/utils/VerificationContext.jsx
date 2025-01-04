@@ -37,7 +37,6 @@ export const VerificationProvider = ({ children }) => {
     const [contextPhoneNumber, setContextPhoneNumber] = useState(() => getFromCookies(COOKIE_NAME_PHONE));
     const [userData, setUserData] = useState(() => getUserDataFromCookies())
     const [isLoggedIn, setIsLoggedIn] = useState(!!getAuthCookies().access);
-    console.log("UserData:", userData);
 
     useEffect(() => {
         saveToCookies(COOKIE_NAME_EMAIL, contextEmail);

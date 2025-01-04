@@ -1,6 +1,6 @@
 // Save authentication data (tokens and user info) to cookies
 export const setAuthCookies = (data, days = 7) => {
-    const { access, refresh, role, username, email, phone } = data;
+    const { access, refresh, role, username, email, phone, id, verificationChecker = "login" } = data;
 
     // Set individual cookies for each field
     if (access) setCookie("access", access, days);
@@ -9,6 +9,8 @@ export const setAuthCookies = (data, days = 7) => {
     if (username) setCookie("username", username, days);
     if (email) setCookie("email", email, days);
     if (phone) setCookie("phone", phone, days);
+    if (id) setCookie("id", id, days);
+    if (verificationChecker) setCookie("verificationChecker", verificationChecker, days);
 };
 
 // Retrieve authentication data from cookies
@@ -20,6 +22,8 @@ export const getAuthCookies = () => {
         username: getCookie("username"),
         email: getCookie("email"),
         phone: getCookie("phone"),
+        id: getCookie("id"),
+        verificationChecker: getCookie("verificationChecker"),
     };
 };
 
