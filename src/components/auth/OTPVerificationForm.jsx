@@ -69,6 +69,9 @@ const OTPVerificationForm = () => {
             } else if (authCookies.verificationChecker === "email") {
                 await httpServer("post", "auth/profile/email-change/verify/", payload);
                 toast.success("Email updated successfully!", { id: toastId });
+            } else if (authCookies.verificationChecker === "phone") {
+                await httpServer("post", "auth/profile/phone-change/verify", { token: otp });
+                toast.success("Phone Number updated successfully!", { id: toastId });
             } else {
                 await httpServer("post", "auth/verify-token/", payload);
                 toast.success("OTP verified successfully!", { id: toastId });
@@ -129,9 +132,24 @@ const OTPVerificationForm = () => {
                         </Typography>
                         <Typography variant="small" className="text-gray-600 mt-2">
                             Please enter the OTP sent to your{" "}
-                            {contextEmail?.includes("@") ? "email" : "phone"}:{" "}
-                            <span className="font-semibold">{contextEmail || contextPhoneNumber}</span>
+                            {authCookies.verificationChecker === "email"
+                                ? "email"
+                                : authCookies.verificationChecker === "resetPassword"
+                                    ? (contextEmail?.includes("@") ? "email" : "phone")
+                                    : authCookies.verificationChecker === "phone"
+                                        ? "phone"
+                                        : "unknown"}:{" "}
+                            <span className="font-semibold">
+                                {authCookies.verificationChecker === "email"
+                                    ? contextEmail
+                                    : authCookies.verificationChecker === "resetPassword"
+                                        ? contextEmail || contextPhoneNumber
+                                        : authCookies.verificationChecker === "phone"
+                                            ? contextPhoneNumber
+                                            : "N/A"}
+                            </span>
                         </Typography>
+
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">

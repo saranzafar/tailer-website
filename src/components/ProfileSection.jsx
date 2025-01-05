@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { setAuthCookies } from "../utils/cookies";
 
 export function ProfileCard() {
-    const { userData } = UseVerification();
+    const { userData, setContextPhoneNumber, setContextEmail } = UseVerification();
 
     const [profileData, setProfileData] = useState({
         username: userData.username || "Not Available",
@@ -29,24 +29,25 @@ export function ProfileCard() {
         last_name: userData.last_name || "Not Available",
         email: userData.email || "Not Available",
         phone: userData.phone || "Not Available",
+        newPhoneNumber: null,
         address: userData.address || "Not Available",
         role: userData.role || "Not Available",
     });
     const [formData, setFormData] = useState({ ...profileData }); // For modal updates
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false); // Profile modal state
     const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false); // Email modal state
+    const [isChangePhoneModalOpen, setIsChangePhoneModalOpen] = useState(false); // phone modal state
     const [loading, setLoading] = useState({
         profile: false,
         password: false,
         email: false,
     });
-    const { setContextEmail } = UseVerification();
     const navigate = useNavigate();
 
     // Toggle modals
     const toggleProfileModal = () => setIsProfileModalOpen(!isProfileModalOpen);
-    const toggleEmailModal = () =>
-        setIsChangeEmailModalOpen(!isChangeEmailModalOpen);
+    const toggleEmailModal = () => setIsChangeEmailModalOpen(!isChangeEmailModalOpen);
+    const togglePhoneModal = () => setIsChangePhoneModalOpen(!isChangePhoneModalOpen);
 
     const handleInputChange = (field, value) => {
         setFormData((prev) => ({
@@ -89,6 +90,7 @@ export function ProfileCard() {
         try {
             await httpServer("post", "auth/profile/email-change/", { new_email: newEmail });
             setAuthCookies({ verificationChecker: "email" })
+            setContextEmail(newEmail);
             toggleEmailModal();
             navigate("/verification")
         } catch (error) {
@@ -96,6 +98,22 @@ export function ProfileCard() {
             toast.error("Failed to update email.");
         } finally {
             setLoading((prev) => ({ ...prev, email: false }));
+        }
+    };
+
+    const handleChangePhone = async (newPhone) => {
+        setLoading((prev) => ({ ...prev, phone: true }));
+        try {
+            await httpServer("post", "auth/profile/phone-change/", { new_phone_number: newPhone });
+            setAuthCookies({ verificationChecker: "phone" })
+            setContextPhoneNumber(newPhone)
+            togglePhoneModal();
+            navigate("/verification")
+        } catch (error) {
+            console.error("Error changing phone number:", error);
+            toast.error("Failed to update Phone Number.");
+        } finally {
+            setLoading((prev) => ({ ...prev, phone: false }));
         }
     };
 
@@ -268,7 +286,7 @@ export function ProfileCard() {
                     <Button
                         variant="text"
                         className="text-button hover:text-button-hover flex items-center gap-2"
-                        onClick={toggleEmailModal}
+                        onClick={togglePhoneModal}
                     >
                         <PhoneCall size={20} />
                         Change Number
@@ -318,6 +336,43 @@ export function ProfileCard() {
                         disabled={loading.email}
                     >
                         {loading.email ? (
+                            <Loader className="animate-spin" size={16} />
+                        ) : (
+                            <Save size={20} />
+                        )}
+                        Save
+                    </Button>
+                </DialogFooter>
+            </Dialog>
+
+            {/* Modal for Changing Phone number */}
+            <Dialog open={isChangePhoneModalOpen} handler={togglePhoneModal}>
+                <DialogHeader>Change Phone Number</DialogHeader>
+                <DialogBody className="space-y-4">
+                    <Input
+                        type="tel"
+                        label="New Phone Number"
+                        onChange={(e) =>
+                            handleInputChange("newPhoneNumber", e.target.value)
+                        }
+                    />
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        variant="text"
+                        color="red"
+                        onClick={togglePhoneModal}
+                        className="mr-2 flex items-center gap-2"
+                    >
+                        <X size={20} />
+                        Cancel
+                    </Button>
+                    <Button
+                        className="flex items-center gap-2 bg-button hover:bg-button-hover"
+                        onClick={() => handleChangePhone(formData.newPhoneNumber)}
+                        disabled={loading.phone}
+                    >
+                        {loading.phone ? (
                             <Loader className="animate-spin" size={16} />
                         ) : (
                             <Save size={20} />
