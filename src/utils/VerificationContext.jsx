@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { deleteAuthCookies, getAuthCookies, setCookie, getCookie, deleteCookie } from "./cookies";
-
+import { useNavigate } from "react-router-dom";
 // Create the context
 const VerificationContext = createContext();
 
@@ -37,6 +37,7 @@ export const VerificationProvider = ({ children }) => {
     const [contextPhoneNumber, setContextPhoneNumber] = useState(() => getFromCookies(COOKIE_NAME_PHONE));
     const [userData, setUserData] = useState(() => getUserDataFromCookies())
     const [isLoggedIn, setIsLoggedIn] = useState(!!getAuthCookies().access);
+    const navigate = useNavigate();
 
     useEffect(() => {
         saveToCookies(COOKIE_NAME_EMAIL, contextEmail);
@@ -53,6 +54,8 @@ export const VerificationProvider = ({ children }) => {
         setIsLoggedIn(false);
         clearFromCookies(COOKIE_NAME_EMAIL);
         clearFromCookies(COOKIE_NAME_PHONE);
+        navigate("/login")
+
     };
 
     return (

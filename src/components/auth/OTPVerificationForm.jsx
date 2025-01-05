@@ -1,42 +1,58 @@
 import { useState, useEffect } from "react";
-import { Loader } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import {
-    Card,
-    CardBody,
-    Typography,
-    Input,
-    Button,
-} from "@material-tailwind/react";
+import { Card, CardBody, Typography, Input, Button } from "@material-tailwind/react";
 import { UseVerification } from "../../utils/VerificationContext";
 import httpServer from "../../utils/httpService";
-import { setAuthCookies } from "../../utils/cookies";
+import { getAuthCookies } from "../../utils/cookies";
 
 const OTPVerificationForm = () => {
-    const { contextEmail, contextPhoneNumber, userData, logout } = UseVerification();
+    const { contextEmail, contextPhoneNumber, logout } = UseVerification();
     const [otp, setOtp] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [resendTimeout, setResendTimeout] = useState(0);
     const [isResendDisabled, setIsResendDisabled] = useState(false);
     const navigate = useNavigate();
-    console.log("UserData:", userData);
+    const authCookies = getAuthCookies();
+
+    // Redirect if necessary cookies or context are missing
     useEffect(() => {
-        if (!contextEmail && !contextPhoneNumber && userData.verificationChecker == "login") {
-            toast.error("Signup again to verify you account.");
+        if (!contextEmail && !contextPhoneNumber && authCookies.verificationChecker === "login") {
+            toast.error("Signup again to verify your account.");
             navigate("/signup");
         }
-    }, [contextEmail, navigate, contextPhoneNumber, userData.verificationChecker]);
+    }, [contextEmail, contextPhoneNumber, authCookies.verificationChecker, navigate]);
 
-    const handleChange = (e) => {
-        setOtp(e.target.value);
+    // General reusable function to handle OTP-related actions
+    const getVerificationPayload = () => {
+        const tokenPayload = {
+            token: otp,
+            ...(contextEmail?.includes("@")
+                ? { email: contextEmail }
+                : { phone_number: contextPhoneNumber }),
+        };
+
+        if (authCookies.verificationChecker === "resetPassword") {
+            return {
+                ...tokenPayload,
+                email: contextEmail,
+                new_password: password,
+            };
+        } else if (authCookies.verificationChecker === "email") {
+            return { ...tokenPayload, new_email: contextEmail };
+        }
+
+        return tokenPayload;
     };
 
+    // OTP Submission Handler
     const handleSubmit = async (e) => {
         e.preventDefault();
-        otp.trim()
-        // Validate OTP before submission
-        if (otp.length != 6) {
+
+        if (otp.trim().length !== 6) {
             toast.error("Please enter a valid 6-digit OTP.");
             return;
         }
@@ -45,24 +61,21 @@ const OTPVerificationForm = () => {
         const toastId = toast.loading("Verifying OTP...");
 
         try {
-            if (userData.verificationChecker == "login") {
-                const payload = {
-                    token: otp,
-                    ...(contextEmail?.includes("@")
-                        ? { email: contextEmail }
-                        : { phone_number: contextEmail }),
-                };
+            const payload = getVerificationPayload();
+
+            if (authCookies.verificationChecker === "resetPassword") {
+                await httpServer("post", "auth/password-reset/verify/", payload);
+                toast.success("Password reset successfully!", { id: toastId });
+            } else if (authCookies.verificationChecker === "email") {
+                await httpServer("post", "auth/profile/email-change/verify/", payload);
+                toast.success("Email updated successfully!", { id: toastId });
+            } else {
                 await httpServer("post", "auth/verify-token/", payload);
                 toast.success("OTP verified successfully!", { id: toastId });
-                navigate("/login");
-            } else if (userData.verificationChecker == "email") {
-                await httpServer("post", "auth/profile/email-change/verify/", { token: otp });
-                toast.success("OTP verified successfully!", { id: toastId });
-                setAuthCookies({ verificationChecker: "login" })
-                logout()
-                navigate("/login")
             }
 
+            logout();
+            navigate("/login");
         } catch (error) {
             toast.error(
                 error.response?.data?.message || "Failed to verify OTP. Please try again.",
@@ -73,10 +86,10 @@ const OTPVerificationForm = () => {
         }
     };
 
+    // OTP Resend Handler
     const handleResendOTP = async () => {
         setIsResendDisabled(true);
 
-        // Countdown timer for resend
         let count = 30;
         const interval = setInterval(() => {
             if (count === 0) {
@@ -90,14 +103,10 @@ const OTPVerificationForm = () => {
         }, 1000);
 
         try {
-            const payload = {
-                ...(contextEmail?.includes("@")
-                    ? { email: contextEmail }
-                    : { phone_number: contextPhoneNumber }),
-            };
+            const payload = getVerificationPayload();
 
             await httpServer("post", "auth/resend-token/", payload);
-            toast.success(`OTP sent to ${payload.email || payload.phone_number}`);
+            toast.success(`OTP resent to ${contextEmail || contextPhoneNumber}`);
         } catch (error) {
             toast.error(
                 error.response?.data?.message || "Failed to resend OTP. Please try again."
@@ -131,13 +140,31 @@ const OTPVerificationForm = () => {
                             type="text"
                             id="otp"
                             value={otp}
-                            onChange={handleChange}
+                            onChange={(e) => setOtp(e.target.value)}
                             maxLength={6}
                             placeholder="Enter 6-digit OTP"
                             required
                             className="text-sm"
                         />
-
+                        {authCookies.verificationChecker === "resetPassword" && (
+                            <Input
+                                label="Password"
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                icon={
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="text-gray-500"
+                                    >
+                                        {showPassword ? <EyeOff /> : <Eye />}
+                                    </button>
+                                }
+                            />
+                        )}
                         <Button
                             type="submit"
                             fullWidth

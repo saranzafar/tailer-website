@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import httpServer from "../../utils/httpService";
 import { UseVerification } from "../../utils/VerificationContext";
+import { setAuthCookies } from "../../utils/cookies";
 
 const ForgotPassword = () => {
     const [method, setMethod] = useState("email"); // Default method
@@ -45,10 +46,10 @@ const ForgotPassword = () => {
             };
 
             // Use your HTTP utility to send the request
-            await httpServer("post", "auth/resend-token/", payload);
-
+            await httpServer("post", "auth/password-reset/", payload);
+            setAuthCookies({ verificationChecker: "resetPassword" })
             if (method === "email") {
-                setContextEmail(email); // Store the email in context
+                setContextEmail(email);
                 toast.success("Password reset instructions have been sent to your email.");
             } else {
                 setContextEmail(`${countryCode}${phoneNumber}`); // Store the phone number in context
