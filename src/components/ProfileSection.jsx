@@ -34,20 +34,17 @@ export function ProfileCard() {
     });
     const [formData, setFormData] = useState({ ...profileData }); // For modal updates
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false); // Profile modal state
-    const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false); // Password modal state
     const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false); // Email modal state
     const [loading, setLoading] = useState({
         profile: false,
         password: false,
         email: false,
     });
-    const { logout } = UseVerification();
+    const { setContextEmail } = UseVerification();
     const navigate = useNavigate();
 
     // Toggle modals
     const toggleProfileModal = () => setIsProfileModalOpen(!isProfileModalOpen);
-    const togglePasswordModal = () =>
-        setIsChangePasswordModalOpen(!isChangePasswordModalOpen);
     const toggleEmailModal = () =>
         setIsChangeEmailModalOpen(!isChangeEmailModalOpen);
 
@@ -73,20 +70,17 @@ export function ProfileCard() {
         }
     };
 
-    const handleChangePassword = async (old_password, new_password) => {
+    const handleChangePassword = async () => {
         setLoading((prev) => ({ ...prev, password: true }));
         try {
-            const payload = { old_password, new_password };
-            await httpServer("post", "auth/change-password/", payload);
-            toast.success("Password changed successfully!");
-            togglePasswordModal();
+            await httpServer("post", "auth/password-reset/", { email: profileData.email });
+            setAuthCookies({ verificationChecker: "resetPassword" })
+            setContextEmail(profileData.email);
+            navigate("/verification")
         } catch (error) {
             console.error("Error changing password:", error);
-            toast.error("Failed to change password.");
         } finally {
             setLoading((prev) => ({ ...prev, password: false }));
-            logout()
-            navigate("/login")
         }
     };
 
@@ -178,7 +172,7 @@ export function ProfileCard() {
                 {/* Footer with Buttons */}
                 <CardFooter className="pt-4 px-6 flex flex-col sm:flex-row justify-center sm:justify-end gap-1">
                     <Button
-                        onClick={togglePasswordModal}
+                        onClick={handleChangePassword}
                         className="w-full sm:w-auto text-button flex items-center justify-center gap-2 text-center"
                         variant="text"
                         disabled={loading.password}
@@ -295,92 +289,6 @@ export function ProfileCard() {
                 </DialogFooter>
             </Dialog>
 
-            {/* Modal for Changing Password */}
-            <Dialog open={isChangePasswordModalOpen} handler={togglePasswordModal}>
-                <DialogHeader>Change Password</DialogHeader>
-                <DialogBody className="space-y-4">
-                    <div className="relative">
-                        <Input
-                            type={formData.showOldPassword ? "text" : "password"}
-                            label="Old Password"
-                            value={formData.oldPassword}
-                            onChange={(e) =>
-                                handleInputChange("oldPassword", e.target.value)
-                            }
-                        />
-                        <button
-                            type="button"
-                            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                            onClick={() =>
-                                setFormData((prev) => ({
-                                    ...prev,
-                                    showOldPassword: !prev.showOldPassword,
-                                }))
-                            }
-                        >
-                            {formData.showOldPassword ? (
-                                <EyeOff size={20} />
-                            ) : (
-                                <Eye size={20} />
-                            )}
-                        </button>
-                    </div>
-                    <div className="relative">
-                        <Input
-                            type={formData.showNewPassword ? "text" : "password"}
-                            label="New Password"
-                            value={formData.newPassword}
-                            onChange={(e) =>
-                                handleInputChange("newPassword", e.target.value)
-                            }
-                        />
-                        <button
-                            type="button"
-                            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                            onClick={() =>
-                                setFormData((prev) => ({
-                                    ...prev,
-                                    showNewPassword: !prev.showNewPassword,
-                                }))
-                            }
-                        >
-                            {formData.showNewPassword ? (
-                                <EyeOff size={20} />
-                            ) : (
-                                <Eye size={20} />
-                            )}
-                        </button>
-                    </div>
-                </DialogBody>
-                <DialogFooter>
-                    <Button
-                        variant="text"
-                        color="red"
-                        onClick={togglePasswordModal}
-                        className="mr-2 flex items-center gap-1"
-                    >
-                        <X size={20} />
-                        Cancel
-                    </Button>
-                    <Button
-                        className="bg-button hover:bg-button-hover flex items-center gap-2"
-                        onClick={() =>
-                            handleChangePassword(
-                                formData.oldPassword,
-                                formData.newPassword
-                            )
-                        }
-                        disabled={loading.password}
-                    >
-                        {loading.password ? (
-                            <Loader className="animate-spin" size={16} />
-                        ) : (
-                            <Save size={20} />
-                        )}
-                        Save
-                    </Button>
-                </DialogFooter>
-            </Dialog>
 
             {/* Modal for Changing Email */}
             <Dialog open={isChangeEmailModalOpen} handler={toggleEmailModal}>

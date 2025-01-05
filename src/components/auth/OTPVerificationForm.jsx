@@ -64,7 +64,7 @@ const OTPVerificationForm = () => {
             const payload = getVerificationPayload();
 
             if (authCookies.verificationChecker === "resetPassword") {
-                await httpServer("post", "auth/password-reset/verify/", payload);
+                await httpServer("post", "auth/verify-password-reset/", payload);
                 toast.success("Password reset successfully!", { id: toastId });
             } else if (authCookies.verificationChecker === "email") {
                 await httpServer("post", "auth/profile/email-change/verify/", payload);
