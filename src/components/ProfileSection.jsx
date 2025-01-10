@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Card,
     CardBody,
@@ -13,26 +13,29 @@ import {
     Select,
     Option,
 } from "@material-tailwind/react";
-import { Mail, Save, X, Loader, EyeOff, Eye, PhoneCall } from "lucide-react";
+import { Mail, Save, X, Loader, PhoneCall } from "lucide-react";
 import toast from "react-hot-toast";
 import httpServer from "../utils/httpService";
 import { UseVerification } from "../utils/VerificationContext";
 import { useNavigate } from "react-router-dom";
-import { setAuthCookies } from "../utils/cookies";
+import { setAuthCookies, getAuthCookies } from "../utils/cookies";
 
 export function ProfileCard() {
-    const { userData, setContextPhoneNumber, setContextEmail } = UseVerification();
+    const { setContextPhoneNumber, setContextEmail } = UseVerification();
+    const userData = getAuthCookies()
+    console.log("User data", userData);
 
-    const [profileData, setProfileData] = useState({
-        username: userData.username || "Not Available",
-        first_name: userData.first_name || "Not Available",
-        last_name: userData.last_name || "Not Available",
-        email: userData.email || "Not Available",
-        phone: userData.phone || "Not Available",
+    const [profileData, setProfileData] = useState(() => ({
+        username: userData?.username || "Not Available",
+        first_name: userData?.first_name || "Not Available",
+        last_name: userData?.last_name || "Not Available",
+        email: userData?.email || "Not Available",
+        phone: userData?.phone || "Not Available",
         newPhoneNumber: null,
-        address: userData.address || "Not Available",
-        role: userData.role || "Not Available",
-    });
+        address: userData?.address || "Not Available",
+        role: userData?.role || "Not Available",
+    }));
+
     const [formData, setFormData] = useState({ ...profileData }); // For modal updates
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false); // Profile modal state
     const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false); // Email modal state
@@ -60,8 +63,10 @@ export function ProfileCard() {
         setLoading((prev) => ({ ...prev, profile: true }));
         const { username, first_name, last_name, address } = formData
         try {
-            await httpServer("put", "auth/profile/update/", { username, first_name, last_name, address });
-            toast.success("Profile updated successfully!");
+            const response = await httpServer("put", "auth/profile/update/", { username, first_name, last_name, address });
+            setAuthCookies(response?.data)
+            console.log("RES:: ", response.data);
+
             setProfileData({ ...formData });
             toggleProfileModal();
         } catch (error) {
@@ -171,7 +176,7 @@ export function ProfileCard() {
                                 Address
                             </Typography>
                             <Typography className="text-gray-700 font-medium w-full sm:w-2/3">
-                                {profileData.phone}
+                                {profileData.address}
                             </Typography>
                         </div>
 
