@@ -16,6 +16,7 @@ import {
   PricingPage,
   Shops,
   SingleShop,
+  Map,
 } from "./pages/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/map",
+        element: <Map />,
       },
       {
         path: "/signup",

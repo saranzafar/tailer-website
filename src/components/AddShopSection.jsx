@@ -283,7 +283,6 @@ export function AddShopSection() {
                     {/* Google Map */}
                     <div className="h-80 w-full rounded overflow-hidden">
                         <div id="map" className="h-full w-full"></div>
-
                     </div>
                     <Button
                         variant="text"

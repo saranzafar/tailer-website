@@ -11,12 +11,14 @@ import {
 } from '@material-tailwind/react';
 import toast from 'react-hot-toast';
 import httpServer from "../utils/httpService";
+import Map from './Map';
 
 function SingleShop() {
     const { id } = useParams(); // Get shop ID from URL
     const [shop, setShop] = useState(null); // State to store shop details
     const [loading, setLoading] = useState(true); // Loading state for the data fetch
     const [error, setError] = useState(null); // Error state for API request
+
     const [mapInstance, setMapInstance] = useState(null);
     const [markerInstance, setMarkerInstance] = useState(null);
 
@@ -33,36 +35,51 @@ function SingleShop() {
         }
     };
 
+    // Initialize Google Map with hardcoded coordinates
+    // useEffect(() => {
+    //     const defaultLocation = { lat: 33.6844, lng: 73.0479 }; // Hardcoded location (Islamabad, Pakistan)
+
+    //     if (window.google && window.google.maps) {
+    //         const mapDiv = document.getElementById("map");
+
+    //         if (mapDiv) {
+    //             const map = new window.google.maps.Map(mapDiv, {
+    //                 center: defaultLocation,
+    //                 zoom: 15,
+    //                 mapTypeId: "roadmap",
+    //             });
+
+    //             const marker = new window.google.maps.Marker({
+    //                 position: defaultLocation,
+    //                 map: map,
+    //                 draggable: true, // Allow user to drag the marker
+    //             });
+
+    //             setMapInstance(map);
+    //             setMarkerInstance(marker);
+    //         } else {
+    //             toast.error("Map div is not available.");
+    //         }
+    //     } else {
+    //         toast.error("Google Maps API not loaded.");
+    //     }
+    // }, []);
+
+    // Update map and marker when shop data is loaded
+    useEffect(() => {
+        if (shop && mapInstance && markerInstance) {
+            const { latitude, longitude } = shop;
+            const shopLocation = { lat: latitude || 33.6844, lng: longitude || 73.0479 };
+
+            // Update map center and marker position based on shop data
+            mapInstance.setCenter(shopLocation);
+            markerInstance.setPosition(shopLocation);
+        }
+    }, [shop, mapInstance, markerInstance]);
+
     useEffect(() => {
         loadShopData();
     }, [id]);
-
-    useEffect(() => {
-        if (shop) {
-            const { latitude, longitude } = shop;
-            const defaultLocation = { lat: latitude, lng: longitude };
-
-            // Check if Google Maps API is available
-            if (window.google && window.google.maps) {
-                const map = new window.google.maps.Map(document.getElementById("map"), {
-                    center: defaultLocation,
-                    zoom: 15,
-                });
-
-                // Use the standard google.maps.Marker (not deprecated)
-                const marker = new window.google.maps.Marker({
-                    position: defaultLocation,
-                    map: map,
-                    draggable: true, // Allow user to drag the marker
-                });
-
-                setMapInstance(map);
-                setMarkerInstance(marker);
-            } else {
-                toast.error("Google Maps API not loaded.");
-            }
-        }
-    }, [shop]);
 
     // Show loading or error messages
     if (loading) {
@@ -85,24 +102,27 @@ function SingleShop() {
     const { name, thumbnail, address, city, postal_code, phone_number, latitude, longitude } = shop;
 
     return (
-        <div className="flex flex-col lg:flex-row max-w-full mx-auto py-12 bg-white rounded-lg shadow-md">
+        <div className="flex flex-col lg:flex-row mx-auto py-12 bg-white rounded-lg shadow-md max-w-7xl">
             {/* Left side - Google Map */}
             <div className="w-full lg:w-1/2 h-80 lg:h-full">
-                <div id="map" className="h-full w-full rounded-lg"></div>
+                {/* <div id="map" className="h-full w-full rounded-lg"></div> */}
+                <Map lat={latitude} lng={longitude} height={10} />
             </div>
 
             {/* Right side - Shop Details */}
             <div className="w-full lg:w-1/2 p-6">
-                <Card className="w-full h-full bg-white shadow-md rounded-lg">
-                    <CardHeader className="text-center p-4">
+                <Card className="w-full h-full bg-white shadow-md rounded-lg p-4">
+                    <div className="flex  items-center gap-4 border-b-2">
                         <img
                             src={thumbnail}
                             alt={name}
-                            className="w-32 h-32 rounded-full mx-auto mb-4"
+                            className="w-32 h-32 rounded-full mb-4"
                         />
-                        <Typography variant="h5" className="font-semibold text-gray-800">{name}</Typography>
-                        <Typography className="text-gray-500">{address}</Typography>
-                    </CardHeader>
+                        <div>
+                            <Typography variant="h5" className="font-semibold text-gray-800">{name}</Typography>
+                            <Typography className="text-gray-500">{address}</Typography>
+                        </div>
+                    </div>
 
                     <CardBody className="p-4">
                         <div className="mb-4">

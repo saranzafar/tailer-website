@@ -7,12 +7,12 @@ function App() {
 
   return (
     <VerificationProvider >
-      <div className='min-h-[80vh]'>
+      <div className='min-h-[70vh]'>
         <Nav />
         <Toaster />
         <Outlet />
-        <Footer />
       </div>
+      <Footer />
     </VerificationProvider>
   );
 }
