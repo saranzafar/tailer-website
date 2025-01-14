@@ -14,11 +14,13 @@ import {
   Profile,
   ContactUs,
   PricingPage,
+  Shops,
+  SingleShop,
 } from "./pages/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { ThemeProvider } from "@material-tailwind/react";
-import AuthLayout from "./utils/AuthLayout"; 
+import AuthLayout from "./utils/AuthLayout";
 
 
 const router = createBrowserRouter([
@@ -73,6 +75,14 @@ const router = createBrowserRouter([
       },
 
       // Public Pages
+      {
+        path: "/shops",
+        element: <Shops />,
+      },
+      {
+        path: "/shop/:id",
+        element: <SingleShop />,
+      },
       {
         path: "/pricing-plans",
         element: <PricingPage />,

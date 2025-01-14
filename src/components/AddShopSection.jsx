@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Card,
-    CardBody,
     Typography,
     Button,
     Tooltip,
@@ -11,18 +10,127 @@ import {
     DialogBody,
     DialogFooter,
 } from "@material-tailwind/react";
-import { Plus } from "lucide-react";
+import { Loader, Plus } from "lucide-react";
+import toast from "react-hot-toast";
+import httpServer from "../utils/httpService";
 
 export function AddShopSection() {
     const [open, setOpen] = useState(false); // Modal state
     const [formData, setFormData] = useState({
         name: "",
-        location: null, // Placeholder for Google Maps integration
         address: "",
+        city: "",
+        postal_code: "",
+        latitude: "",
+        longitude: "",
+        thumbnail: null,
     });
+    const [uploadShopLoading, setUploadShopLoading] = useState(false)
 
     // Toggle Modal
-    const toggleModal = () => setOpen(!open);
+    const toggleModal = () => {
+        setOpen(!open);
+        if (!open) {
+            initializeMap();
+        }
+    };
+
+    // Initialize Google Map
+    useEffect(() => {
+        if (open) {
+            initializeMap();
+        }
+    }, [open]);
+
+    const initializeMap = () => {
+        const defaultLocation = { lat: 33.6844, lng: 73.0479 }; // Default location (Islamabad, Pakistan)
+
+        const mapInstance = new window.google.maps.Map(
+            document.getElementById("map"),
+            {
+                center: defaultLocation,
+                zoom: 12,
+            }
+        );
+
+        const markerInstance = new window.google.maps.Marker({
+            position: defaultLocation,
+            map: mapInstance,
+            draggable: true,
+        });
+
+        // Update formData when marker is moved
+        markerInstance.addListener("dragend", () => {
+            const position = markerInstance.getPosition();
+            setFormData((prev) => ({
+                ...prev,
+                latitude: position.lat(),
+                longitude: position.lng(),
+            }));
+        });
+
+        // Center map on click
+        mapInstance.addListener("click", (event) => {
+            const clickedPosition = {
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng(),
+            };
+            markerInstance.setPosition(clickedPosition);
+            setFormData((prev) => ({
+                ...prev,
+                latitude: clickedPosition.lat,
+                longitude: clickedPosition.lng,
+            }));
+        });
+    };
+
+    // Get User's Current Location
+    const getCurrentLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    const currentPosition = { lat: latitude, lng: longitude };
+
+                    const mapInstance = new window.google.maps.Map(
+                        document.getElementById("map"),
+                        {
+                            center: currentPosition,
+                            zoom: 15,
+                        }
+                    );
+
+                    const markerInstance = new window.google.maps.Marker({
+                        position: currentPosition,
+                        map: mapInstance,
+                        draggable: true,
+                    });
+
+                    markerInstance.addListener("dragend", () => {
+                        const position = markerInstance.getPosition();
+                        setFormData((prev) => ({
+                            ...prev,
+                            latitude: position.lat(),
+                            longitude: position.lng(),
+                        }));
+                    });
+
+                    setFormData((prev) => ({
+                        ...prev,
+                        latitude,
+                        longitude,
+                    }));
+                    toast.success("Live location detected successfully!");
+                },
+                (error) => {
+                    console.error("Error detecting location:", error);
+                    toast.error("Unable to detect your location.");
+                }
+            );
+        } else {
+            toast.error("Geolocation is not supported by your browser.");
+        }
+    };
 
     // Handle Input Changes
     const handleInputChange = (e) => {
@@ -33,9 +141,61 @@ export function AddShopSection() {
         }));
     };
 
+    // Handle Thumbnail Upload
+    const handleFileChange = (e) => {
+        setFormData((prev) => ({
+            ...prev,
+            thumbnail: e.target.files[0],
+        }));
+    };
+
     // Submit the form data
-    const handleSubmit = () => {
-        toggleModal(); // Close the modal after submission
+    const handleSubmit = async () => {
+        setUploadShopLoading(true)
+        if (
+            !formData.name ||
+            !formData.address ||
+            !formData.city ||
+            !formData.postal_code ||
+            !formData.latitude ||
+            !formData.longitude ||
+            !formData.thumbnail
+        ) {
+            toast.error("Please fill all required fields and select a location.");
+            return;
+        }
+
+        const formDataToSend = new FormData();
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("address", formData.address);
+        formDataToSend.append("city", formData.city);
+        formDataToSend.append("postal_code", formData.postal_code);
+        formDataToSend.append("latitude", formData.latitude);
+        formDataToSend.append("longitude", formData.longitude);
+        formDataToSend.append("thumbnail", formData.thumbnail);
+
+        try {
+            const response = await httpServer("post", "shop/add/", formDataToSend);
+            toast.success("Shop added successfully!");
+            console.log("API Response:", response);
+
+            // Reset form
+            setFormData({
+                name: "",
+                address: "",
+                city: "",
+                postal_code: "",
+                latitude: "",
+                longitude: "",
+                thumbnail: null,
+            });
+            toggleModal();
+        } catch (error) {
+            console.error("Error submitting data:", error);
+            toast.error("Failed to add the shop. Please try again.");
+        } finally {
+            setUploadShopLoading(false)
+        }
     };
 
     return (
@@ -77,37 +237,68 @@ export function AddShopSection() {
             </div>
 
             {/* Modal/Pop-Up */}
-            <Dialog open={open} handler={toggleModal}>
+            <Dialog open={open} handler={toggleModal} size="xl">
                 <DialogHeader>Add Your Shop</DialogHeader>
                 <DialogBody className="space-y-4">
-                    {/* Name Field */}
-                    <Input
-                        label="Shop Name"
-                        id="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Name Field */}
+                        <Input
+                            label="Shop Name"
+                            id="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            required
+                        />
 
-                    {/* Location Field */}
-                    <div>
-                        <Typography className="font-medium text-gray-800 mb-2">
-                            Location
-                        </Typography>
-                        <div className="h-64 w-full bg-gray-200 rounded">
-                            {/* Placeholder for Google Maps */}
-                            <Typography className="text-center text-gray-500 pt-24">
-                                Google Maps integration goes here
-                            </Typography>
-                        </div>
+                        {/* Address Field */}
+                        <Input
+                            label="Address"
+                            id="address"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            required
+                        />
                     </div>
 
-                    {/* Address Field */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* City Field */}
+                        <Input
+                            label="City"
+                            id="city"
+                            value={formData.city}
+                            onChange={handleInputChange}
+                            required
+                        />
+
+                        {/* Postal Code Field */}
+                        <Input
+                            label="Postal Code"
+                            id="postal_code"
+                            value={formData.postal_code}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+
+                    {/* Google Map */}
+                    <div className="h-80 w-full rounded overflow-hidden">
+                        <div id="map" className="h-full w-full"></div>
+
+                    </div>
+                    <Button
+                        variant="text"
+                        color="blue"
+                        onClick={getCurrentLocation}
+                    >
+                        Detect My Location
+                    </Button>
+
+                    {/* Thumbnail Field */}
                     <Input
-                        label="Address"
-                        id="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
+                        label="Thumbnail"
+                        type="file"
+                        id="thumbnail"
+                        onChange={handleFileChange}
                         required
                     />
                 </DialogBody>
@@ -121,13 +312,19 @@ export function AddShopSection() {
                         Cancel
                     </Button>
                     <Button
-                        className="bg-button hover:bg-button-hover"
                         onClick={handleSubmit}
+                        className="bg-button hover:bg-button-hover"
+                        disabled={uploadShopLoading}
                     >
-                        Save
+                        {uploadShopLoading ? (
+                            <Loader className="animate-spin" size={16} />
+                        ) : (
+                            "Save"
+                        )}
                     </Button>
                 </DialogFooter>
             </Dialog>
+
         </section>
     );
 }

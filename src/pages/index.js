@@ -4,6 +4,8 @@ import Profile from "./Profile";
 import ContactUs from "./ContactUs";
 import LandingPage from "./LandingPage";
 import PricingPage from "./PricingPage";
+import Shops from "./Shops";
+import SingleShop from "./SingleShop";
 
 export {
     PNF,
@@ -12,4 +14,6 @@ export {
     ContactUs,
     LandingPage,
     PricingPage,
+    Shops,
+    SingleShop,
 }

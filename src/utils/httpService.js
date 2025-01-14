@@ -35,8 +35,6 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
 
         // Make the API request
         const response = await axios(config);
-        console.log("Response: ", response);
-
         // Show success notification if enabled
         if (showNotification) {
             showToast("success", response?.data?.message || response?.data?.detail || "Request completed successfully!");
@@ -49,8 +47,6 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
 
         return response.data;
     } catch (error) {
-        console.log("Error:", error);
-
         let errorMessages = [];
 
         // Check if the server returned an error response with a data object
@@ -85,6 +81,7 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
         console.error("Error Messages:", errorMessages);
 
         // Rethrow the error for further handling if necessary
+        showToast("success", errorMessages);
         throw error;
     }
 };
