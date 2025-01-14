@@ -56,14 +56,8 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
 
             if (errorData.detail) {
                 errorMessages.push(errorData.detail);
-            }
-            if (errorData.error) errorMessages.push(errorData.error);
-            // Loop through the object to extract error messages
-            for (const [key, value] of Object.entries(errorData)) {
-                if (Array.isArray(value) && value.length > 0) {
-                    // Push the first error message of each array to the errorMessages array
-                    errorMessages.push(value[0]);
-                }
+            } else if (errorData.error) {
+                errorMessages.push(errorData.error);
             }
         } else if (error.message) {
             // Handle generic Axios or network-related errors
@@ -81,7 +75,7 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
         console.error("Error Messages:", errorMessages);
 
         // Rethrow the error for further handling if necessary
-        showToast("success", errorMessages);
+        showToast("error", errorMessages[0]);
         throw error;
     }
 };

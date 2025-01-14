@@ -39,7 +39,6 @@ function SingleShop() {
 
     useEffect(() => {
         if (shop) {
-            // Initialize Google Map after shop data is loaded
             const { latitude, longitude } = shop;
             const defaultLocation = { lat: latitude, lng: longitude };
 
@@ -50,9 +49,11 @@ function SingleShop() {
                     zoom: 15,
                 });
 
-                const marker = new window.google.maps.marker.AdvancedMarkerElement({
+                // Use the standard google.maps.Marker (not deprecated)
+                const marker = new window.google.maps.Marker({
                     position: defaultLocation,
                     map: map,
+                    draggable: true, // Allow user to drag the marker
                 });
 
                 setMapInstance(map);

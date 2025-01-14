@@ -23,7 +23,6 @@ import { setAuthCookies, getAuthCookies } from "../utils/cookies";
 export function ProfileCard() {
     const { setContextPhoneNumber, setContextEmail } = UseVerification();
     const userData = getAuthCookies()
-    console.log("User data", userData);
 
     const [profileData, setProfileData] = useState(() => ({
         username: userData?.username || "Not Available",
