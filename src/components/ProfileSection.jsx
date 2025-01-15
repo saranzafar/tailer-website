@@ -123,7 +123,7 @@ export function ProfileCard() {
 
     return (
         <section className="flex justify-center items-center p-6 w-full">
-            <Card className="w-full max-w-[36rem] bg-white shadow-md rounded-lg">
+            <Card className="w-full bg-white shadow-md rounded-lg">
                 {/* Body */}
                 <CardBody className="flex flex-col sm:flex-row px-6 py-4 space-y-4 sm:space-y-0 sm:space-x-6 flex-wrap justify-center items-center gap-2">
                     {/* Profile Image on the Left */}

@@ -1,19 +1,59 @@
+import { useState } from 'react';
 import { AddShopSection, FeatureCards, ProfileSection } from '../components'
+import {
+    Tabs,
+    TabsHeader,
+    TabsBody,
+    Tab,
+    TabPanel,
+} from "@material-tailwind/react";
 
 function Profile() {
+    const [activeTab, setActiveTab] = useState("html");
+    const data = [
+        {
+            label: "Shop Management",
+            value: "shop-management",
+            desc: <AddShopSection />,
+        },
+        {
+            label: "Account Setting",
+            value: "account-setting",
+            desc: <ProfileSection />,
+        }
+    ];
+
     return (
         <div className='bg-light-blue-bg'>
             <div className="max-w-[85rem] px-4 py-10 md:py-20 sm:px-6 lg:px-8 lg:py-14 mx-auto md:my-[1rem]">
-                <div className='grid grid-cols-12 gap-4 place-items-center'>
-                    <div className='col-span-12 md:col-span-6 w-full'>
-                        <ProfileSection />
-                    </div>
-                    <div className='col-span-12 md:col-span-6'>
-                        <AddShopSection />
 
-                    </div>
-                </div>
-                <FeatureCards col='4' title={"Your Shops"} />
+                <Tabs value={activeTab}>
+                    <TabsHeader
+                        className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+                        indicatorProps={{
+                            className:
+                                "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
+                        }}
+                    >
+                        {data.map(({ label, value }) => (
+                            <Tab
+                                key={value}
+                                value={value}
+                                onClick={() => setActiveTab(value)}
+                                className={activeTab === value ? "text-gray-900" : ""}
+                            >
+                                {label}
+                            </Tab>
+                        ))}
+                    </TabsHeader>
+                    <TabsBody>
+                        {data.map(({ value, desc }) => (
+                            <TabPanel key={value} value={value}>
+                                {desc}
+                            </TabPanel>
+                        ))}
+                    </TabsBody>
+                </Tabs>
             </div>
         </div>
     )
