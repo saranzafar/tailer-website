@@ -24,7 +24,7 @@ function FeatureCards({ col = '4', title }) {
     // Fetch shop data from API
     const loadShops = async () => {
         try {
-            const response = await httpServer("get", "shop/shops");
+            const response = await httpServer("get", "shop/shops", {}, false);
             if (response.data) {
                 setShops(response.data);
             }

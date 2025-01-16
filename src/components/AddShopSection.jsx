@@ -237,9 +237,9 @@ export function AddShopSection() {
             </div>
 
             {/* Modal/Pop-Up */}
-            <Dialog open={open} handler={toggleModal} size="xl">
+            <Dialog open={open} handler={toggleModal} size="xl" className="pb-5">
                 <DialogHeader>Add Your Shop</DialogHeader>
-                <DialogBody className="space-y-4">
+                <DialogBody className="space-y-4 max-h-[80vh] overflow-y-auto"> {/* Make modal body scrollable */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Name Field */}
                         <Input

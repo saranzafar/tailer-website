@@ -1,25 +1,33 @@
 import { Timeline, TimelineBody, TimelineConnector, TimelineHeader, TimelineIcon, TimelineItem, Typography } from '@material-tailwind/react'
 import { MapPin, MapPinCheckInside, Users } from 'lucide-react'
 import AuthCard from './auth/AuthCard'
+import { UseVerification } from '../utils/VerificationContext';
 
 function HowitWork() {
+    const { isLoggedIn } = UseVerification();
+
     return (
         <div className="max-w-[85rem] px-4 py-10 md:py-20 sm:px-6 lg:px-8 lg:py-14 mx-auto md:my-[1rem]">
             {/* Grid */}
             <div className="lg:grid lg:grid-cols-12 lg:gap-4 lg:items-center place-items-center">
                 <div className="lg:col-span-6">
                     {/* Image Grid */}
-                    <div className="grid grid-cols-12 gap-4 items-center lg:-translate-x-10">
-                        <div className="col-span-12 md:col-span-6">
-                            <AuthCard userType='Tailor' description='Join Stitch4U as a tailor and simplify your work with our easy-to-use platform—start your journey today!' />
+                    {isLoggedIn ? (
+                        <img
+                            className="h-96 w-full rounded-lg object-cover object-center"
+                            src="./img/timeline.png"
+                            alt="nature image"
+                        />
+                    ) : (
+                        <div className="grid grid-cols-12 gap-4 items-center lg:-translate-x-10">
+                            <div className="col-span-12 md:col-span-6">
+                                <AuthCard userType='Tailor' description='Join Stitch4U as a tailor and simplify your work with our easy-to-use platform—start your journey today!' />
+                            </div>
+                            <div className="col-span-12 md:col-span-6">
+                                <AuthCard description='Explore Stitch4U as a customer and experience hassle-free tailoring services in just a few clicks!' />
+                            </div>
                         </div>
-                        {/* End Col */}
-
-                        <div className="col-span-12 md:col-span-6">
-                            <AuthCard description='Explore Stitch4U as a customer and experience hassle-free tailoring services in just a few clicks!' />
-                        </div>
-                        {/* End Col */}
-                    </div>
+                    )}
                     {/* End Grid */}
                 </div>
                 {/* End Col */}
@@ -94,7 +102,7 @@ function HowitWork() {
                 {/* End Col */}
             </div>
             {/* End Grid */}
-        </div>
+        </div >
     )
 }
 

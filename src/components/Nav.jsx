@@ -1,11 +1,19 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { UseVerification } from "../utils/VerificationContext";
+import { Avatar, Button } from "@material-tailwind/react";
 
 const Nav = () => {
     const [open, setOpen] = useState(false);
     const { isLoggedIn, logout } = UseVerification();
+    const navigate = useNavigate();
+
+    const handleNavClick = () => {
+        if (window.innerWidth <= 1024) { // Only close dropdown on mobile
+            setOpen(false);
+        }
+    };
 
     return (
         <header className="flex w-full items-center bg-white mx-auto justify-center sticky top-0 z-50 drop-shadow-lg">
@@ -47,41 +55,49 @@ const Nav = () => {
                                     }`}
                             >
                                 <ul className="block lg:flex">
-                                    <ListItem NavLink="/">Home</ListItem>
-                                    <ListItem NavLink="/shops">Shops</ListItem>
-                                    <ListItem NavLink="/pricing-plans">Pricing</ListItem>
-                                    <ListItem NavLink="/contactus">Contact us</ListItem>
-                                    <ListItem NavLink="/profile">Profile</ListItem>
+                                    <ListItem NavLink="/" onClick={handleNavClick}>Home</ListItem>
+                                    <ListItem NavLink="/shops" onClick={handleNavClick}>Shops</ListItem>
+                                    <ListItem NavLink="/pricing-plans" onClick={handleNavClick}>Pricing</ListItem>
+                                    <ListItem NavLink="/contactus" onClick={handleNavClick}>Contact us</ListItem>
+                                    {isLoggedIn ? (
+                                        <div className="flex sm:hidden flex-col">
+                                            <ListItem NavLink="/profile" onClick={handleNavClick}>Profile</ListItem>
+                                            <Link onClick={() => {
+                                                logout()
+                                                handleNavClick();
+                                            }} className="text-red-600 font-semibold">Logout</Link>
+                                        </div>
+                                    ) : (
+                                        <div className="flex sm:hidden">
+                                            <ListItem NavLink="/login" className="text-button font-semibold" onClick={handleNavClick}>Login</ListItem>
+                                        </div>
+                                    )}
                                 </ul>
                             </nav>
                         </div>
 
                         {/* Buttons: Log In / Log Out */}
-                        <div className="hidden justify-end pr-16 sm:flex lg:pr-0">
+                        <div className="justify-end pr-16 sm:flex lg:pr-0 gap-2">
                             {isLoggedIn ? (
-                                <>
-                                    <button
-                                        onClick={logout}
-                                        className="px-7 py-3 text text-white rounded-lg shadow-md bg-button hover:bg-button-hover font-semibold"
-                                    >
-                                        Log Out
-                                    </button>
-                                </>
+                                <div className="hidden md:block">
+                                    <Button onClick={() => logout()} variant="text" size="sm" color="red">Logout</Button>
+                                    <Avatar src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" onClick={() => navigate("/profile")} className="cursor-pointer" />
+                                </div>
                             ) : (
-                                <>
+                                <div className="hidden md:block">
                                     <NavLink
                                         to="/signup"
-                                        className="px-7 py-3 text text-button rounded-lg hover:text-button-hover font-semibold"
+                                        className="px-5 py-2 text text-button rounded-lg hover:text-button-hover font-semibold"
                                     >
                                         Sign Up
                                     </NavLink>
                                     <NavLink
                                         to="/login"
-                                        className="px-7 py-3 text text-white rounded-lg shadow-md bg-button hover:bg-button-hover font-semibold"
+                                        className="px-5 py-2 text text-white rounded-lg shadow-md bg-button hover:bg-button-hover font-semibold"
                                     >
                                         Log In
                                     </NavLink>
-                                </>
+                                </div>
                             )}
                         </div>
                     </div>
@@ -94,7 +110,7 @@ const Nav = () => {
 export default Nav;
 
 // Reusable List Item Component
-const ListItem = ({ children, NavLink: to }) => {
+const ListItem = ({ children, NavLink: to, onClick }) => {
     return (
         <li>
             <NavLink
@@ -103,6 +119,7 @@ const ListItem = ({ children, NavLink: to }) => {
                     `flex py-2 text-base font-medium hover:text-button ${isActive ? "text-button-hover" : "text-body-color"
                     } hover:text-dark lg:ml-12 lg:inline-flex`
                 }
+                onClick={onClick}
             >
                 {children}
             </NavLink>

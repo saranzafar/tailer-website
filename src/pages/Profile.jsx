@@ -12,7 +12,7 @@ function Profile() {
     const [activeTab, setActiveTab] = useState("shop-management");
     const data = [
         {
-            label: "Shop Management",
+            label: "Add Shop",
             value: "shop-management",
             desc: <AddShopSection />,
         },
