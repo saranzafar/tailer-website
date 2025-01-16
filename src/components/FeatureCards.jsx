@@ -15,7 +15,7 @@ import httpServer from "../utils/httpService";
 import { useNavigate } from "react-router-dom";
 
 
-function FeatureCards({ col = '4', title }) {
+function FeatureCards({ col = '4', title, pagination = 4 }) {
     const [shops, setShops] = useState([]); // Stores fetched shop data
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
@@ -24,7 +24,7 @@ function FeatureCards({ col = '4', title }) {
     // Fetch shop data from API
     const loadShops = async () => {
         try {
-            const response = await httpServer("get", "shop/shops", {}, false);
+            const response = await httpServer("get", `shop/shops/?page-size=${pagination}`, {}, false);
             if (response.data) {
                 setShops(response.data);
             }

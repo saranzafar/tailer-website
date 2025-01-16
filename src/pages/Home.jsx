@@ -11,14 +11,11 @@ const Home = () => {
             {/* Hero */}
             <HeroSection text="Welcome to Stitch4U" />
 
-            {/* How it works  */}
-            <HowitWork />
-
             {/* feature locations  */}
             <div className=' bg-light-blue-bg pt-6 pb-12'>
-                <FeatureCards col='4' title={"Featured Businesses"} />
+                <FeatureCards col='4' title={"Featured Businesses"} pagination={4} />
                 <div className=''>
-                    <Button variant="text" className="flex items-center gap-2 text-button mx-auto" onClick={() => navigate("/shops")}>
+                    <Button variant="text" className="flex items-center gap-2 text-button mx-auto mt-10" onClick={() => navigate("/shops")}>
                         See More{" "}
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +34,9 @@ const Home = () => {
                     </Button>
                 </div>
             </div>
+
+            {/* How it works  */}
+            <HowitWork />
 
             <AboutSection />
             {/* testimonials  */}
