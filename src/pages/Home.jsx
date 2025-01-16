@@ -1,15 +1,20 @@
 import { Button } from '@material-tailwind/react';
 import { AboutSection, FeatureCards, HeroSection, HowitWork, Testimonials } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { UseVerification } from '../utils/VerificationContext';
 
 
 const Home = () => {
     const navigate = useNavigate()
+    const { isLoggedIn, logout } = UseVerification();
 
     return (
         <div className='bg-light-blue-bg'>
             {/* Hero */}
             <HeroSection text="Welcome to Stitch4U" />
+
+            {/* How it works  */}
+            {!isLoggedIn && <HowitWork />}
 
             {/* feature locations  */}
             <div className=' bg-light-blue-bg pt-6 pb-12'>
@@ -36,7 +41,7 @@ const Home = () => {
             </div>
 
             {/* How it works  */}
-            <HowitWork />
+            {isLoggedIn && <HowitWork />}
 
             <AboutSection />
             {/* testimonials  */}
