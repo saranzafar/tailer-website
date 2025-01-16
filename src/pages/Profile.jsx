@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AddShopSection, FeatureCards, ProfileSection } from '../components'
+import { AddShopSection, ProfileSection } from '../components'
 import {
     Tabs,
     TabsHeader,
@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 
 function Profile() {
-    const [activeTab, setActiveTab] = useState("html");
+    const [activeTab, setActiveTab] = useState("shop-management");
     const data = [
         {
             label: "Shop Management",

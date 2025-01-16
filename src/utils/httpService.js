@@ -3,7 +3,8 @@ import toast from "react-hot-toast";
 import { setAuthCookies, getAuthCookies } from "./cookies";
 
 // Base URL for API requests
-const baseURL = "http://193.160.119.12/api/";
+// const baseURL = "http://193.160.119.12/api/";
+const baseURL = "https://stitch.ifraheem.com/api/";
 
 // Reusable Toast Notification Function
 const showToast = (type, message) => {
