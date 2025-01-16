@@ -15,6 +15,8 @@ import HowitWork from "./HowitWork";
 import AboutSection from "./AboutSection";
 import ProfileSection from "./ProfileSection";
 import AddShopSection from "./AddShopSection";
+import ShopSetting from "./ShopSetting";
+import ProfileSetting from "./ProfileSetting";
 
 export {
     SignUpForm,
@@ -34,4 +36,6 @@ export {
     AboutSection,
     ProfileSection,
     AddShopSection,
+    ShopSetting,
+    ProfileSetting,
 }

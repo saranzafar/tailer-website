@@ -201,7 +201,7 @@ export function AddShopSection() {
     return (
         <section className="flex flex-col-reverse md:flex-row justify-center items-center sm:text-center gap-2 bg-white px-6 py-11 shadow-md rounded-lg">
             {/* Left Section - Content */}
-            <div className="flex flex-col space-y-3 md:w-1/2 text-center md:text-start">
+            <div className="flex flex-col md:px-4 gap-4 text-center md:text-start">
                 <Typography
                     variant="h4"
                     color="blue-gray"
@@ -215,25 +215,9 @@ export function AddShopSection() {
                 >
                     Seamlessly add your shop to our platform and connect with more customers. Showcase your services, manage orders, and take your business to the next level effortlessly.
                 </Typography>
-            </div>
-
-            {/* Right Section - Add Button */}
-            <div className="flex justify-center items-center w-full md:w-1/2">
-                <Card className="w-36 h-36 md:w-48 md:h-48 flex items-center justify-center bg-white shadow-lg border border-button rounded-full hover:shadow-md transition-transform hover:scale-105">
-                    <Tooltip
-                        content="Add a new shop"
-                        placement="top"
-                        className="bg-gray-800 text-white text-sm px-3 py-2 rounded"
-                    >
-                        <Button
-                            size="lg"
-                            className="bg-button hover:bg-button-hover rounded-full p-8 text-white"
-                            onClick={toggleModal}
-                        >
-                            <Plus size={36} />
-                        </Button>
-                    </Tooltip>
-                </Card>
+                <div className="flex justify-center md:justify-end">
+                    <Button className="bg-button flex gap-2 items-center" onClick={toggleModal}><Plus /> Add Shop</Button>
+                </div>
             </div>
 
             {/* Modal/Pop-Up */}

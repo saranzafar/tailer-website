@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     Card,
     CardBody,
@@ -10,8 +10,6 @@ import {
     DialogHeader,
     DialogBody,
     DialogFooter,
-    Select,
-    Option,
 } from "@material-tailwind/react";
 import { Mail, Save, X, Loader, PhoneCall } from "lucide-react";
 import toast from "react-hot-toast";
@@ -23,7 +21,6 @@ import { setAuthCookies, getAuthCookies } from "../utils/cookies";
 export function ProfileCard() {
     const { setContextPhoneNumber, setContextEmail } = UseVerification();
     const userData = getAuthCookies()
-
     const [profileData, setProfileData] = useState(() => ({
         username: userData?.username || "Not Available",
         first_name: userData?.first_name || "Not Available",
@@ -35,10 +32,10 @@ export function ProfileCard() {
         role: userData?.role || "Not Available",
     }));
 
-    const [formData, setFormData] = useState({ ...profileData }); // For modal updates
-    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false); // Profile modal state
-    const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false); // Email modal state
-    const [isChangePhoneModalOpen, setIsChangePhoneModalOpen] = useState(false); // phone modal state
+    const [formData, setFormData] = useState({ ...profileData });
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+    const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false);
+    const [isChangePhoneModalOpen, setIsChangePhoneModalOpen] = useState(false);
     const [loading, setLoading] = useState({
         profile: false,
         password: false,
@@ -64,7 +61,6 @@ export function ProfileCard() {
         try {
             const response = await httpServer("put", "auth/profile/update/", { username, first_name, last_name, address });
             setAuthCookies(response?.data)
-            console.log("RES:: ", response.data);
 
             setProfileData({ ...formData });
             toggleProfileModal();
@@ -122,10 +118,10 @@ export function ProfileCard() {
     };
 
     return (
-        <section className="flex justify-center items-center p-6 w-full">
+        <section className="flex justify-center items-center md:p-6 w-full">
             <Card className="w-full bg-white shadow-md rounded-lg">
                 {/* Body */}
-                <CardBody className="flex flex-col sm:flex-row px-6 py-4 space-y-4 sm:space-y-0 sm:space-x-6 flex-wrap justify-center items-center gap-2">
+                <CardBody className="flex flex-col sm:flex-row px-0 md:px-6 py-4 space-y-4 sm:space-y-0 sm:space-x-6 flex-wrap justify-center items-center gap-2">
                     {/* Profile Image on the Left */}
                     <div className="flex-shrink-0">
                         <div className="rounded-full overflow-hidden flex justify-center items-center h-36 w-36">

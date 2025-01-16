@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AddShopSection, ProfileSection } from '../components'
+import { ProfileSetting, ShopSetting } from '../components'
 import {
     Tabs,
     TabsHeader,
@@ -12,14 +12,14 @@ function Profile() {
     const [activeTab, setActiveTab] = useState("shop-management");
     const data = [
         {
-            label: "Add Shop",
+            label: "Shop Setting",
             value: "shop-management",
-            desc: <AddShopSection />,
+            desc: <ShopSetting />,
         },
         {
             label: "Account Setting",
             value: "account-setting",
-            desc: <ProfileSection />,
+            desc: <ProfileSetting />,
         }
     ];
 
@@ -40,7 +40,7 @@ function Profile() {
                                 key={value}
                                 value={value}
                                 onClick={() => setActiveTab(value)}
-                                className={activeTab === value ? "text-gray-900" : ""}
+                                className={activeTab === value ? "text-gray-900 font-semibold" : ""}
                             >
                                 {label}
                             </Tab>
