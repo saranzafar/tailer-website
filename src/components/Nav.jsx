@@ -57,6 +57,7 @@ const Nav = () => {
                                 <ul className="block lg:flex">
                                     <ListItem NavLink="/" onClick={handleNavClick}>Home</ListItem>
                                     <ListItem NavLink="/shops" onClick={handleNavClick}>Shops</ListItem>
+                                    <ListItem NavLink="/listings" onClick={handleNavClick}>Listings</ListItem>
                                     <ListItem NavLink="/pricing-plans" onClick={handleNavClick}>Pricing</ListItem>
                                     <ListItem NavLink="/contactus" onClick={handleNavClick}>Contact us</ListItem>
                                     {isLoggedIn ? (

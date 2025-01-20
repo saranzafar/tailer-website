@@ -21,6 +21,7 @@ function FeatureCards({ col = '4', title, pagination = 4 }) {
     const [error, setError] = useState(null); // Error state
     const navigate = useNavigate()
 
+    console.log("Shop: ", shops)
     // Fetch shop data from API
     const loadShops = async () => {
         try {

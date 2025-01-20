@@ -17,6 +17,7 @@ import {
   Shops,
   SingleShop,
   Map,
+  Listing,
 } from "./pages/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
       {
         path: "/shops",
         element: <Shops />,
+      },
+      {
+        path: "/listings",
+        element: <Listing />,
       },
       {
         path: "/shop/:id",

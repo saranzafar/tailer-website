@@ -7,6 +7,7 @@ import PricingPage from "./PricingPage";
 import Shops from "./Shops";
 import SingleShop from "./SingleShop";
 import Map from "./Map";
+import Listing from "./Listing"
 
 export {
     PNF,
@@ -18,4 +19,5 @@ export {
     Shops,
     SingleShop,
     Map,
+    Listing,
 }
