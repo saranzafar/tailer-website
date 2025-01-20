@@ -36,6 +36,7 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
 
         // Make the API request
         const response = await axios(config);
+
         // Show success notification if enabled
         if (showNotification) {
             showToast("success", response?.data?.message || response?.data?.detail || "Request completed successfully!");
@@ -50,33 +51,18 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
     } catch (error) {
         let errorMessages = [];
 
-        // Check if the server returned an error response with a data object
-        if (error.response?.data && typeof error.response.data === "object") {
-            const errorData = error.response.data;
-            console.log("Error data: ", errorData);
-
-            if (errorData.detail) {
-                errorMessages.push(errorData.detail);
-            } else if (errorData.error) {
-                errorMessages.push(errorData.error);
-            }
+        if (error.response?.data?.message) {
+            errorMessages.push(error.response.data.message);
         } else if (error.message) {
-            // Handle generic Axios or network-related errors
             errorMessages.push(error.message);
         } else {
-            // Fallback message
             errorMessages.push("An unknown error occurred. Please try again.");
         }
 
-        // Show each error message as a separate toast
-        errorMessages.forEach((message) => {
-            toast.error(message);
-        });
-
-        console.error("Error Messages:", errorMessages);
+        // Display the error message
+        showToast("error", errorMessages[0]);
 
         // Rethrow the error for further handling if necessary
-        showToast("error", errorMessages[0]);
         throw error;
     }
 };

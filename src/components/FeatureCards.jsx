@@ -21,7 +21,6 @@ function FeatureCards({ col = '4', title, pagination = 4 }) {
     const [error, setError] = useState(null); // Error state
     const navigate = useNavigate()
 
-    console.log("Shop: ", shops)
     // Fetch shop data from API
     const loadShops = async () => {
         try {
@@ -74,7 +73,7 @@ function FeatureCards({ col = '4', title, pagination = 4 }) {
                 className={`grid grid-cols-1 sm:grid-cols-2 ${col == 3 ? "md:grid-cols-3" : col == 4 ? "md:grid-cols-4" : "md:grid-cols-2"
                     } gap-6 place-items-center`}
             >
-                {shops?.map((item) => (
+                {shops?.shops?.map((item) => (
                     <Card key={item.id} className="w-full max-w-[26rem] drop-shadow-xl bg-white hover:translate-y-[-5px] hover:drop-shadow-xl transition-transform duration-300">
                         <CardHeader floated={false} color="blue-gray">
                             <div className="relative group">

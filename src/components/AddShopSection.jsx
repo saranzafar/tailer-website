@@ -177,7 +177,6 @@ export function AddShopSection() {
         try {
             const response = await httpServer("post", "shop/add/", formDataToSend);
             toast.success("Shop added successfully!");
-            console.log("API Response:", response);
 
             // Reset form
             setFormData({
