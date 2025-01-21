@@ -17,6 +17,7 @@ import ProfileSection from "./ProfileSection";
 import AddShopSection from "./AddShopSection";
 import ShopSetting from "./ShopSetting";
 import ProfileSetting from "./ProfileSetting";
+import BannerSection from "./Banner";
 
 export {
     SignUpForm,
@@ -38,4 +39,5 @@ export {
     AddShopSection,
     ShopSetting,
     ProfileSetting,
+    BannerSection,
 }

@@ -16,7 +16,7 @@ const showToast = (type, message) => {
 };
 
 // HTTP Utility Function
-const httpServer = async (method = "get", api, data = {}, showNotification = true) => {
+const httpServer = async (method = "get", api, data = {}, showNotification = true, showErrorNotification = true) => {
     try {
         // Fetch access token from cookies (or wherever you're storing it)
         const authCookies = getAuthCookies(); // Expected to return an object { access: "ACCESS_TOKEN", refresh: "REFRESH_TOKEN" }
@@ -42,9 +42,11 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
             showToast("success", response?.data?.message || response?.data?.detail || "Request completed successfully!");
         }
 
+        console.log("REsponse: ", response.data);
+
         // Handle token refresh if new tokens are provided in response
-        if (response.data?.access) {
-            setAuthCookies(response.data, 7); // Update cookies with new tokens
+        if (response.data?.data?.access) {
+            setAuthCookies(response.data?.data, 7); // Update cookies with new tokens
         }
 
         return response.data;
@@ -60,7 +62,7 @@ const httpServer = async (method = "get", api, data = {}, showNotification = tru
         }
 
         // Display the error message
-        showToast("error", errorMessages[0]);
+        if (showErrorNotification) showToast("error", errorMessages[0]);
 
         // Rethrow the error for further handling if necessary
         throw error;

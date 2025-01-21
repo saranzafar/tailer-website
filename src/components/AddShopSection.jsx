@@ -13,9 +13,11 @@ import {
 import { Loader, Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import httpServer from "../utils/httpService";
+import { getAuthCookies } from "../utils/cookies";
 
 export function AddShopSection() {
     const [open, setOpen] = useState(false); // Modal state
+    const userData = getAuthCookies();
     const [formData, setFormData] = useState({
         name: "",
         address: "",
@@ -24,6 +26,7 @@ export function AddShopSection() {
         latitude: "",
         longitude: "",
         thumbnail: null,
+        phone_number: userData?.phone || "+92",
     });
     const [uploadShopLoading, setUploadShopLoading] = useState(false)
 
@@ -159,7 +162,8 @@ export function AddShopSection() {
             !formData.postal_code ||
             !formData.latitude ||
             !formData.longitude ||
-            !formData.thumbnail
+            !formData.thumbnail ||
+            !formData.phone_number
         ) {
             toast.error("Please fill all required fields and select a location.");
             return;
@@ -172,11 +176,11 @@ export function AddShopSection() {
         formDataToSend.append("postal_code", formData.postal_code);
         formDataToSend.append("latitude", formData.latitude);
         formDataToSend.append("longitude", formData.longitude);
+        formDataToSend.append("phone_number", formData.phone_number);
         formDataToSend.append("thumbnail", formData.thumbnail);
 
         try {
             const response = await httpServer("post", "shop/add/", formDataToSend);
-            toast.success("Shop added successfully!");
 
             // Reset form
             setFormData({
@@ -191,7 +195,6 @@ export function AddShopSection() {
             toggleModal();
         } catch (error) {
             console.error("Error submitting data:", error);
-            toast.error("Failed to add the shop. Please try again.");
         } finally {
             setUploadShopLoading(false)
         }
@@ -275,14 +278,26 @@ export function AddShopSection() {
                         Detect My Location
                     </Button>
 
-                    {/* Thumbnail Field */}
-                    <Input
-                        label="Thumbnail"
-                        type="file"
-                        id="thumbnail"
-                        onChange={handleFileChange}
-                        required
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Thumbnail Field */}
+                        <Input
+                            label="Thumbnail"
+                            type="file"
+                            id="thumbnail"
+                            onChange={handleFileChange}
+                            required
+                        />
+
+                        {/* Postal Code Field */}
+                        <Input
+                            label="Phone number"
+                            id="phone_number"
+                            placeholder="Enter Phone number"
+                            value={formData.phone_number}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
                 </DialogBody>
                 <DialogFooter>
                     <Button

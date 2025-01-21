@@ -3,11 +3,8 @@ import { useParams } from "react-router-dom";
 import {
     Card,
     CardBody,
-    CardHeader,
-    CardFooter,
     Button,
     Typography,
-    IconButton
 } from '@material-tailwind/react';
 import toast from 'react-hot-toast';
 import httpServer from "../utils/httpService";
@@ -19,14 +16,12 @@ function SingleShop() {
     const [loading, setLoading] = useState(true); // Loading state for the data fetch
     const [error, setError] = useState(null); // Error state for API request
 
-    const [mapInstance, setMapInstance] = useState(null);
-    const [markerInstance, setMarkerInstance] = useState(null);
-
     // Fetch shop data from API based on the ID
     const loadShopData = async () => {
         try {
-            const response = await httpServer("get", `shop/shops/${id}`);
-            setShop(response);
+            const response = await httpServer("get", `shop/shops/${id}`, {}, false);
+
+            setShop(response.data);
         } catch (error) {
             setError("Failed to load shop data.");
             toast.error("Error fetching shop data.");
@@ -34,48 +29,6 @@ function SingleShop() {
             setLoading(false);
         }
     };
-
-    // Initialize Google Map with hardcoded coordinates
-    // useEffect(() => {
-    //     const defaultLocation = { lat: 33.6844, lng: 73.0479 }; // Hardcoded location (Islamabad, Pakistan)
-
-    //     if (window.google && window.google.maps) {
-    //         const mapDiv = document.getElementById("map");
-
-    //         if (mapDiv) {
-    //             const map = new window.google.maps.Map(mapDiv, {
-    //                 center: defaultLocation,
-    //                 zoom: 15,
-    //                 mapTypeId: "roadmap",
-    //             });
-
-    //             const marker = new window.google.maps.Marker({
-    //                 position: defaultLocation,
-    //                 map: map,
-    //                 draggable: true, // Allow user to drag the marker
-    //             });
-
-    //             setMapInstance(map);
-    //             setMarkerInstance(marker);
-    //         } else {
-    //             toast.error("Map div is not available.");
-    //         }
-    //     } else {
-    //         toast.error("Google Maps API not loaded.");
-    //     }
-    // }, []);
-
-    // Update map and marker when shop data is loaded
-    useEffect(() => {
-        if (shop && mapInstance && markerInstance) {
-            const { latitude, longitude } = shop;
-            const shopLocation = { lat: latitude || 33.6844, lng: longitude || 73.0479 };
-
-            // Update map center and marker position based on shop data
-            mapInstance.setCenter(shopLocation);
-            markerInstance.setPosition(shopLocation);
-        }
-    }, [shop, mapInstance, markerInstance]);
 
     useEffect(() => {
         loadShopData();

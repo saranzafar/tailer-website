@@ -1,5 +1,5 @@
 import { Button } from '@material-tailwind/react';
-import { AboutSection, FeatureCards, HeroSection, HowitWork, Testimonials } from '../components';
+import { AboutSection, BannerSection, FeatureCards, HeroSection, HowitWork, Testimonials } from '../components';
 import { useNavigate } from 'react-router-dom';
 import { UseVerification } from '../utils/VerificationContext';
 
@@ -7,9 +7,11 @@ import { UseVerification } from '../utils/VerificationContext';
 const Home = () => {
     const navigate = useNavigate()
     const { isLoggedIn, logout } = UseVerification();
+    const featureCardDescription = "Discover top-rated shops and businesses in your area with our Featured Businesses section. Highlighting the best in the industry, these trusted professionals are ready to deliver exceptional services."
 
     return (
         <div className='bg-light-blue-bg'>
+            <BannerSection />
             {/* Hero */}
             <HeroSection text="Welcome to Stitch4U" />
 
@@ -18,7 +20,7 @@ const Home = () => {
 
             {/* feature locations  */}
             <div className=' bg-light-blue-bg pt-6 pb-12'>
-                <FeatureCards col='4' title={"Featured Businesses"} pagination={4} />
+                <FeatureCards col='4' title={"Featured Businesses"} pagination={4} description={featureCardDescription} />
                 <div className=''>
                     <Button variant="text" className="flex items-center gap-2 text-button mx-auto mt-10" onClick={() => navigate("/shops")}>
                         See More{" "}
