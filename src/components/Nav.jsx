@@ -78,7 +78,7 @@ const Nav = () => {
                         </div>
 
                         {/* Buttons: Log In / Log Out */}
-                        <div className="justify-end pr-16 sm:flex lg:pr-0 gap-2">
+                        <div className="justify-end pr-16 sm:flex lg:pr-0 gap-2 items-center">
                             {isLoggedIn ? (
                                 <div className="hidden md:block space-x-2">
                                     <Button onClick={() => logout()} variant="text" size="md" color="red">Logout</Button>
