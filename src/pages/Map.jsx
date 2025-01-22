@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 
 
 function Map({ lat, lng, height }) {
-    // eslint-disable-next-line no-constant-binary-expression
-    const defaultLocation = { lat: lat, lng: lng }; // Default location (Islamabad, Pakistan)
+    const defaultLocation = { lat: lat, lng: lng };
     const initializeMap = () => {
 
         const mapInstance = new window.google.maps.Map(
@@ -36,7 +35,7 @@ function Map({ lat, lng, height }) {
     }, []);
 
     return (
-        <div className={`h-[29em] w-full rounded overflow-hidden`}>
+        <div className={`h-[33em] w-full rounded overflow-hidden`}>
             <div id="map" className="h-full w-full"></div>
         </div>
     )
